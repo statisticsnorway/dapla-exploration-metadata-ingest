@@ -1,0 +1,31 @@
+module no.ssb.dapla.gsim_metadata_ingest {
+    requires io.helidon.webserver;
+    requires io.helidon.health;
+    requires java.logging;
+    requires io.helidon.health.checks;
+    requires io.helidon.metrics;
+    requires org.slf4j;
+    requires jul.to.slf4j;
+    requires logback.classic;
+    requires jdk.unsupported;
+    requires io.helidon.media.jackson.common;
+    requires io.helidon.media.jackson.server;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.module.paramnames;
+    requires com.fasterxml.jackson.datatype.jdk8;
+    requires com.fasterxml.jackson.datatype.jsr310;
+    requires io.helidon.webserver.accesslog;
+    requires java.annotation;
+    requires no.ssb.rawdata.api;
+    requires no.ssb.service.provider.api;
+    requires io.helidon.webclient;
+    requires no.ssb.gcloud.pubsub;
+    requires google.cloud.pubsub;
+    requires com.google.api.apicommon;
+    requires com.google.common;
+    requires proto.google.cloud.pubsub.v1;
+    requires no.ssb.dapla.dataset.api;
+    requires no.ssb.helidon.media.protobuf.json.server;
+
+    uses no.ssb.rawdata.api.RawdataClientInitializer;
+}
