@@ -1,23 +1,22 @@
 package no.ssb.dapla.gsim_metadata_ingest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
-import io.helidon.common.http.Http;
 import io.helidon.config.Config;
 import io.helidon.webclient.WebClient;
-import io.helidon.webclient.WebClientResponse;
-import no.ssb.dapla.dataset.api.DatasetMeta;
-import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
@@ -26,6 +25,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     final PubSub pubSub;
     final Subscriber subscriber;
     final WebClient gsimLdsWebClient;
+    final ObjectMapper mapper = new ObjectMapper();
+    final AtomicLong counter = new AtomicLong(0);
 
     public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient gsimLdsWebClient) {
         this.pubSub = pubSub;
@@ -55,13 +56,14 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
             String parentUri = message.getAttributesMap().get("parentUri");
-            String metadataJson = message.getData().toStringUtf8();
-            DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
+            String json = message.getData().toStringUtf8();
+            JsonNode jsonNode = mapper.readTree(json);
 
-            System.out.printf("GSIM INGEST: Received metadata:%n%s%n", datasetMeta);
+            System.out.printf("GSIM INGEST: Received metadata:%n%s%n", jsonNode);
 
             // TODO transform to GSIM LDS format and put data
 
+            /*
             WebClientResponse response = gsimLdsWebClient.put()
                     .path("/EntityType/resource-id/version") // TODO replace with resource path here
                     .readTimeout(30, ChronoUnit.SECONDS)
@@ -74,10 +76,15 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                 throw new RuntimeException(String.format("Got response code %d from GSIM LDS with reason: %s",
                         response.status().code(), response.status().reasonPhrase()));
             }
+            */
+
+            counter.incrementAndGet();
 
         } catch (RuntimeException | Error e) {
             LOG.error("Error while processing message, waiting for ack deadline before re-delivery", e);
             throw e;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 

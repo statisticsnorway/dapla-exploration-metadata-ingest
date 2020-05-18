@@ -46,12 +46,6 @@ public class GsimMetadataIngestApplication {
     public static void initLogging() {
     }
 
-    /**
-     * Application main entry point.
-     *
-     * @param args command line arguments.
-     * @throws IOException if there are problems reading logging properties
-     */
     public static void main(final String[] args) throws IOException {
         GsimMetadataIngestApplication app = new GsimMetadataIngestApplication(Config.create());
 
@@ -81,7 +75,7 @@ public class GsimMetadataIngestApplication {
                 .build();
         MetricsSupport metrics = MetricsSupport.create();
 
-        GsimMetadataIngestService conceptToGsimLdsService = new GsimMetadataIngestService();
+        GsimMetadataIngestService gsimMetadataIngestService = new GsimMetadataIngestService();
 
         if (config.get("pubsub.enabled").asBoolean().orElse(false)) {
             LOG.info("Running with PubSub enabled");
@@ -94,6 +88,7 @@ public class GsimMetadataIngestApplication {
             if (config.get("pubsub.admin").asBoolean().orElse(false)) {
                 LOG.info("Admin of topics and subscriptions enabled, running initializer");
                 DatasetUpstreamGooglePubSubIntegrationInitializer.initializeTopicsAndSubscriptions(config.get("pubsub.upstream"), pubSub);
+                LOG.info("Initialization of topics and subscriptions complete");
             }
 
             Config targetConfig = config.get("pipe.target");
@@ -104,7 +99,7 @@ public class GsimMetadataIngestApplication {
             int port = targetConfig.get("port").asInt().get();
             URI ldsBaseUri;
             try {
-                ldsBaseUri = new URI(scheme, null, host, port, namespace, "source=" + source, null);
+                ldsBaseUri = new URI(scheme, null, host, port, "/" + namespace, "source=" + source, null);
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
@@ -126,12 +121,12 @@ public class GsimMetadataIngestApplication {
                 .register(JacksonSupport.create())
                 .register(health)  // "/health"
                 .register(metrics) // "/metrics"
-                .register("/pipe", conceptToGsimLdsService)
+                .register("/pipe", gsimMetadataIngestService)
                 .build());
         put(WebServer.class, server);
     }
 
-    static PubSub createPubSub(Config config) {
+    public static PubSub createPubSub(Config config) {
         boolean useEmulator = config.get("use-emulator").asBoolean().orElse(false);
         if (useEmulator) {
             Config emulatorConfig = config.get("emulator");
