@@ -32,10 +32,10 @@ public class GsimMetadataIngestService implements Service {
 
     @Override
     public void update(Routing.Rules rules) {
-        rules.put("/trigger", this::putRevisionHandler);
+        rules.get("/trigger", this::getRevisionHandler);
     }
 
-    private void putRevisionHandler(ServerRequest request, ServerResponse response) {
+    private void getRevisionHandler(ServerRequest request, ServerResponse response) {
         response.status(200).send();
     }
 }
