@@ -77,6 +77,11 @@
             <version>0.2</version>
         </dependency>
         <dependency>
+            <groupId>no.ssb.dapla</groupId>
+            <artifactId>dataset-doc</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>no.ssb.helidon</groupId>
             <artifactId>helidon-media-protobuf-json-server</artifactId>
             <version>0.2</version>

@@ -11,8 +11,8 @@ server:
 pipe:
   target:
     scheme: http
-    host: gsim-lds
-    port: 9091
+    host: localhost
+    port: 29091
     namespace: ns
     source: metadata
 
