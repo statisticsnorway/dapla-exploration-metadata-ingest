@@ -61,16 +61,10 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
-            String parentUri = message.getAttributesMap().get("parentUri");
             String json = message.getData().toStringUtf8();
-            JsonNode jsonNode = mapper.readTree(json);
-
-            System.out.printf("GSIM INGEST: parentUri:%s%n", parentUri);
-            System.out.printf("GSIM INGEST: Received metadata:%n%s%n", jsonNode);
-
             GsimLdsHttpProvider gsimLdsHttpProvider = new GsimLdsHttpProvider(gsimLdsWebClient);
-            Dataset root = new ObjectMapper().readValue(json, Dataset.class);
-            new SimpleToGsim(root, gsimLdsHttpProvider).createGsimObjects();
+            Dataset dataset = mapper.readValue(json, Dataset.class);
+            new SimpleToGsim(dataset, gsimLdsHttpProvider).createGsimObjects();
 
             consumer.ack();
             counter.incrementAndGet();

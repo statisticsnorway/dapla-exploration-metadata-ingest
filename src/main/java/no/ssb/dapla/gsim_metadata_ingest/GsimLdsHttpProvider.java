@@ -6,10 +6,14 @@ import io.helidon.webclient.WebClient;
 import io.helidon.webclient.WebClientResponse;
 import no.ssb.dapla.dataset.doc.model.gsim.IdentifiableArtefact;
 import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.temporal.ChronoUnit;
 
 public class GsimLdsHttpProvider implements PersistenceProvider {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GsimLdsHttpProvider.class);
 
     WebClient gsimLdsWebClient;
 
@@ -21,7 +25,7 @@ public class GsimLdsHttpProvider implements PersistenceProvider {
     public void save(IdentifiableArtefact identifiableArtefact) {
         String entityType = identifiableArtefact.getClass().getSimpleName();
         String path = String.format("%s/%s", entityType, identifiableArtefact.getId());
-        System.out.println("Will post to path: " + path);
+        LOG.info("Will post to path: {}", path);
         WebClientResponse response = gsimLdsWebClient.put()
                 .path(path)
                 .contentType(MediaType.APPLICATION_JSON)
