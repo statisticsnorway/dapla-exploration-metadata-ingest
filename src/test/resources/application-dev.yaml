@@ -17,5 +17,5 @@ pubsub:
   credential-provider: emulator
   upstream:
     projectId: dapla
-    topic: test-gsim-metadata-1
-    subscription: test-gsim-metadata-dev
+    topic: test-exploration-metadata-1
+    subscription: test-exploration-metadata-dev

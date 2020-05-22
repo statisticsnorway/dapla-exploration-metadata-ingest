@@ -1,4 +1,4 @@
-module no.ssb.dapla.gsim_metadata_ingest {
+module no.ssb.dapla.exploration_metadata_ingest {
     requires io.helidon.webserver;
     requires io.helidon.health;
     requires java.logging;

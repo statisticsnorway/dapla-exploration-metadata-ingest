@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import io.helidon.webserver.Routing;
 import io.helidon.webserver.ServerRequest;
@@ -23,11 +23,11 @@ import io.helidon.webserver.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GsimMetadataIngestService implements Service {
+public class ExplorationMetadataIngestService implements Service {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GsimMetadataIngestService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExplorationMetadataIngestService.class);
 
-    GsimMetadataIngestService() {
+    ExplorationMetadataIngestService() {
     }
 
     @Override

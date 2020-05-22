@@ -11,7 +11,7 @@ server:
 pipe:
   target:
     scheme: http
-    host: gsim-lds
+    host: exploration-lds
     port: 9091
     namespace: ns
     source: metadata
@@ -60,5 +60,5 @@ pubsub:
     default:
   upstream:
     projectId: dapla
-    topic: gsim-metadata-1
-    subscription: gsim-metadata-dev
+    topic: exploration-metadata-1
+    subscription: exploration-metadata-dev

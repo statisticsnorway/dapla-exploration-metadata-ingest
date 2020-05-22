@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
@@ -20,15 +20,15 @@ import java.util.concurrent.TimeUnit;
 
 import static io.helidon.config.ConfigSources.classpath;
 
-public class GsimMetadataIngestApplicationTest {
+public class ExplorationMetadataIngestApplicationTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GsimMetadataIngestApplicationTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExplorationMetadataIngestApplicationTest.class);
 
     static {
-        GsimMetadataIngestApplication.initLogging();
+        ExplorationMetadataIngestApplication.initLogging();
     }
 
-    static GsimMetadataIngestApplication application;
+    static ExplorationMetadataIngestApplication application;
     static WebServer webServer;
 
     @BeforeAll
@@ -39,7 +39,7 @@ public class GsimMetadataIngestApplicationTest {
                 .metaConfig()
                 .build();
         long webServerStart = System.currentTimeMillis();
-        application = new GsimMetadataIngestApplication(config);
+        application = new ExplorationMetadataIngestApplication(config);
         webServer = application.get(WebServer.class);
         webServer.start().toCompletableFuture()
                 .thenAccept(webServer -> {

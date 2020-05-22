@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,13 +24,13 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     final PubSub pubSub;
     final Subscriber subscriber;
-    final WebClient gsimLdsWebClient;
+    final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
 
-    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient gsimLdsWebClient) {
+    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
         this.pubSub = pubSub;
-        this.gsimLdsWebClient = gsimLdsWebClient;
+        this.explorationLdsWebClient = explorationLdsWebClient;
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -59,12 +59,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             String json = message.getData().toStringUtf8();
             JsonNode jsonNode = mapper.readTree(json);
 
-            System.out.printf("GSIM INGEST: Received metadata:%n%s%n", jsonNode);
+            System.out.printf("Exploration INGEST: Received metadata:%n%s%n", jsonNode);
 
-            // TODO transform to GSIM LDS format and put data
+            // TODO transform to Exploration LDS format and put data
 
             /*
-            WebClientResponse response = gsimLdsWebClient.put()
+            WebClientResponse response = explorationLdsWebClient.put()
                     .path("/EntityType/resource-id/version") // TODO replace with resource path here
                     .readTimeout(30, ChronoUnit.SECONDS)
                     .connectTimeout(30, ChronoUnit.SECONDS)
@@ -73,7 +73,7 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                     .join();
 
             if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-                throw new RuntimeException(String.format("Got response code %d from GSIM LDS with reason: %s",
+                throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
                         response.status().code(), response.status().reasonPhrase()));
             }
             */
