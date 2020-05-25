@@ -28,10 +28,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
+    final ExplorationLdsHttpProvider explorationLdsHttpProvider;
 
     public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
         this.pubSub = pubSub;
         this.explorationLdsWebClient = explorationLdsWebClient;
+        this.explorationLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -57,9 +59,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
             String json = message.getData().toStringUtf8();
-            ExplorationLdsHttpProvider gsimLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
             Dataset dataset = mapper.readValue(json, Dataset.class);
-            new SimpleToGsim(dataset, gsimLdsHttpProvider).createGsimObjects();
+            new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
 
             consumer.ack();
             counter.incrementAndGet();

@@ -24,7 +24,7 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
     @Override
     public void save(IdentifiableArtefact identifiableArtefact) {
         String path = String.format("%s/%s", identifiableArtefact.getGsimName(), identifiableArtefact.getId());
-        LOG.info("Will post to path: {}", path);
+        LOG.info("Posting gsim object {} to path: {}", identifiableArtefact.getGsimName(), identifiableArtefact.getId());
         WebClientResponse response = gsimLdsWebClient.put()
                 .path(path)
                 .contentType(MediaType.APPLICATION_JSON)
