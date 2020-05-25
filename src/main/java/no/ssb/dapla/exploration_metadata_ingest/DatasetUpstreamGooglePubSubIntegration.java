@@ -1,7 +1,6 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
@@ -10,6 +9,8 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import io.helidon.webclient.WebClient;
+import no.ssb.dapla.dataset.doc.model.simple.Dataset;
+import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
+    final ExplorationLdsHttpProvider explorationLdsHttpProvider;
 
     public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
         this.pubSub = pubSub;
         this.explorationLdsWebClient = explorationLdsWebClient;
+        this.explorationLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -55,29 +58,11 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
-            String parentUri = message.getAttributesMap().get("parentUri");
             String json = message.getData().toStringUtf8();
-            JsonNode jsonNode = mapper.readTree(json);
+            Dataset dataset = mapper.readValue(json, Dataset.class);
+            new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
 
-            System.out.printf("Exploration INGEST: Received metadata:%n%s%n", jsonNode);
-
-            // TODO transform to Exploration LDS format and put data
-
-            /*
-            WebClientResponse response = explorationLdsWebClient.put()
-                    .path("/EntityType/resource-id/version") // TODO replace with resource path here
-                    .readTimeout(30, ChronoUnit.SECONDS)
-                    .connectTimeout(30, ChronoUnit.SECONDS)
-                    .submit()
-                    .toCompletableFuture()
-                    .join();
-
-            if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-                throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
-                        response.status().code(), response.status().reasonPhrase()));
-            }
-            */
-
+            consumer.ack();
             counter.incrementAndGet();
 
         } catch (RuntimeException | Error e) {
