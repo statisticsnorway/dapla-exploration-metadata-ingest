@@ -61,25 +61,6 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             Dataset dataset = mapper.readValue(json, Dataset.class);
             new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
 
-            System.out.printf("Exploration INGEST: Received metadata:%n%s%n", dataset);
-
-            // TODO transform to Exploration LDS format and put data
-
-            /*
-            WebClientResponse response = explorationLdsWebClient.put()
-                    .path("/EntityType/resource-id/version") // TODO replace with resource path here
-                    .readTimeout(30, ChronoUnit.SECONDS)
-                    .connectTimeout(30, ChronoUnit.SECONDS)
-                    .submit()
-                    .toCompletableFuture()
-                    .join();
-
-            if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-                throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
-                        response.status().code(), response.status().reasonPhrase()));
-            }
-            */
-
             consumer.ack();
             counter.incrementAndGet();
 

@@ -11,8 +11,8 @@ server:
 pipe:
   target:
     scheme: http
-    host: localhost
-    port: 29091
+    host: exploration-lds
+    port: 9091
     namespace: ns
     source: metadata
 
