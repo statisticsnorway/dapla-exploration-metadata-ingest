@@ -104,6 +104,12 @@ steps:
     depends_on:
       - sonarqube
 
+services:
+  - name: pubsub
+    image: statisticsnorway/pubsub-emulator:latest
+    ports:
+      - 8538
+
 ---
 
 # Production promotion pipeline
