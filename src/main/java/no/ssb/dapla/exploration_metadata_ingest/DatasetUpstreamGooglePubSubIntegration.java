@@ -28,10 +28,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
+    final ExplorationLdsHttpProvider explorationLdsHttpProvider;
 
     public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
         this.pubSub = pubSub;
         this.explorationLdsWebClient = explorationLdsWebClient;
+        this.explorationLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -55,11 +57,9 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
-            String parentUri = message.getAttributesMap().get("parentUri");
             String json = message.getData().toStringUtf8();
-            no.ssb.dapla.gsim_metadata_ingest.GsimLdsHttpProvider gsimLdsHttpProvider = new no.ssb.dapla.gsim_metadata_ingest.GsimLdsHttpProvider(explorationLdsWebClient);
             Dataset dataset = mapper.readValue(json, Dataset.class);
-            new SimpleToGsim(dataset, gsimLdsHttpProvider).createGsimObjects();
+            new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
 
             System.out.printf("Exploration INGEST: Received metadata:%n%s%n", dataset);
 
@@ -79,8 +79,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                         response.status().code(), response.status().reasonPhrase()));
             }
             */
-            consumer.ack();
 
+            consumer.ack();
             counter.incrementAndGet();
 
         } catch (RuntimeException | Error e) {
