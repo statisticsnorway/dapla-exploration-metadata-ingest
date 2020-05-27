@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
@@ -30,7 +30,7 @@ public class PubSubMessagePublisherTest {
                 "}\n";
 
         PubSub pubSub = new EmulatorPubSub("localhost", 8538);
-        Publisher publisher = pubSub.getPublisher("dapla", "gsim-metadata-1");
+        Publisher publisher = pubSub.getPublisher("dapla", "exploration-metadata-1");
         try {
             publisher.publish(PubsubMessage.newBuilder()
                     .setData(ByteString.copyFromUtf8(json))

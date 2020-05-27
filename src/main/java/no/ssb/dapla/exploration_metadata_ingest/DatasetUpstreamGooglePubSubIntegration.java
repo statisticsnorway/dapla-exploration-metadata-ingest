@@ -1,26 +1,20 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
-import io.helidon.common.http.Http;
 import io.helidon.config.Config;
 import io.helidon.webclient.WebClient;
-import io.helidon.webclient.WebClientResponse;
-import no.ssb.dapla.dataset.doc.model.gsim.IdentifiableArtefact;
 import no.ssb.dapla.dataset.doc.model.simple.Dataset;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -31,13 +25,13 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     final PubSub pubSub;
     final Subscriber subscriber;
-    final WebClient gsimLdsWebClient;
+    final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
 
-    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient gsimLdsWebClient) {
+    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
         this.pubSub = pubSub;
-        this.gsimLdsWebClient = gsimLdsWebClient;
+        this.explorationLdsWebClient = explorationLdsWebClient;
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -61,12 +55,32 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
+            String parentUri = message.getAttributesMap().get("parentUri");
             String json = message.getData().toStringUtf8();
-            GsimLdsHttpProvider gsimLdsHttpProvider = new GsimLdsHttpProvider(gsimLdsWebClient);
+            no.ssb.dapla.gsim_metadata_ingest.GsimLdsHttpProvider gsimLdsHttpProvider = new no.ssb.dapla.gsim_metadata_ingest.GsimLdsHttpProvider(explorationLdsWebClient);
             Dataset dataset = mapper.readValue(json, Dataset.class);
             new SimpleToGsim(dataset, gsimLdsHttpProvider).createGsimObjects();
 
+            System.out.printf("Exploration INGEST: Received metadata:%n%s%n", dataset);
+
+            // TODO transform to Exploration LDS format and put data
+
+            /*
+            WebClientResponse response = explorationLdsWebClient.put()
+                    .path("/EntityType/resource-id/version") // TODO replace with resource path here
+                    .readTimeout(30, ChronoUnit.SECONDS)
+                    .connectTimeout(30, ChronoUnit.SECONDS)
+                    .submit()
+                    .toCompletableFuture()
+                    .join();
+
+            if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
+                throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
+                        response.status().code(), response.status().reasonPhrase()));
+            }
+            */
             consumer.ack();
+
             counter.incrementAndGet();
 
         } catch (RuntimeException | Error e) {

@@ -60,5 +60,5 @@ pubsub:
     default:
   upstream:
     projectId: dapla
-    topic: gsim-metadata-1
-    subscription: gsim-metadata-dev
+    topic: exploration-metadata-1
+    subscription: exploration-metadata-dev

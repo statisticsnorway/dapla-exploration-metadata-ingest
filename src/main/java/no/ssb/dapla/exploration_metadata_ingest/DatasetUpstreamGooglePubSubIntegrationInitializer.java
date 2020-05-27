@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.google.cloud.pubsub.v1.SubscriptionAdminClient;
 import com.google.cloud.pubsub.v1.TopicAdminClient;

@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 
 import ch.qos.logback.classic.util.ContextInitializer;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.LogManager;
 
-public class GsimMetadataIngestApplication {
+public class ExplorationMetadataIngestApplication {
 
     private static final Logger LOG;
 
@@ -40,14 +40,14 @@ public class GsimMetadataIngestApplication {
         LogManager.getLogManager().reset();
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
-        LOG = LoggerFactory.getLogger(GsimMetadataIngestApplication.class);
+        LOG = LoggerFactory.getLogger(ExplorationMetadataIngestApplication.class);
     }
 
     public static void initLogging() {
     }
 
     public static void main(final String[] args) throws IOException {
-        GsimMetadataIngestApplication app = new GsimMetadataIngestApplication(Config.create());
+        ExplorationMetadataIngestApplication app = new ExplorationMetadataIngestApplication(Config.create());
 
         // Try to start the server. If successful, print some info and arrange to
         // print a message at shutdown. If unsuccessful, print the exception.
@@ -67,7 +67,7 @@ public class GsimMetadataIngestApplication {
 
     private final Map<Class<?>, Object> instanceByType = new ConcurrentHashMap<>();
 
-    GsimMetadataIngestApplication(Config config) {
+    ExplorationMetadataIngestApplication(Config config) {
         put(Config.class, config);
 
         HealthSupport health = HealthSupport.builder()
@@ -75,7 +75,8 @@ public class GsimMetadataIngestApplication {
                 .build();
         MetricsSupport metrics = MetricsSupport.create();
 
-        GsimMetadataIngestService gsimMetadataIngestService = new GsimMetadataIngestService();
+        ExplorationMetadataIngestService explorationMetadataIngestService = new ExplorationMetadataIngestService();
+        put(ExplorationMetadataIngestService.class, explorationMetadataIngestService);
 
         if (config.get("pubsub.enabled").asBoolean().orElse(false)) {
             LOG.info("Running with PubSub enabled");
@@ -121,7 +122,7 @@ public class GsimMetadataIngestApplication {
                 .register(JacksonSupport.create())
                 .register(health)  // "/health"
                 .register(metrics) // "/metrics"
-                .register("/pipe", gsimMetadataIngestService)
+                .register("/pipe", explorationMetadataIngestService)
                 .build());
         put(WebServer.class, server);
     }
