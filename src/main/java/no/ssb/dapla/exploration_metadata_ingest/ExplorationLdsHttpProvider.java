@@ -15,17 +15,17 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExplorationLdsHttpProvider.class);
 
-    private final WebClient gsimLdsWebClient;
+    private final WebClient explorationLdsWebClient;
 
-    public ExplorationLdsHttpProvider(WebClient gsimLdsWebClient) {
-        this.gsimLdsWebClient = gsimLdsWebClient;
+    public ExplorationLdsHttpProvider(WebClient explorationLdsWebClient) {
+        this.explorationLdsWebClient = explorationLdsWebClient;
     }
 
     @Override
     public void save(IdentifiableArtefact identifiableArtefact) {
         String path = String.format("%s/%s", identifiableArtefact.getGsimName(), identifiableArtefact.getId());
         LOG.info("Posting gsim object {} to path: {}", identifiableArtefact.getGsimName(), identifiableArtefact.getId());
-        WebClientResponse response = gsimLdsWebClient.put()
+        WebClientResponse response = explorationLdsWebClient.put()
                 .path(path)
                 .contentType(MediaType.APPLICATION_JSON)
                 .readTimeout(30, ChronoUnit.SECONDS)

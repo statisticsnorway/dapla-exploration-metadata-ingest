@@ -1,4 +1,4 @@
-package no.ssb.dapla.gsim_metadata_ingest;
+package no.ssb.dapla.exploration_metadata_ingest;
 
 import io.helidon.common.http.Http;
 import io.helidon.common.http.MediaType;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.temporal.ChronoUnit;
 
-public class PostToGsimLdsTest {
+public class PutToExplorationLdsTest {
 
     @Test
     void testGet() {
@@ -31,7 +31,7 @@ public class PostToGsimLdsTest {
         System.out.println(body);
 
         if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-            throw new RuntimeException(String.format("Got response code %d from GSIM LDS with reason: %s",
+            throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
                     response.status().code(), response.status().reasonPhrase()));
         }
 
@@ -66,7 +66,7 @@ public class PostToGsimLdsTest {
         System.out.println(response.content().as(String.class).toCompletableFuture().join());
 
         if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-            throw new RuntimeException(String.format("Got response code %d from GSIM LDS with reason: %s",
+            throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
                     response.status().code(), response.status().reasonPhrase()));
         }
     }
