@@ -67,9 +67,10 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetMetaNode = dataNode.get("dataset-meta");
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
-
-            Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
-            new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
+            if (datasetDocNode != null) {
+                Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
+                new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
+            }
 
             consumer.ack();
             counter.incrementAndGet();
