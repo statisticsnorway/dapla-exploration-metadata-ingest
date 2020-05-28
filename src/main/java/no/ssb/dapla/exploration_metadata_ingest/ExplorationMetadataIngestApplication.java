@@ -14,6 +14,7 @@ import io.helidon.webserver.ServerConfiguration;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.WebTracingConfig;
 import io.helidon.webserver.accesslog.AccessLogSupport;
+import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
 import no.ssb.pubsub.EmulatorPubSub;
 import no.ssb.pubsub.PubSub;
 import no.ssb.pubsub.RealPubSub;
@@ -93,24 +94,31 @@ public class ExplorationMetadataIngestApplication {
             }
 
             Config targetConfig = config.get("pipe.target");
-            String scheme = targetConfig.get("scheme").asString().get();
-            String host = targetConfig.get("host").asString().get();
-            String namespace = targetConfig.get("namespace").asString().get();
-            String source = targetConfig.get("source").asString().get();
-            int port = targetConfig.get("port").asInt().get();
-            URI ldsBaseUri;
-            try {
-                ldsBaseUri = new URI(scheme, null, host, port, "/" + namespace, "source=" + source, null);
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-            WebClient webClient = WebClient.builder()
-                    .addMediaSupport(DefaultMediaSupport.create(true))
-                    .addMediaSupport(io.helidon.media.jackson.common.JacksonSupport.create())
-                    .baseUri(ldsBaseUri)
-                    .build();
 
-            DatasetUpstreamGooglePubSubIntegration datasetUpstreamSubscriber = new DatasetUpstreamGooglePubSubIntegration(config.get("pubsub.upstream"), pubSub, webClient);
+            PersistenceProvider persistenceProvider;
+            if (targetConfig.get("mock").asBoolean().orElse(false)) {
+                persistenceProvider = identifiableArtefact -> {
+                };
+            } else {
+                String scheme = targetConfig.get("scheme").asString().get();
+                String host = targetConfig.get("host").asString().get();
+                String namespace = targetConfig.get("namespace").asString().get();
+                String source = targetConfig.get("source").asString().get();
+                int port = targetConfig.get("port").asInt().get();
+                URI ldsBaseUri;
+                try {
+                    ldsBaseUri = new URI(scheme, null, host, port, "/" + namespace, "source=" + source, null);
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
+                WebClient webClient = WebClient.builder()
+                        .addMediaSupport(DefaultMediaSupport.create(true))
+                        .addMediaSupport(io.helidon.media.jackson.common.JacksonSupport.create())
+                        .baseUri(ldsBaseUri)
+                        .build();
+                persistenceProvider = new ExplorationLdsHttpProvider(webClient);
+            }
+            DatasetUpstreamGooglePubSubIntegration datasetUpstreamSubscriber = new DatasetUpstreamGooglePubSubIntegration(config.get("pubsub.upstream"), pubSub, persistenceProvider);
             put(DatasetUpstreamGooglePubSubIntegration.class, datasetUpstreamSubscriber);
 
             LOG.info("Subscribed upstream");

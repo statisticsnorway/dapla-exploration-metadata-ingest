@@ -1,6 +1,6 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
@@ -8,13 +8,15 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
-import io.helidon.webclient.WebClient;
+import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
 import no.ssb.dapla.dataset.doc.model.simple.Dataset;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,15 +27,13 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     final PubSub pubSub;
     final Subscriber subscriber;
-    final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
-    final ExplorationLdsHttpProvider explorationLdsHttpProvider;
+    final PersistenceProvider persistenceProvider;
 
-    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
+    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, PersistenceProvider persistenceProvider) {
         this.pubSub = pubSub;
-        this.explorationLdsWebClient = explorationLdsWebClient;
-        this.explorationLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
+        this.persistenceProvider = persistenceProvider;
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -54,12 +54,21 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
         subscriber.startAsync().awaitRunning();
         LOG.info("Subscriber async pull is now running.");
     }
+
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
         try {
-            String json = message.getData().toStringUtf8();
-            Dataset dataset = mapper.readValue(json, Dataset.class);
-            new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
+            JsonNode dataNode;
+            try (InputStream inputStream = message.getData().newInput()) {
+                dataNode = mapper.readTree(inputStream);
+            }
+            String parentUri = dataNode.get("parentUri").textValue();
+            JsonNode datasetMetaNode = dataNode.get("dataset-meta");
+            JsonNode datasetDocNode = dataNode.get("dataset-doc");
+            if (datasetDocNode != null) {
+                Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
+                new SimpleToGsim(dataset, persistenceProvider).createGsimObjects();
+            }
 
             consumer.ack();
             counter.incrementAndGet();
@@ -67,7 +76,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
         } catch (RuntimeException | Error e) {
             LOG.error("Error while processing message, waiting for ack deadline before re-delivery", e);
             throw e;
-        } catch (JsonProcessingException e) {
+        } catch (IOException e) {
+            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", e);
             throw new RuntimeException(e);
         }
     }

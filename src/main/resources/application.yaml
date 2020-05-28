@@ -10,6 +10,7 @@ server:
 
 pipe:
   target:
+    mock: false
     scheme: http
     host: exploration-lds
     port: 9091
