@@ -8,7 +8,7 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
-import io.helidon.webclient.WebClient;
+import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
 import no.ssb.dapla.dataset.doc.model.simple.Dataset;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.pubsub.PubSub;
@@ -27,15 +27,13 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     final PubSub pubSub;
     final Subscriber subscriber;
-    final WebClient explorationLdsWebClient;
     final ObjectMapper mapper = new ObjectMapper();
     final AtomicLong counter = new AtomicLong(0);
-    final ExplorationLdsHttpProvider explorationLdsHttpProvider;
+    final PersistenceProvider persistenceProvider;
 
-    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, WebClient explorationLdsWebClient) {
+    public DatasetUpstreamGooglePubSubIntegration(Config pubSubUpstreamConfig, PubSub pubSub, PersistenceProvider persistenceProvider) {
         this.pubSub = pubSub;
-        this.explorationLdsWebClient = explorationLdsWebClient;
-        this.explorationLdsHttpProvider = new ExplorationLdsHttpProvider(explorationLdsWebClient);
+        this.persistenceProvider = persistenceProvider;
 
         String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
         String topicName = pubSubUpstreamConfig.get("topic").asString().get();
@@ -69,7 +67,7 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
             if (datasetDocNode != null) {
                 Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
-                new SimpleToGsim(dataset, explorationLdsHttpProvider).createGsimObjects();
+                new SimpleToGsim(dataset, persistenceProvider).createGsimObjects();
             }
 
             consumer.ack();

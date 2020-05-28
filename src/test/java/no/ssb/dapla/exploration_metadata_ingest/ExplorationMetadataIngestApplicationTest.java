@@ -72,7 +72,7 @@ public class ExplorationMetadataIngestApplicationTest {
                 .addMediaSupport(JacksonSupport.create())
                 .build();
 
-        webClient.put()
+        webClient.get()
                 .path("/pipe/trigger")
                 .submit()
                 .thenAccept(response -> Assertions.assertEquals(200, response.status().code()))

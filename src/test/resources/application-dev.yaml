@@ -7,6 +7,10 @@ server:
 tracing:
   enabled: false
 
+pipe:
+  target:
+    mock: true
+
 pubsub:
   enabled: true
   admin: true
