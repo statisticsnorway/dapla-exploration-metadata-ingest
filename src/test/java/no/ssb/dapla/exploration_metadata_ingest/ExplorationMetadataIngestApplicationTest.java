@@ -1,5 +1,9 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
@@ -82,16 +86,39 @@ public class ExplorationMetadataIngestApplicationTest {
     }
 
     @Test
-    public void thatPubSubMessageIsConsumed() throws InterruptedException {
+    public void thatPubSubMessageIsConsumed() throws InterruptedException, JsonProcessingException {
         Config config = application.get(Config.class);
         PubSub pubSub = application.get(PubSub.class);
         Config upstream = config.get("pubsub.upstream");
         String projectId = upstream.get("projectId").asString().get();
         String topic = upstream.get("topic").asString().get();
         Publisher publisher = pubSub.getPublisher(projectId, topic);
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode dataNode = mapper.createObjectNode();
+        dataNode.put("parentUri", "dummy");
+        dataNode.putObject("dataset-meta");
+        ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
+        {
+            datasetDocNode.put("dataset-path", "/path/to/dataset");
+            ObjectNode logicalRecordRoot = datasetDocNode.putObject("logical-record-root");
+            logicalRecordRoot.put("name", "konto");
+            ArrayNode ivs = logicalRecordRoot.putArray("instanceVariables");
+            ivs.addObject()
+                    .put("name", "kontonummer")
+                    .put("description", "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett");
+            ivs.addObject()
+                    .put("name", "innskudd")
+                    .put("description", "9 sifret nummer gitt de som er registrert i Enhetsregisteret.");
+            ivs.addObject()
+                    .put("name", "gjeld")
+                    .put("description", "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.");
+            logicalRecordRoot.put("path", "konto");
+        }
+
         try {
             publisher.publish(PubsubMessage.newBuilder()
-                    .setData(ByteString.copyFromUtf8("{\"test\":\"me\"}"))
+                    .setData(ByteString.copyFromUtf8(mapper.writeValueAsString(dataNode)))
                     .build());
         } finally {
             publisher.shutdown();
