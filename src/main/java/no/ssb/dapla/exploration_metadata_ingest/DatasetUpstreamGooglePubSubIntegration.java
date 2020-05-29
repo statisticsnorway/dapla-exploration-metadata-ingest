@@ -15,7 +15,6 @@ import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -73,12 +72,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             consumer.ack();
             counter.incrementAndGet();
 
-        } catch (RuntimeException | Error e) {
-            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", e);
-            throw e;
-        } catch (IOException e) {
-            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", e);
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", t);
         }
     }
 
