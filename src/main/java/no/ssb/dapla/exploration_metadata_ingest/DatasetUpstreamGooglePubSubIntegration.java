@@ -8,9 +8,11 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
+import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
 import no.ssb.dapla.dataset.doc.model.simple.Dataset;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
+import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,12 +63,16 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             try (InputStream inputStream = message.getData().newInput()) {
                 dataNode = mapper.readTree(inputStream);
             }
-            String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetMetaNode = dataNode.get("dataset-meta");
+            String metadataJson = mapper.writeValueAsString(datasetMetaNode);
+            DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
+            String path = datasetMeta.getId().getPath();
+
+            String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
             if (datasetDocNode != null) {
                 Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
-                new SimpleToGsim(dataset, persistenceProvider).createGsimObjects();
+                new SimpleToGsim(dataset, path, persistenceProvider).createGsimObjects();
             }
 
             consumer.ack();
