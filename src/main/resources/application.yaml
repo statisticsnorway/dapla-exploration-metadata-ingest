@@ -63,3 +63,9 @@ pubsub:
     projectId: dapla
     topic: exploration-metadata-1
     subscription: exploration-metadata-dev
+    ack-deadline-seconds: 30
+    dlq:
+      projectId: staging-bip
+      topic: exploration-metadata-dev-dlq
+      max-redelivery-attempts: 5
+      subscription: exploration-metadata-dev-dlq-errors

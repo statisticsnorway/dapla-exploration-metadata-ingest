@@ -13,15 +13,35 @@ public class DatasetUpstreamGooglePubSubIntegrationInitializer {
     private static final Logger LOG = LoggerFactory.getLogger(DatasetUpstreamGooglePubSubIntegrationInitializer.class);
 
     public static void initializeTopicsAndSubscriptions(Config pubSubUpstreamConfig, PubSub pubSub) {
-        String projectId = pubSubUpstreamConfig.get("projectId").asString().get();
-        String topicName = pubSubUpstreamConfig.get("topic").asString().get();
-        String subscriptionName = pubSubUpstreamConfig.get("subscription").asString().get();
         try (TopicAdminClient topicAdminClient = pubSub.getTopicAdminClient()) {
-            LOG.info("Initializing topic: {}", topicName);
-            PubSubAdmin.createTopicIfNotExists(topicAdminClient, projectId, topicName);
             try (SubscriptionAdminClient subscriptionAdminClient = pubSub.getSubscriptionAdminClient()) {
-                LOG.info("Initializing subscription: {}", subscriptionName);
-                PubSubAdmin.createSubscriptionIfNotExists(subscriptionAdminClient, projectId, topicName, subscriptionName, 60);
+                String upstreamProjectId = pubSubUpstreamConfig.get("projectId").asString().get();
+                String upstreamTopicName = pubSubUpstreamConfig.get("topic").asString().get();
+                String upstreamSubscriptionName = pubSubUpstreamConfig.get("subscription").asString().get();
+                int upstreamAckDeadlineSeconds = pubSubUpstreamConfig.get("ack-deadline-seconds").asInt().orElse(30);
+                Config upstreamDlq = pubSubUpstreamConfig.get("dlq");
+                String upstreamDlqProjectId = upstreamDlq.get("projectId").asString().orElse(null);
+                String upstreamDlqTopic = upstreamDlq.get("topic").asString().orElse(null);
+                int upstreamDlqMaxRedeliveryAttempts = upstreamDlq.get("max-redelivery-attempts").asInt().orElse(10);
+                String upstreamDlqSubscription = upstreamDlq.get("subscription").asString().orElse(null);
+
+                LOG.info("Initializing topic: {}", upstreamTopicName);
+                PubSubAdmin.createTopicIfNotExists(topicAdminClient, upstreamProjectId, upstreamTopicName);
+
+                if (upstreamDlqTopic != null) {
+
+                    LOG.info("Initializing DLQ: {}", upstreamDlqTopic);
+                    PubSubAdmin.createTopicIfNotExists(topicAdminClient, upstreamDlqProjectId, upstreamDlqTopic);
+
+                    if (upstreamDlqSubscription != null) {
+                        PubSubAdmin.createSubscriptionIfNotExists(subscriptionAdminClient, upstreamDlqProjectId,
+                                upstreamDlqTopic, upstreamDlqSubscription, 60);
+                    }
+                }
+
+                PubSubAdmin.createSubscriptionIfNotExists(subscriptionAdminClient, upstreamProjectId,
+                        upstreamTopicName, upstreamSubscriptionName, upstreamAckDeadlineSeconds,
+                        upstreamDlqMaxRedeliveryAttempts, upstreamDlqProjectId, upstreamDlqTopic);
             }
         }
     }
