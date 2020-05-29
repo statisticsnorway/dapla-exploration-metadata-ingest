@@ -7,6 +7,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
+import no.ssb.dapla.dataset.api.DatasetId;
+import no.ssb.dapla.dataset.api.DatasetMeta;
+import no.ssb.dapla.dataset.api.DatasetState;
+import no.ssb.dapla.dataset.api.Type;
+import no.ssb.dapla.dataset.api.Valuation;
+import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.EmulatorPubSub;
 import no.ssb.pubsub.PubSub;
 import org.junit.jupiter.api.Test;
@@ -18,8 +24,13 @@ public class PubSubMessagePublisherTest {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode dataNode = mapper.createObjectNode();
         dataNode.put("parentUri", "dummy");
-        dataNode.putObject("dataset-meta");
 
+        ObjectNode datasetMetaNode = dataNode.putObject("dataset-meta");
+        {
+            datasetMetaNode
+                    .putObject("id")
+                    .put("path", "/path/to/dataset");
+        }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {
             datasetDocNode.put("dataset-path", "/path/to/dataset");
