@@ -29,6 +29,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.LogManager;
 
+import static io.helidon.config.ConfigSources.classpath;
+import static io.helidon.config.ConfigSources.file;
+
 public class ExplorationMetadataIngestApplication {
 
     private static final Logger LOG;
@@ -47,8 +50,19 @@ public class ExplorationMetadataIngestApplication {
     public static void initLogging() {
     }
 
+    public static Config createDefaultConfig() {
+        Config.Builder builder = Config.builder();
+        String overrideFile = System.getenv("HELIDON_CONFIG_FILE");
+        if (overrideFile != null) {
+            builder.addSource(file(overrideFile).optional());
+        }
+        builder.addSource(file("conf/application.yaml").optional());
+        builder.addSource(classpath("application.yaml"));
+        return Config.builder().build();
+    }
+
     public static void main(final String[] args) throws IOException {
-        ExplorationMetadataIngestApplication app = new ExplorationMetadataIngestApplication(Config.create());
+        ExplorationMetadataIngestApplication app = new ExplorationMetadataIngestApplication(createDefaultConfig());
 
         // Try to start the server. If successful, print some info and arrange to
         // print a message at shutdown. If unsuccessful, print the exception.
