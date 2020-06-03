@@ -58,7 +58,7 @@ public class ExplorationMetadataIngestApplication {
         }
         builder.addSource(file("conf/application.yaml").optional());
         builder.addSource(classpath("application.yaml"));
-        return Config.builder().build();
+        return builder.build();
     }
 
     public static void main(final String[] args) throws IOException {
