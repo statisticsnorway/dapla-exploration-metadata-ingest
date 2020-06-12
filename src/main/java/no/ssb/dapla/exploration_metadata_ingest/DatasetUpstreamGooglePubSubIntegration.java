@@ -73,7 +73,7 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             if (datasetDocNode != null) {
                 Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
                 new SimpleToGsim(dataset, path, persistenceProvider)
-                        .addUser(datasetMeta.getCreatedBy())
+                        .createdBy(datasetMeta.getCreatedBy())
                         .createGsimObjects();
             }
 
