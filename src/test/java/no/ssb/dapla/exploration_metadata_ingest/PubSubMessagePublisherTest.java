@@ -7,12 +7,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.cloud.pubsub.v1.Publisher;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
-import no.ssb.dapla.dataset.api.DatasetId;
-import no.ssb.dapla.dataset.api.DatasetMeta;
-import no.ssb.dapla.dataset.api.DatasetState;
-import no.ssb.dapla.dataset.api.Type;
-import no.ssb.dapla.dataset.api.Valuation;
-import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.EmulatorPubSub;
 import no.ssb.pubsub.PubSub;
 import org.junit.jupiter.api.Test;
@@ -30,10 +24,10 @@ public class PubSubMessagePublisherTest {
             datasetMetaNode
                     .putObject("id")
                     .put("path", "/path/to/dataset");
+            datasetMetaNode.put("createdBy", "PubSubMessagePublisherTest");
         }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {
-            datasetDocNode.put("dataset-path", "/path/to/dataset");
             ObjectNode logicalRecordRoot = datasetDocNode.putObject("logical-record-root");
             logicalRecordRoot.put("name", "konto");
             ArrayNode ivs = logicalRecordRoot.putArray("instanceVariables");

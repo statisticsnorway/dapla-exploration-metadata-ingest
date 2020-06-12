@@ -35,8 +35,9 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
                 .join();
 
         if (!Http.ResponseStatus.Family.SUCCESSFUL.equals(response.status().family())) {
-            // To se error message from lds
-            LOG.warn("Exploration LDS: {}", response.content().as(String.class).toCompletableFuture().join());
+            // To see error message from lds
+            String messageFrom = response.content().as(String.class).toCompletableFuture().join();
+            LOG.warn("Exploration LDS: {}", messageFrom);
             throw new RuntimeException(String.format("Got response code %d from Exploration LDS with reason: %s",
                     response.status().code(), response.status().reasonPhrase()));
         }
