@@ -58,8 +58,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
+        JsonNode dataNode = null;
         try {
-            JsonNode dataNode;
             try (InputStream inputStream = message.getData().newInput()) {
                 dataNode = mapper.readTree(inputStream);
             }
@@ -76,12 +76,21 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                         .createdBy(datasetMeta.getCreatedBy())
                         .createGsimObjects();
             }
+            // Just for testing that we get dataset-lineage distributed for now
+            // Will use to improve dataset-doc generation later
+            JsonNode lineageDocNode = dataNode.get("dataset-lineage");
+            if(lineageDocNode!=null) {
+                LOG.info("dataset-lineage");
+                String json = lineageDocNode.toPrettyString();
+                LOG.info(json);
+            }
 
             consumer.ack();
             counter.incrementAndGet();
 
         } catch (Throwable t) {
-            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", t);
+            String json = dataNode != null ? dataNode.toPrettyString() : "null";
+            LOG.error("Error while processing message, waiting for ack deadline before re-delivery\njson:{}", json, t);
         }
     }
 
