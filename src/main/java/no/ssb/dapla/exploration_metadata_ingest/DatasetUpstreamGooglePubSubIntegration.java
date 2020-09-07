@@ -10,7 +10,7 @@ import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
-import no.ssb.dapla.dataset.doc.model.simple.Dataset;
+import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
@@ -71,8 +71,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
             if (datasetDocNode != null) {
-                Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
-                new SimpleToGsim(dataset, path, persistenceProvider)
+                Record record = mapper.treeToValue(datasetDocNode, Record.class);
+                new SimpleToGsim(record, path, persistenceProvider)
                         .createdBy(datasetMeta.getCreatedBy())
                         .createGsimObjects();
             }
