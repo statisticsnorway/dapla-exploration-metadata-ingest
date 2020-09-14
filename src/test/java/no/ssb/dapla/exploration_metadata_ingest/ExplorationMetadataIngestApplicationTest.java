@@ -110,9 +110,9 @@ public class ExplorationMetadataIngestApplicationTest {
         }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {
-            ObjectNode logicalRecordRoot = datasetDocNode.putObject("logical-record-root");
-            logicalRecordRoot.put("name", "konto");
-            ArrayNode ivs = logicalRecordRoot.putArray("instanceVariables");
+            datasetDocNode.put("name", "konto");
+            datasetDocNode.put("description", "Inneholder kontoer av forskjellig art.");
+            ArrayNode ivs = datasetDocNode.putArray("instanceVariables");
             ivs.addObject()
                     .put("name", "kontonummer")
                     .put("description", "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett");

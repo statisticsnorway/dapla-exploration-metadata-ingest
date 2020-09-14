@@ -28,9 +28,9 @@ public class PubSubMessagePublisherTest {
         }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {
-            ObjectNode logicalRecordRoot = datasetDocNode.putObject("logical-record-root");
-            logicalRecordRoot.put("name", "konto");
-            ArrayNode ivs = logicalRecordRoot.putArray("instanceVariables");
+            datasetDocNode.put("name", "konto");
+            datasetDocNode.put("description", "Inneholder kontoer av forskjellig art.");
+            ArrayNode ivs = datasetDocNode.putArray("instanceVariables");
             ivs.addObject()
                     .put("name", "kontonummer")
                     .put("description", "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett");
@@ -40,7 +40,6 @@ public class PubSubMessagePublisherTest {
             ivs.addObject()
                     .put("name", "gjeld")
                     .put("description", "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.");
-            logicalRecordRoot.put("path", "konto");
         }
 
         PubSub pubSub = new EmulatorPubSub("localhost", 8538);
