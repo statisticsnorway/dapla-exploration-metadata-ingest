@@ -10,7 +10,7 @@ trigger:
 
 resources:
   containers:
-    - container: 'pubsub_container_for_tests'
+    - container: 'postgres_container_for_tests'
       image: statisticsnorway/pubsub-emulator:latest
       ports:
         - 8538:8538
@@ -46,12 +46,10 @@ variables:
 # Job which runs mvn test and verify, Sonar Analysis (if branch is master), mvn install,
 # builds Docker image, pushes this to GCR and checks for any image vulnerabilities
 jobs:
-  - template: complete-builds/job-test-coverage-build-gcr.yml@templates
+  - template: complete-builds/job-test-integration-coverage-build-gcr.yml@templates
     parameters:
       project: dapla
-      imageName: $(imageName)
-      repoName: $(repoName)
-      artifactName: exploration-metadata-ingest
+      imageName: exploration-metadata-ingest
       mavenContainer: maven:3-adoptopenjdk-14
       checkStyleRunAnalysis: false
 
