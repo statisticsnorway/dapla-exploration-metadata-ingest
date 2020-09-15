@@ -1,6 +1,7 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,6 +13,10 @@ import io.helidon.media.common.DefaultMediaSupport;
 import io.helidon.media.jackson.common.JacksonSupport;
 import io.helidon.webclient.WebClient;
 import io.helidon.webserver.WebServer;
+import no.ssb.dapla.dataset.api.DatasetId;
+import no.ssb.dapla.dataset.api.DatasetMeta;
+import no.ssb.dapla.dataset.api.DatasetMetaOrBuilder;
+import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -97,13 +102,17 @@ public class ExplorationMetadataIngestApplicationTest {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode dataNode = mapper.createObjectNode();
         dataNode.put("parentUri", "dummy");
-        dataNode.putObject("dataset-meta");
+
+        ObjectNode meta = dataNode.putObject("dataset-meta");
+        {
+            ObjectNode id = meta.putObject("id");
+            id.put("path", "/junit/thatPubSubMessageIsConsumed-test");
+        }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {
-            datasetDocNode.put("dataset-path", "/path/to/dataset");
-            ObjectNode logicalRecordRoot = datasetDocNode.putObject("logical-record-root");
-            logicalRecordRoot.put("name", "konto");
-            ArrayNode ivs = logicalRecordRoot.putArray("instanceVariables");
+            datasetDocNode.put("name", "konto");
+            datasetDocNode.put("description", "Inneholder kontoer av forskjellig art.");
+            ArrayNode ivs = datasetDocNode.putArray("instanceVariables");
             ivs.addObject()
                     .put("name", "kontonummer")
                     .put("description", "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett");
@@ -113,7 +122,6 @@ public class ExplorationMetadataIngestApplicationTest {
             ivs.addObject()
                     .put("name", "gjeld")
                     .put("description", "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.");
-            logicalRecordRoot.put("path", "konto");
         }
 
         try {

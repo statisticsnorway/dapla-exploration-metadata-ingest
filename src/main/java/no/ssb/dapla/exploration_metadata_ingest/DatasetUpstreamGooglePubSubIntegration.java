@@ -10,7 +10,7 @@ import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
-import no.ssb.dapla.dataset.doc.model.simple.Dataset;
+import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.dapla.dataset.doc.template.SimpleToGsim;
 import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
@@ -58,8 +58,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     @Override
     public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
+        JsonNode dataNode = null;
         try {
-            JsonNode dataNode;
             try (InputStream inputStream = message.getData().newInput()) {
                 dataNode = mapper.readTree(inputStream);
             }
@@ -71,17 +71,26 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
             if (datasetDocNode != null) {
-                Dataset dataset = mapper.treeToValue(datasetDocNode, Dataset.class);
-                new SimpleToGsim(dataset, path, persistenceProvider)
+                Record record = mapper.treeToValue(datasetDocNode, Record.class);
+                new SimpleToGsim(record, path, persistenceProvider)
                         .createdBy(datasetMeta.getCreatedBy())
                         .createGsimObjects();
+            }
+            // Just for testing that we get dataset-lineage distributed for now
+            // Will use to improve dataset-doc generation later
+            JsonNode lineageDocNode = dataNode.get("dataset-lineage");
+            if(lineageDocNode!=null) {
+                LOG.info("dataset-lineage");
+                String json = lineageDocNode.toPrettyString();
+                LOG.info(json);
             }
 
             consumer.ack();
             counter.incrementAndGet();
 
         } catch (Throwable t) {
-            LOG.error("Error while processing message, waiting for ack deadline before re-delivery", t);
+            String json = dataNode != null ? dataNode.toPrettyString() : "null";
+            LOG.error("Error while processing message, waiting for ack deadline before re-delivery\njson:{}", json, t);
         }
     }
 
