@@ -49,7 +49,9 @@ jobs:
   - template: complete-builds/job-test-integration-coverage-build-gcr.yml@templates
     parameters:
       project: dapla
-      imageName: exploration-metadata-ingest
+      imageName: $(imageName)
+      repoName: $(repoName)
+      artifactName: exploration-metadata-ingest
       mavenContainer: maven:3-adoptopenjdk-14
       checkStyleRunAnalysis: false
 
