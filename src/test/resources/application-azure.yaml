@@ -16,7 +16,7 @@ pubsub:
   admin: true
   use-emulator: true
   emulator:
-    host: pubsub-emulator
+    host: postgres
     port: 8538
   credential-provider: emulator
   upstream:
