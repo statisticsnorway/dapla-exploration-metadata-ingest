@@ -42,14 +42,18 @@ public class ExplorationMetadataIngestApplicationTest {
 
         String profile = System.getenv("HELIDON_CONFIG_PROFILE");
         if (profile == null) {
+            LOG.info("profile == null using dev");
             profile = "dev";
         }
         if (profile.equalsIgnoreCase("dev")) {
             builder.addSource(classpath("application-dev.yaml"));
+            LOG.info("using application-dev.yaml");
         } else if (profile.equalsIgnoreCase("azure")) {
+            LOG.info("using application-azure.yaml");
             builder.addSource(classpath("application-azure.yaml"));
         } else {
             // default to dev
+            LOG.info("using application-dev.yaml");
             builder.addSource(classpath("application-dev.yaml"));
         }
         builder.addSource(classpath("application.yaml").build());
