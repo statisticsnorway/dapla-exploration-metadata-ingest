@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 public class PubSubMessagePublisherTest {
 
     @Test
+    @Disabled
     public void publishOneMessage() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode dataNode = mapper.createObjectNode();
