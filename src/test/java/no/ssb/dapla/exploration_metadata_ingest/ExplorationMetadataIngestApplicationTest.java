@@ -13,10 +13,6 @@ import io.helidon.media.common.DefaultMediaSupport;
 import io.helidon.media.jackson.common.JacksonSupport;
 import io.helidon.webclient.WebClient;
 import io.helidon.webserver.WebServer;
-import no.ssb.dapla.dataset.api.DatasetId;
-import no.ssb.dapla.dataset.api.DatasetMeta;
-import no.ssb.dapla.dataset.api.DatasetMetaOrBuilder;
-import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -42,10 +38,27 @@ public class ExplorationMetadataIngestApplicationTest {
 
     @BeforeAll
     public static void startTheServer() {
-        Config config = Config
-                .builder(classpath("application-dev.yaml"),
-                        classpath("application.yaml"))
-                .metaConfig()
+        Config.Builder builder = Config.builder();
+
+        String profile = System.getenv("HELIDON_CONFIG_PROFILE");
+        if (profile == null) {
+            LOG.info("profile == null using dev");
+            profile = "dev";
+        }
+        if (profile.equalsIgnoreCase("dev")) {
+            builder.addSource(classpath("application-dev.yaml"));
+            LOG.info("using application-dev.yaml");
+        } else if (profile.equalsIgnoreCase("azure")) {
+            LOG.info("using application-azure.yaml");
+            builder.addSource(classpath("application-azure.yaml"));
+        } else {
+            // default to dev
+            LOG.info("using application-dev.yaml");
+            builder.addSource(classpath("application-dev.yaml"));
+        }
+        builder.addSource(classpath("application.yaml").build());
+
+        Config config = builder.metaConfig()
                 .build();
         long webServerStart = System.currentTimeMillis();
         application = new ExplorationMetadataIngestApplication(config);

@@ -9,11 +9,13 @@ import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import no.ssb.pubsub.EmulatorPubSub;
 import no.ssb.pubsub.PubSub;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class PubSubMessagePublisherTest {
 
     @Test
+    @Disabled
     public void publishOneMessage() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode dataNode = mapper.createObjectNode();
