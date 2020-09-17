@@ -63,6 +63,11 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             try (InputStream inputStream = message.getData().newInput()) {
                 dataNode = mapper.readTree(inputStream);
             }
+            if (!dataNode.has("dataset-meta")) {
+                LOG.warn("Message IGNORED. Received message with invalid protocol. Missing 'dataset-meta' field in json-document.");
+                consumer.ack();
+                return;
+            }
             JsonNode datasetMetaNode = dataNode.get("dataset-meta");
             String metadataJson = mapper.writeValueAsString(datasetMetaNode);
             DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
