@@ -68,6 +68,9 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                 consumer.ack();
                 return;
             }
+
+            LOG.debug("RECEIVED metadata:\n{}", dataNode.toPrettyString());
+
             JsonNode datasetMetaNode = dataNode.get("dataset-meta");
             String metadataJson = mapper.writeValueAsString(datasetMetaNode);
             DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
