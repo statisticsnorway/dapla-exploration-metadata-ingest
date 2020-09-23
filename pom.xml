@@ -79,7 +79,7 @@
         <dependency>
             <groupId>no.ssb.dapla</groupId>
             <artifactId>dataset-doc</artifactId>
-            <version>0.2-SNAPSHOT</version>
+            <version>0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>no.ssb.helidon</groupId>
@@ -191,6 +191,14 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

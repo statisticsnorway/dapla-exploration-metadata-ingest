@@ -1,0 +1,13 @@
+{
+  "lineage": {
+    "name": "spark_schema",
+    "type": "structure",
+    "sources": [
+      {
+        "path": "/kilde/konto",
+        "version": 123456789,
+        "dataset": "dataset-konto-id"
+      }
+    ]
+  }
+}

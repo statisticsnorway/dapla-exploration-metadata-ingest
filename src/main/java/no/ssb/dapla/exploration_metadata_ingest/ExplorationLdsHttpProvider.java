@@ -4,8 +4,8 @@ import io.helidon.common.http.Http;
 import io.helidon.common.http.MediaType;
 import io.helidon.webclient.WebClient;
 import io.helidon.webclient.WebClientResponse;
-import no.ssb.dapla.dataset.doc.model.gsim.IdentifiableArtefact;
-import no.ssb.dapla.dataset.doc.model.gsim.PersistenceProvider;
+import no.ssb.exploration.model.IdentifiableArtefact;
+import no.ssb.exploration.model.PersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

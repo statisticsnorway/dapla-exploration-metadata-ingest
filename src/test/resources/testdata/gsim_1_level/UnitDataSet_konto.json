@@ -1,0 +1,17 @@
+{
+  "id" : "path.to.dataset.konto",
+  "dataSourcePath" : "/path/to/dataset",
+  "unitDataStructure" : "/UnitDataStructure/path.to.dataset.konto",
+  "name" : [ {
+    "languageText" : "konto",
+    "languageCode" : "nb"
+  } ],
+  "createdDate" : "2020-01-01T00:00:00Z",
+  "administrativeStatus" : "DRAFT",
+  "createdBy" : "Unknown",
+  "validFrom" : "2020-01-01T00:00:00Z",
+  "dataSetState" : "INPUT_DATA",
+  "version" : "1.0.0",
+  "temporalityType" : "EVENT",
+  "versionValidFrom" : "2020-01-01T00:00:00Z"
+}

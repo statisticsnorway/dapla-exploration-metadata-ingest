@@ -27,5 +27,7 @@ module no.ssb.dapla.exploration_metadata_ingest {
     requires no.ssb.dapla.dataset.api;
     requires no.ssb.helidon.media.protobuf.json.server;
 
+    opens no.ssb.dapla.dataset.doc.model.gsim to com.fasterxml.jackson.databind, gson;
+
     uses no.ssb.rawdata.api.RawdataClientInitializer;
 }
