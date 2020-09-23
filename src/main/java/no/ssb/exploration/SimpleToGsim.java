@@ -5,7 +5,6 @@ import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.InstanceVariable;
 import no.ssb.exploration.model.LogicalRecord;
 import no.ssb.exploration.model.PersistenceProvider;
-import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
 
 public class SimpleToGsim {
@@ -46,22 +45,14 @@ public class SimpleToGsim {
 
     public void createGsimObjects() {
         Record rootRecord = this.rootRecord;
-        UnitDataStructure unitDataStructure = createDefault(createId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
+        processAll(rootRecord, null);
+    }
+
+    public UnitDataStructure createUnitDataStructure(Record rootRecord) {
+        return createDefault(createId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
                 .unitDataStructure()
                 .logicalRecord(createId(rootRecord))
                 .build();
-        persistenceProvider.save(unitDataStructure);
-
-        UnitDataSet unitDataset = createDefault(createId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
-                .unitDataSet()
-                .unitDataStructure(unitDataStructure.getId())
-                .temporalityType("EVENT") // TODO: get this from correct place
-                .dataSetState("INPUT_DATA") // TODO: get this from correct place
-                .dataSourcePath(dataSetPath)
-                .build();
-        persistenceProvider.save(unitDataset);
-
-        processAll(rootRecord, null);
     }
 
     void processAll(Record record, String parentLogicalRecordId) {

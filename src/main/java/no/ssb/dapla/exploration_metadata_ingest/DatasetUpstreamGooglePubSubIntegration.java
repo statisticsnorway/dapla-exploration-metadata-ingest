@@ -10,14 +10,21 @@ import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
+import no.ssb.exploration.DatasetTools;
+import no.ssb.exploration.GsimBuilder;
 import no.ssb.exploration.SimpleToGsim;
 import no.ssb.exploration.model.PersistenceProvider;
+import no.ssb.exploration.model.UnitDataSet;
+import no.ssb.exploration.model.UnitDataStructure;
 import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -76,18 +83,53 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
             String path = datasetMeta.getId().getPath();
 
+            ZonedDateTime datasetVersionTimestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(datasetMeta.getId().getVersion())), ZoneOffset.UTC);
+
+            String id = DatasetTools.createDatasetId(datasetMeta.getId().getPath());
+            GsimBuilder.BaseBuilder unitDatasetBaseBuilder = GsimBuilder.create()
+                    .id(id)
+                    .languageCode("nb")
+                    .createdBy(datasetMeta.getCreatedBy())
+                    .addProperty("administrativeStatus", "DRAFT") // TODO user should decide when writing data or decided by architecture
+                    .addProperty("createdDate", datasetVersionTimestamp.toString())
+                    .addProperty("validFrom", datasetVersionTimestamp.toString())
+                    .addProperty("version", "1.0.0")
+                    .addProperty("versionValidFrom", datasetVersionTimestamp.toString());
+
             String parentUri = dataNode.get("parentUri").textValue();
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
+            GsimBuilder.UnitDatasetBuilder unitDatasetBuilder;
             if (datasetDocNode != null) {
                 Record record = mapper.treeToValue(datasetDocNode, Record.class);
-                new SimpleToGsim(record, path, persistenceProvider)
-                        .createdBy(datasetMeta.getCreatedBy())
-                        .createGsimObjects();
+
+                SimpleToGsim simpleToGsim = new SimpleToGsim(record, path, persistenceProvider)
+                        .createdBy(datasetMeta.getCreatedBy());
+
+                UnitDataStructure unitDataStructure = simpleToGsim.createUnitDataStructure(record);
+                persistenceProvider.save(unitDataStructure);
+
+                unitDatasetBuilder = unitDatasetBaseBuilder
+                        .name(record.getName())
+                        .description(record.getDescription())
+                        .unitDataSet()
+                        .unitDataStructure(unitDataStructure.getId()); // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
+
+                simpleToGsim.createGsimObjects();
+            } else {
+                unitDatasetBuilder = unitDatasetBaseBuilder.unitDataSet();
             }
+
+            UnitDataSet unitDataset = unitDatasetBuilder
+                    .temporalityType(DatasetTools.toTemporality("")) // TODO: get this from correct place
+                    .dataSetState(DatasetTools.toExplorationState(datasetMeta.getState()))
+                    .dataSourcePath(datasetMeta.getId().getPath())
+                    .build();
+            persistenceProvider.save(unitDataset);
+
             // Just for testing that we get dataset-lineage distributed for now
             // Will use to improve dataset-doc generation later
             JsonNode lineageDocNode = dataNode.get("dataset-lineage");
-            if(lineageDocNode!=null) {
+            if (lineageDocNode != null) {
                 LOG.info("dataset-lineage");
                 String json = lineageDocNode.toPrettyString();
                 LOG.info(json);
