@@ -15,6 +15,8 @@ import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.DatasetTools;
 import no.ssb.exploration.GsimBuilder;
 import no.ssb.exploration.SimpleToGsim;
+import no.ssb.exploration.model.LDSObject;
+import no.ssb.exploration.model.LineageDataSet;
 import no.ssb.exploration.model.PersistenceProvider;
 import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
@@ -26,6 +28,10 @@ import java.io.InputStream;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -93,6 +99,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
             ZonedDateTime datasetVersionTimestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(datasetMeta.getId().getVersion())), ZoneOffset.UTC);
 
+            final Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
+
             String id = DatasetTools.createDatasetId(datasetMeta.getId().getPath());
             GsimBuilder.BaseBuilder unitDatasetBaseBuilder = GsimBuilder.create()
                     .id(id)
@@ -108,21 +116,7 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             JsonNode datasetDocNode = dataNode.get("dataset-doc");
             GsimBuilder.UnitDatasetBuilder unitDatasetBuilder;
             if (datasetDocNode != null) {
-                Record record = mapper.treeToValue(datasetDocNode, Record.class);
-
-                SimpleToGsim simpleToGsim = new SimpleToGsim(record, path, persistenceProvider)
-                        .createdBy(datasetMeta.getCreatedBy());
-
-                UnitDataStructure unitDataStructure = simpleToGsim.createUnitDataStructure(record);
-                persistenceProvider.save(unitDataStructure);
-
-                unitDatasetBuilder = unitDatasetBaseBuilder
-                        .name(record.getName())
-                        .description(record.getDescription())
-                        .unitDataSet()
-                        .unitDataStructure(unitDataStructure.getId()); // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
-
-                simpleToGsim.createGsimObjects();
+                unitDatasetBuilder = datasetDocToLDS(ldsObjectsByType, datasetMeta, path, datasetVersionTimestamp, unitDatasetBaseBuilder, datasetDocNode);
             } else {
                 unitDatasetBuilder = unitDatasetBaseBuilder.unitDataSet();
             }
@@ -132,16 +126,15 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
                     .dataSetState(DatasetTools.toExplorationState(datasetMeta.getState()))
                     .dataSourcePath(datasetMeta.getId().getPath())
                     .build();
-            persistenceProvider.save(unitDataset);
 
-            // Just for testing that we get dataset-lineage distributed for now
-            // Will use to improve dataset-doc generation later
+            LDSObject datasetLdsObject = new LDSObject("UnitDataSet", unitDataset.getId(), datasetVersionTimestamp, unitDataset);
+            ldsObjectsByType.computeIfAbsent("UnitDataSet", k -> new LinkedList<>())
+                    .add(datasetLdsObject);
+
             JsonNode lineageDocNode = dataNode.get("dataset-lineage");
-            if (lineageDocNode != null) {
-                LOG.info("dataset-lineage");
-                String json = lineageDocNode.toPrettyString();
-                LOG.info(json);
-            }
+            lineageToLDS(ldsObjectsByType, datasetLdsObject, lineageDocNode);
+
+            saveAllToExplorationLDS(ldsObjectsByType);
 
             consumer.ack();
             counter.incrementAndGet();
@@ -149,6 +142,50 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
         } catch (Throwable t) {
             String json = dataNode != null ? dataNode.toPrettyString() : "null";
             LOG.error("Error while processing message, waiting for ack deadline before re-delivery\njson:{}", json, t);
+        }
+    }
+
+    private GsimBuilder.UnitDatasetBuilder datasetDocToLDS(Map<String, List<LDSObject>> ldsObjectsByType, DatasetMeta datasetMeta, String path, ZonedDateTime datasetVersionTimestamp, GsimBuilder.BaseBuilder unitDatasetBaseBuilder, JsonNode datasetDocNode) throws com.fasterxml.jackson.core.JsonProcessingException {
+        GsimBuilder.UnitDatasetBuilder unitDatasetBuilder;
+        Record record = mapper.treeToValue(datasetDocNode, Record.class);
+
+        SimpleToGsim simpleToGsim = new SimpleToGsim(record, path, datasetVersionTimestamp)
+                .createdBy(datasetMeta.getCreatedBy());
+
+        UnitDataStructure unitDataStructure = simpleToGsim.createUnitDataStructure(record);
+        ldsObjectsByType.computeIfAbsent("UnitDataStructure", k -> new LinkedList<>())
+                .add(new LDSObject("UnitDataStructure", unitDataStructure.getId(), datasetVersionTimestamp, unitDataStructure));
+
+        unitDatasetBuilder = unitDatasetBaseBuilder
+                .name(record.getName())
+                .description(record.getDescription())
+                .unitDataSet()
+                .unitDataStructure(unitDataStructure.getId()); // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
+
+        simpleToGsim.createGsimObjects(ldsObjectsByType);
+        return unitDatasetBuilder;
+    }
+
+    private void lineageToLDS(Map<String, List<LDSObject>> ldsObjectsByType, LDSObject datasetLdsObject, JsonNode lineageDocNode) {
+        // Just for testing that we get dataset-lineage distributed for now
+        // Will use to improve dataset-doc generation later
+        if (lineageDocNode != null) {
+            LOG.info("dataset-lineage");
+            datasetLdsObject.toString();
+            String json = lineageDocNode.toPrettyString();
+            LineageDataSet lineageDataSet = new LineageDataSet(); // TODO generate
+            ldsObjectsByType.computeIfAbsent("LineageDataSet", k -> new LinkedList<>())
+                    .add(new LDSObject("LineageDataSet", lineageDataSet.getId(), datasetLdsObject.version, lineageDataSet));
+            LOG.info(json);
+        }
+    }
+
+    private void saveAllToExplorationLDS(Map<String, List<LDSObject>> ldsObjectsByType) {
+        // persist all LDS objects
+        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
+            for (LDSObject ldsObject : typeEntries.getValue()) {
+                persistenceProvider.save(ldsObject);
+            }
         }
     }
 

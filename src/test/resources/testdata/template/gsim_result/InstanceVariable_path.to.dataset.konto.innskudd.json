@@ -15,11 +15,11 @@
     "languageText" : "9 sifret nummer gitt de som er registrert i Enhetsregisteret.",
     "languageCode" : "nb"
   } ],
-  "createdDate" : "2020-01-01T00:00:00Z",
+  "createdDate" : "2020-01-01T00:00Z",
   "administrativeStatus" : "DRAFT",
   "createdBy" : "Unknown",
-  "validFrom" : "2020-01-01T00:00:00Z",
+  "validFrom" : "2020-01-01T00:00Z",
   "version" : "1.0.0",
-  "versionValidFrom" : "2020-01-01T00:00:00Z",
+  "versionValidFrom" : "2020-01-01T00:00Z",
   "population" : "/Population/Population_DUMMY"
 }

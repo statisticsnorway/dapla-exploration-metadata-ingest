@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset.address.postcode",
-  "shortName" : "postcode",
+  "id" : "path.to.dataset.person.sex",
+  "shortName" : "sex",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,18 +8,18 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "postcode",
+    "languageText" : "sex",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "postcode",
+    "languageText" : "sex",
     "languageCode" : "nb"
   } ],
-  "createdDate" : "2020-01-01T00:00:00Z",
+  "createdDate" : "2020-01-01T00:00Z",
   "administrativeStatus" : "DRAFT",
   "createdBy" : "Unknown",
-  "validFrom" : "2020-01-01T00:00:00Z",
+  "validFrom" : "2020-01-01T00:00Z",
   "version" : "1.0.0",
-  "versionValidFrom" : "2020-01-01T00:00:00Z",
+  "versionValidFrom" : "2020-01-01T00:00Z",
   "population" : "/Population/Population_DUMMY"
 }

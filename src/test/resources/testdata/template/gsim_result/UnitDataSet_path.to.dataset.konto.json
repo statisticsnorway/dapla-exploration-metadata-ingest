@@ -6,12 +6,16 @@
     "languageText" : "konto",
     "languageCode" : "nb"
   } ],
-  "createdDate" : "2020-01-01T00:00:00Z",
+  "description" : [ {
+    "languageText" : "Inneholder kontoer av forskjellig art.",
+    "languageCode" : "nb"
+  } ],
+  "createdDate" : "2020-01-01T00:00Z",
   "administrativeStatus" : "DRAFT",
   "createdBy" : "Unknown",
-  "validFrom" : "2020-01-01T00:00:00Z",
+  "validFrom" : "2020-01-01T00:00Z",
   "dataSetState" : "INPUT_DATA",
   "version" : "1.0.0",
   "temporalityType" : "EVENT",
-  "versionValidFrom" : "2020-01-01T00:00:00Z"
+  "versionValidFrom" : "2020-01-01T00:00Z"
 }

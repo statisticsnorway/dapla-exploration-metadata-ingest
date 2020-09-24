@@ -3,19 +3,23 @@ package no.ssb.exploration;
 import no.ssb.dapla.dataset.doc.model.simple.Instance;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.InstanceVariable;
+import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.LogicalRecord;
-import no.ssb.exploration.model.PersistenceProvider;
 import no.ssb.exploration.model.UnitDataStructure;
+
+import java.time.ZonedDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class SimpleToGsim {
     private final String dataSetPath;
-    private final PersistenceProvider persistenceProvider;
+    private final ZonedDateTime version;
     private String userName = "Unknown";
     private final Record rootRecord;
 
     public GsimBuilder.BaseBuilder createDefault(String id, String name, String description) {
         // for now just add hardcoded default values
-        String date = "2020-01-01T00:00:00Z";
         return GsimBuilder.create()
                 .id(id)
                 .languageCode("nb")
@@ -23,19 +27,23 @@ public class SimpleToGsim {
                 .description(description)
                 .createdBy(userName)
                 .addProperty("administrativeStatus", "DRAFT")
-                .addProperty("createdDate", date)
-                .addProperty("validFrom", date)
+                .addProperty("createdDate", versionAsString())
+                .addProperty("validFrom", versionAsString())
                 .addProperty("version", "1.0.0")
-                .addProperty("versionValidFrom", date);
+                .addProperty("versionValidFrom", versionAsString());
     }
 
-    public SimpleToGsim(Record rootRecord, String dataSetPath, PersistenceProvider persistenceProvider) {
+    public SimpleToGsim(Record rootRecord, String dataSetPath, ZonedDateTime version) {
+        this.version = version;
         if (!dataSetPath.startsWith("/")) {
             throw new IllegalArgumentException("dataset path is expected to start with: '/' but was: " + dataSetPath);
         }
         this.rootRecord = rootRecord;
         this.dataSetPath = dataSetPath;
-        this.persistenceProvider = persistenceProvider;
+    }
+
+    private String versionAsString() {
+        return version.toString();
     }
 
     public SimpleToGsim createdBy(String userName) {
@@ -43,20 +51,20 @@ public class SimpleToGsim {
         return this;
     }
 
-    public void createGsimObjects() {
+    public void createGsimObjects(Map<String, List<LDSObject>> output) {
         Record rootRecord = this.rootRecord;
-        processAll(rootRecord, null);
+        processAll(output, rootRecord, null);
     }
 
     public UnitDataStructure createUnitDataStructure(Record rootRecord) {
-        return createDefault(createId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
+        return createDefault(createId(dataSetPath, rootRecord), rootRecord.getName(), rootRecord.getDescription())
                 .unitDataStructure()
-                .logicalRecord(createId(rootRecord))
+                .logicalRecord(createId(dataSetPath, rootRecord))
                 .build();
     }
 
-    void processAll(Record record, String parentLogicalRecordId) {
-        String logicalRecordId = parentLogicalRecordId == null ? createId(record) : parentLogicalRecordId + "." + record.getName();
+    void processAll(Map<String, List<LDSObject>> output, Record record, String parentLogicalRecordId) {
+        String logicalRecordId = parentLogicalRecordId == null ? createId(dataSetPath, record) : parentLogicalRecordId + "." + record.getName();
         LogicalRecord gsimLogicalRecord =
                 createDefault(logicalRecordId, record.getName(), record.getDescription())
                         .logicalRecord()
@@ -68,7 +76,8 @@ public class SimpleToGsim {
                         .parentChildMultiplicity("ONE_MANY")
                         .build();
 
-        persistenceProvider.save(gsimLogicalRecord);
+        output.computeIfAbsent("LogicalRecord", k -> new LinkedList<>())
+                .add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, gsimLogicalRecord));
 
         for (Instance instance : record.getInstances()) {
             InstanceVariable gsimInstanceVariable =
@@ -84,20 +93,21 @@ public class SimpleToGsim {
                             .representedVariable(instance.getRepresentedVariable(), "RepresentedVariable_DUMMY")
                             .build();
 
-            persistenceProvider.save(gsimInstanceVariable);
+            output.computeIfAbsent("InstanceVariable", k -> new LinkedList<>())
+                    .add(new LDSObject("InstanceVariable", gsimInstanceVariable.getId(), version, gsimInstanceVariable));
         }
 
         for (Record child : record.getRecords()) {
-            processAll(child, logicalRecordId);
+            processAll(output, child, logicalRecordId);
         }
     }
 
-    private String createId(Record record) {
-        String path = this.dataSetPath.substring(1); // Remove first slash
+    public static String createId(String dataSetPath, Record record) {
+        String path = dataSetPath.substring(1); // Remove first slash
         return path.replace("/", ".") + "." + record.getName();
     }
 
     private String createId(Record record, Instance instance) {
-        return createId(record) + "." + instance.getName();
+        return createId(dataSetPath, record) + "." + instance.getName();
     }
 }
