@@ -1,0 +1,50 @@
+{
+  "lineage": {
+    "name": "spark_schema",
+    "type": "structure",
+    "fields": [
+      {
+        "name": "fnr",
+        "type": "inherited",
+        "confidence": 0.9,
+        "sources": [
+          {
+            "field": "fnr",
+            "path": "/kilde/skatt",
+            "version": 123456789
+          }
+        ]
+      },
+      {
+        "name": "konto",
+        "type": "structure",
+        "fields": [
+          {
+            "name": "saldo",
+            "type": "inherited",
+            "confidence": 0.9,
+            "sources": [
+              {
+                "field": "konto.saldo",
+                "path": "/kilde/skatt",
+                "version": 123456789
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "path": "/kilde/skatt",
+            "version": 123456789
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "path": "/kilde/skatt",
+        "version": 123456789
+      }
+    ]
+  }
+}

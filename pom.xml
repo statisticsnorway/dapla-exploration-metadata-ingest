@@ -35,6 +35,12 @@
             <artifactId>google-cloud-pubsub</artifactId>
             <!-- Do not upgrade until bug is fixed: https://github.com/googleapis/java-pubsub/issues/190-->
             <version>1.104.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>no.ssb.spi</groupId>
@@ -80,11 +86,6 @@
             <groupId>no.ssb.dapla</groupId>
             <artifactId>dataset-doc</artifactId>
             <version>0.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>no.ssb.helidon</groupId>
-            <artifactId>helidon-media-protobuf-json-server</artifactId>
-            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -6,11 +6,10 @@ import io.helidon.config.Config;
 import io.helidon.health.HealthSupport;
 import io.helidon.health.checks.HealthChecks;
 import io.helidon.media.common.DefaultMediaSupport;
-import io.helidon.media.jackson.server.JacksonSupport;
+import io.helidon.media.jackson.JacksonSupport;
 import io.helidon.metrics.MetricsSupport;
 import io.helidon.webclient.WebClient;
 import io.helidon.webserver.Routing;
-import io.helidon.webserver.ServerConfiguration;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.WebTracingConfig;
 import io.helidon.webserver.accesslog.AccessLogSupport;
@@ -126,8 +125,8 @@ public class ExplorationMetadataIngestApplication {
                     throw new RuntimeException(e);
                 }
                 WebClient webClient = WebClient.builder()
-                        .addMediaSupport(DefaultMediaSupport.create(true))
-                        .addMediaSupport(io.helidon.media.jackson.common.JacksonSupport.create())
+                        .addMediaSupport(DefaultMediaSupport.builder().includeStackTraces(true).build())
+                        .addMediaSupport(JacksonSupport.create())
                         .baseUri(ldsBaseUri)
                         .build();
                 persistenceProvider = new ExplorationLdsHttpProvider(webClient);
@@ -138,15 +137,17 @@ public class ExplorationMetadataIngestApplication {
             LOG.info("Subscribed upstream");
         }
 
-        WebServer server = WebServer.create(ServerConfiguration.create(config.get("server")), Routing.builder()
-                .register(AccessLogSupport.create(config.get("server.access-log")))
-                .register(WebTracingConfig.create(config.get("tracing")))
-                .register(JacksonSupport.create())
-                .register(health)  // "/health"
-                .register(metrics) // "/metrics"
-                .register("/pipe", explorationMetadataIngestService)
-                .build());
-        put(WebServer.class, server);
+        WebServer.Builder server = WebServer.builder()
+                .routing(Routing.builder()
+                        .register(AccessLogSupport.create(config.get("server.access-log")))
+                        .register(WebTracingConfig.create(config.get("tracing")))
+                        .register(health)  // "/health"
+                        .register(metrics) // "/metrics"
+                        .register("/pipe", explorationMetadataIngestService))
+                .config(config.get("server"))
+                .addMediaSupport(JacksonSupport.create());
+
+        put(WebServer.class, server.build());
     }
 
     public static PubSub createPubSub(Config config) {

@@ -12,7 +12,7 @@ class LineageTemplateToLdsTest {
 
     @Test
     void test() throws JsonProcessingException {
-        String json = TestUtils.load("testdata/lineage/one-level-simple-with-lineage.json");
+        String json = TestUtils.load("testdata/lineage/one-level.json");
         Dataset dataset = new ObjectMapper().readValue(json, Dataset.class);
 
         LineagePersistenceProvider lineagePersistenceProvider = new LineagePersistenceProvider() {

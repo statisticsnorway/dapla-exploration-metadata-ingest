@@ -6,6 +6,8 @@ import com.google.cloud.pubsub.v1.AckReplyConsumer;
 import com.google.cloud.pubsub.v1.MessageReceiver;
 import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.protobuf.Message;
+import com.google.protobuf.util.JsonFormat;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import no.ssb.dapla.dataset.api.DatasetMeta;
@@ -16,7 +18,6 @@ import no.ssb.exploration.SimpleToGsim;
 import no.ssb.exploration.model.PersistenceProvider;
 import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
-import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,14 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
             JsonNode datasetMetaNode = dataNode.get("dataset-meta");
             String metadataJson = mapper.writeValueAsString(datasetMetaNode);
-            DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
+
+            // convert json string to DatasetMeta protobuf instance
+            Message.Builder builder = (Message.Builder) DatasetMeta.class
+                    .getMethod("newBuilder", (Class<?>[]) null)
+                    .invoke(null);
+            JsonFormat.parser().merge(metadataJson, builder);
+            DatasetMeta datasetMeta = (DatasetMeta) builder.build();
+
             String path = datasetMeta.getId().getPath();
 
             ZonedDateTime datasetVersionTimestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(datasetMeta.getId().getVersion())), ZoneOffset.UTC);

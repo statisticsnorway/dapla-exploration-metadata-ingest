@@ -9,7 +9,7 @@ import no.ssb.exploration.model.PersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
 
 public class ExplorationLdsHttpProvider implements PersistenceProvider {
 
@@ -28,8 +28,8 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
         WebClientResponse response = explorationLdsWebClient.put()
                 .path(path)
                 .contentType(MediaType.APPLICATION_JSON)
-                .readTimeout(30, ChronoUnit.SECONDS)
-                .connectTimeout(30, ChronoUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .submit(identifiableArtefact)
                 .toCompletableFuture()
                 .join();
