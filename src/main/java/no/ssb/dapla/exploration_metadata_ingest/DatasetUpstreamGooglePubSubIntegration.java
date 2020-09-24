@@ -1,5 +1,6 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.pubsub.v1.AckReplyConsumer;
@@ -11,12 +12,13 @@ import com.google.protobuf.util.JsonFormat;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import no.ssb.dapla.dataset.api.DatasetMeta;
+import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.DatasetTools;
 import no.ssb.exploration.GsimBuilder;
+import no.ssb.exploration.LineageTemplateToExplorationLineage;
 import no.ssb.exploration.SimpleToGsim;
 import no.ssb.exploration.model.LDSObject;
-import no.ssb.exploration.model.LineageDataSet;
 import no.ssb.exploration.model.PersistenceProvider;
 import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
@@ -122,12 +124,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             }
 
             UnitDataSet unitDataset = unitDatasetBuilder
-                    .temporalityType(DatasetTools.toTemporality("")) // TODO: get this from correct place
+                    .temporalityType(DatasetTools.toTemporality("TODO")) // TODO: get this from correct place
                     .dataSetState(DatasetTools.toExplorationState(datasetMeta.getState()))
                     .dataSourcePath(datasetMeta.getId().getPath())
                     .build();
 
-            LDSObject datasetLdsObject = new LDSObject("UnitDataSet", unitDataset.getId(), datasetVersionTimestamp, unitDataset);
+            LDSObject datasetLdsObject = new LDSObject("UnitDataSet", unitDataset.getId(), datasetVersionTimestamp, () -> unitDataset);
             ldsObjectsByType.computeIfAbsent("UnitDataSet", k -> new LinkedList<>())
                     .add(datasetLdsObject);
 
@@ -154,7 +156,7 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
         UnitDataStructure unitDataStructure = simpleToGsim.createUnitDataStructure(record);
         ldsObjectsByType.computeIfAbsent("UnitDataStructure", k -> new LinkedList<>())
-                .add(new LDSObject("UnitDataStructure", unitDataStructure.getId(), datasetVersionTimestamp, unitDataStructure));
+                .add(new LDSObject("UnitDataStructure", unitDataStructure.getId(), datasetVersionTimestamp, () -> unitDataStructure));
 
         unitDatasetBuilder = unitDatasetBaseBuilder
                 .name(record.getName())
@@ -166,17 +168,24 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
         return unitDatasetBuilder;
     }
 
-    private void lineageToLDS(Map<String, List<LDSObject>> ldsObjectsByType, LDSObject datasetLdsObject, JsonNode lineageDocNode) {
-        // Just for testing that we get dataset-lineage distributed for now
-        // Will use to improve dataset-doc generation later
-        if (lineageDocNode != null) {
+    private LDSObject lineageToLDS(Map<String, List<LDSObject>> ldsObjectsByType, LDSObject datasetLdsObject, JsonNode lineageDocNode) {
+        if (lineageDocNode == null) {
+            return null;
+        }
+        try {
             LOG.info("dataset-lineage");
-            datasetLdsObject.toString();
+            Dataset dataset = mapper.treeToValue(lineageDocNode, Dataset.class);
+
             String json = lineageDocNode.toPrettyString();
-            LineageDataSet lineageDataSet = new LineageDataSet(); // TODO generate
-            ldsObjectsByType.computeIfAbsent("LineageDataSet", k -> new LinkedList<>())
-                    .add(new LDSObject("LineageDataSet", lineageDataSet.getId(), datasetLdsObject.version, lineageDataSet));
             LOG.info(json);
+
+            LineageTemplateToExplorationLineage toExplorationLineage = new LineageTemplateToExplorationLineage(dataset, datasetLdsObject);
+            LDSObject lineageDatasetLdsObject = toExplorationLineage.createLdsLinageObjects(ldsObjectsByType);
+            lineageDatasetLdsObject.link();
+
+            return lineageDatasetLdsObject;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 

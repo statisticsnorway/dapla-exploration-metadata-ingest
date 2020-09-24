@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LineageDataSet implements LineageObject {
+public class LineageDataset implements LineageObject {
 
     @JsonProperty
     protected String id;

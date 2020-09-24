@@ -15,7 +15,7 @@ public class LineageField implements LineageObject {
     private String name;
 
     @JsonProperty
-    private String lineageDataSet;
+    private String lineageDataset;
 
     @JsonProperty
     private String relationType;

@@ -115,8 +115,8 @@ class SimpleToGsimTest {
                 String expected = TestUtils.load(fileName);
                 assertThat(getJson(ldsObject)).isEqualTo(expected);
 
-                if (ldsObject.object instanceof LogicalRecord) {
-                    List<String> instanceVariables = ((LogicalRecord) ldsObject.object).getInstanceVariables();
+                if (ldsObject.get() instanceof LogicalRecord) {
+                    List<String> instanceVariables = ((LogicalRecord) ldsObject.get()).getInstanceVariables();
                     assertThat(instanceVariables).isEqualTo(list);
                 }
                 assertThat(ldsObject.type).isEqualTo(gsimNames.remove());
@@ -148,7 +148,7 @@ class SimpleToGsimTest {
     String getJson(LDSObject ldsObject) {
         try {
             return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
-                    .writeValueAsString(ldsObject.object);
+                    .writeValueAsString(ldsObject.get());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

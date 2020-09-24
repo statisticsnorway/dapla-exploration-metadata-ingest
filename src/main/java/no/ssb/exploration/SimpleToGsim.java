@@ -77,7 +77,7 @@ public class SimpleToGsim {
                         .build();
 
         output.computeIfAbsent("LogicalRecord", k -> new LinkedList<>())
-                .add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, gsimLogicalRecord));
+                .add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, () -> gsimLogicalRecord));
 
         for (Instance instance : record.getInstances()) {
             InstanceVariable gsimInstanceVariable =
@@ -94,7 +94,7 @@ public class SimpleToGsim {
                             .build();
 
             output.computeIfAbsent("InstanceVariable", k -> new LinkedList<>())
-                    .add(new LDSObject("InstanceVariable", gsimInstanceVariable.getId(), version, gsimInstanceVariable));
+                    .add(new LDSObject("InstanceVariable", gsimInstanceVariable.getId(), version, () -> gsimInstanceVariable));
         }
 
         for (Record child : record.getRecords()) {

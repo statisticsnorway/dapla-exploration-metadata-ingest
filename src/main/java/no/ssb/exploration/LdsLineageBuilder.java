@@ -1,8 +1,6 @@
 package no.ssb.exploration;
 
-import no.ssb.exploration.model.DimensionalDataset;
-import no.ssb.exploration.model.LineageDataSet;
-import no.ssb.exploration.model.UnitDataSet;
+import no.ssb.exploration.model.LineageDataset;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,20 +33,7 @@ public class LdsLineageBuilder {
             this.baseBuilder = baseBuilder;
         }
 
-        private LineageDataSet lineageDataSet = new LineageDataSet();
-
-        public LineageDataSetBuilder dataset(no.ssb.exploration.model.Dataset dataset) {
-            String datasetConcreteType;
-            if (dataset instanceof UnitDataSet) {
-                datasetConcreteType = "UnitDataSet";
-            } else if (dataset instanceof DimensionalDataset) {
-                datasetConcreteType = "DimensionalDataset";
-            } else {
-                throw new IllegalArgumentException("Unknown Dataset type: " + dataset.getClass().getName());
-            }
-            lineageDataSet.setDataset("/" + datasetConcreteType + "/" + dataset.getId());
-            return this;
-        }
+        private LineageDataset lineageDataSet = new LineageDataset();
 
         public LineageDataSetBuilder lineageDataSets(List<String> lineageDataSets) {
             List<String> lineage = lineageDataSets.stream().map(lr -> "/LineageDataSet/" + lr).collect(Collectors.toList());
@@ -56,7 +41,7 @@ public class LdsLineageBuilder {
             return this;
         }
 
-        public LineageDataSet build() {
+        public LineageDataset build() {
             lineageDataSet.setId(baseBuilder.id);
             return lineageDataSet;
         }
