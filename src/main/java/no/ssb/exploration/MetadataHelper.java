@@ -19,6 +19,8 @@ import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
+
 /**
  * Not thread safe! This class must be used by a single thread, or external synchronization must be performed to
  * avoid race-conditions or memory-visibility issues.
@@ -119,38 +121,26 @@ public class MetadataHelper {
 
     public LDSObject unitDataSet() {
         if (datasetLdsObject == null) {
-
-            String versionTimestampString = versionTimestamp().toString();
-
-            GsimBuilder.BaseBuilder identifiableArtefactBuilder = GsimBuilder.create()
+            GsimBuilder.UnitDatasetBuilder unitDatasetBuilder = GsimBuilder.create()
                     .id(datasetId())
                     .languageCode("nb")
                     .createdBy(datasetMeta().getCreatedBy())
+                    .name(ofNullable(datasetDocRootRecord()).map(Record::getName).orElse(""))
+                    .description(ofNullable(datasetDocRootRecord()).map(Record::getDescription).orElse(""))
                     .addProperty("administrativeStatus", "DRAFT") // TODO user should decide when writing data or decided by architecture
-                    .addProperty("createdDate", versionTimestampString)
-                    .addProperty("validFrom", versionTimestampString)
+                    .addProperty("createdDate", versionTimestamp().toString())
+                    .addProperty("validFrom", versionTimestamp().toString())
                     .addProperty("version", "1.0.0")
-                    .addProperty("versionValidFrom", versionTimestampString);
-
-            Record record = datasetDocRootRecord();
-
-            if (record != null) {
-                identifiableArtefactBuilder
-                        .name(record.getName())
-                        .description(record.getDescription());
-            }
-
-            GsimBuilder.UnitDatasetBuilder unitDatasetBuilder = identifiableArtefactBuilder.unitDataSet();
-
-            if (record != null) {
-                // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
-                unitDatasetBuilder.unitDataStructure(unitDataStructure().get(UnitDataStructure.class).getId());
-            }
-
-            unitDatasetBuilder
+                    .addProperty("versionValidFrom", versionTimestamp().toString())
+                    .unitDataSet()
                     .temporalityType(DatasetTools.toTemporality("TODO")) // TODO: get this from correct place
                     .dataSetState(DatasetTools.toExplorationState(datasetMeta().getState()))
                     .dataSourcePath(datasetMeta().getId().getPath());
+
+            // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
+            ofNullable(unitDataStructure()).ifPresent(uds -> unitDatasetBuilder.unitDataStructure(uds.id));
+
+            ofNullable(lineageDataset()).ifPresent(ld -> unitDatasetBuilder.lineage(ld.link()));
 
             datasetLdsObject = new LDSObject("UnitDataSet", datasetId(), versionTimestamp(), unitDatasetBuilder::build);
         }
