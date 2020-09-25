@@ -24,7 +24,7 @@ public class LineageField implements LineageObject {
     private List<String> lineage;
 
     @JsonProperty
-    private double confidence;
+    private Double confidence;
 
     @JsonProperty
     private String instanceVariable;
@@ -70,11 +70,11 @@ public class LineageField implements LineageObject {
         this.lineage = lineage;
     }
 
-    public double getConfidence() {
+    public Double getConfidence() {
         return confidence;
     }
 
-    public void setConfidence(float confidence) {
+    public void setConfidence(Double confidence) {
         this.confidence = confidence;
     }
 
@@ -121,7 +121,7 @@ public class LineageField implements LineageObject {
             return this;
         }
 
-        public Builder confidence(double confidence) {
+        public Builder confidence(Double confidence) {
             instance.confidence = confidence;
             return this;
         }
