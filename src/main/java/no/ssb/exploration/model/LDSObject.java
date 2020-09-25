@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.function.Supplier;
 
 public class LDSObject {
+
     public final String type;
     public final String id;
     public final ZonedDateTime version;
@@ -26,5 +27,12 @@ public class LDSObject {
             object = supplier.get();
         }
         return object;
+    }
+
+    public <T> T get(Class<T> clazz) {
+        if (object == null) {
+            object = supplier.get();
+        }
+        return (T) object;
     }
 }

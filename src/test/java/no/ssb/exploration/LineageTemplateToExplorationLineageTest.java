@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
 class LineageTemplateToExplorationLineageTest {
@@ -29,19 +27,20 @@ class LineageTemplateToExplorationLineageTest {
         ZonedDateTime nowUtc = ZonedDateTime.now(ZoneOffset.UTC);
         LDSObject datasetLdsObject = new LDSObject("UnitDataSet", unitDataSet.getId(), nowUtc, () -> unitDataSet);
         LineageTemplateToExplorationLineage lineageTemplateToLds = new LineageTemplateToExplorationLineage(dataset, datasetLdsObject);
-        Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
-        lineageTemplateToLds.createLdsLinageObjects(ldsObjectsByType);
+        LDSObject lineageDatasetLdsObject = lineageTemplateToLds.createLineageDatasetLdsObject();
+        List<LDSObject> lineageFieldLdsObject = lineageTemplateToLds.createLineageFieldLdsObjects();
 
         final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
 
-        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
-            for (LDSObject ldsObject : typeEntries.getValue()) {
-                try {
-                    String json = objectWriter.writeValueAsString(ldsObject.get());
-                    System.out.printf("%s/%s # %s%n%s%n", ldsObject.type, ldsObject.id, ldsObject.version.toString(), json);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+        String lineageDatasetJson = objectWriter.writeValueAsString(lineageDatasetLdsObject.get());
+        System.out.printf("%s/%s # %s%n%s%n", lineageDatasetLdsObject.type, lineageDatasetLdsObject.id, lineageDatasetLdsObject.version.toString(), lineageDatasetJson);
+
+        for (LDSObject lineageFielLdsObject : lineageFieldLdsObject) {
+            try {
+                String json = objectWriter.writeValueAsString(lineageFielLdsObject.get());
+                System.out.printf("%s/%s # %s%n%s%n", lineageFielLdsObject.type, lineageFielLdsObject.id, lineageFielLdsObject.version.toString(), json);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }

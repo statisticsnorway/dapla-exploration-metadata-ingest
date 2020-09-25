@@ -8,9 +8,9 @@ import no.ssb.exploration.model.LogicalRecord;
 import no.ssb.exploration.model.UnitDataStructure;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class SimpleToGsim {
     private final String dataSetPath;
@@ -51,19 +51,26 @@ public class SimpleToGsim {
         return this;
     }
 
-    public void createGsimObjects(Map<String, List<LDSObject>> output) {
-        Record rootRecord = this.rootRecord;
-        processAll(output, rootRecord, null);
+    public List<LDSObject> createLogicalRecordsAndInstanceVariables() {
+        if (rootRecord == null) {
+            return Collections.emptyList();
+        }
+        List<LDSObject> result = new LinkedList<>();
+        processAll(result, rootRecord, null);
+        return result;
     }
 
-    public UnitDataStructure createUnitDataStructure(Record rootRecord) {
+    public UnitDataStructure createUnitDataStructure() {
+        if (rootRecord == null) {
+            return null;
+        }
         return createDefault(createId(dataSetPath, rootRecord), rootRecord.getName(), rootRecord.getDescription())
                 .unitDataStructure()
                 .logicalRecord(createId(dataSetPath, rootRecord))
                 .build();
     }
 
-    void processAll(Map<String, List<LDSObject>> output, Record record, String parentLogicalRecordId) {
+    void processAll(List<LDSObject> result, Record record, String parentLogicalRecordId) {
         String logicalRecordId = parentLogicalRecordId == null ? createId(dataSetPath, record) : parentLogicalRecordId + "." + record.getName();
         LogicalRecord gsimLogicalRecord =
                 createDefault(logicalRecordId, record.getName(), record.getDescription())
@@ -76,8 +83,7 @@ public class SimpleToGsim {
                         .parentChildMultiplicity("ONE_MANY")
                         .build();
 
-        output.computeIfAbsent("LogicalRecord", k -> new LinkedList<>())
-                .add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, () -> gsimLogicalRecord));
+        result.add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, () -> gsimLogicalRecord));
 
         for (Instance instance : record.getInstances()) {
             InstanceVariable gsimInstanceVariable =
@@ -93,12 +99,11 @@ public class SimpleToGsim {
                             .representedVariable(instance.getRepresentedVariable(), "RepresentedVariable_DUMMY")
                             .build();
 
-            output.computeIfAbsent("InstanceVariable", k -> new LinkedList<>())
-                    .add(new LDSObject("InstanceVariable", gsimInstanceVariable.getId(), version, () -> gsimInstanceVariable));
+            result.add(new LDSObject("InstanceVariable", gsimInstanceVariable.getId(), version, () -> gsimInstanceVariable));
         }
 
         for (Record child : record.getRecords()) {
-            processAll(output, child, logicalRecordId);
+            processAll(result, child, logicalRecordId);
         }
     }
 

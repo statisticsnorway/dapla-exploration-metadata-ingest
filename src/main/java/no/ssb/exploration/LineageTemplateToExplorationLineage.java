@@ -6,9 +6,8 @@ import no.ssb.dapla.dataset.doc.model.lineage.Source;
 import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.LineageDataset;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LineageTemplateToExplorationLineage {
@@ -21,7 +20,7 @@ public class LineageTemplateToExplorationLineage {
         this.datasetLDSObject = datasetLDSObject;
     }
 
-    public LDSObject createLdsLinageObjects(Map<String, List<LDSObject>> ldsObjectsByType) {
+    public LDSObject createLineageDatasetLdsObject() {
         Record root = lineageDataset.getRoot();
 
         List<Source> sources = root.getSources();
@@ -33,11 +32,12 @@ public class LineageTemplateToExplorationLineage {
                 .lineageDataSets(lineageDatasets)
                 .build();
 
-        LDSObject result = new LDSObject("LineageDataset", lineageDataSet.getId(), datasetLDSObject.version, () -> lineageDataSet);
-        ldsObjectsByType.computeIfAbsent("LineageDataset", k -> new ArrayList<>())
-                .add(result);
+        LDSObject lineageDataset = new LDSObject("LineageDataset", lineageDataSet.getId(), datasetLDSObject.version, () -> lineageDataSet);
+        return lineageDataset;
+    }
 
-        return result;
+    public List<LDSObject> createLineageFieldLdsObjects() {
+        return Collections.emptyList(); // TODO
     }
 
     private List<String> getLineageDatasets(List<Source> sources) {

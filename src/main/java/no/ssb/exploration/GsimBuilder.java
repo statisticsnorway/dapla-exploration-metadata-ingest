@@ -183,6 +183,11 @@ public class GsimBuilder {
             return this;
         }
 
+        public UnitDatasetBuilder lineage(String lineageDataset) {
+            unitDataset.setLineage(lineageDataset);
+            return this;
+        }
+
         public UnitDataSet build() {
             baseBuilder.build(unitDataset);
             return unitDataset;

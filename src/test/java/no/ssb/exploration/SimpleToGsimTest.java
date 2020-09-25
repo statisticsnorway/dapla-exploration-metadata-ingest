@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,15 +56,12 @@ class SimpleToGsimTest {
         //new File(TEST_DATA_FOLDER).mkdirs();
         //new SimpleToGsim(root, new JsonToFileProvider(TEST_DATA_FOLDER)).createGsimObjects();
 
-        Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
-        new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createGsimObjects(ldsObjectsByType);
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
-        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
-            for (LDSObject ldsObject : typeEntries.getValue()) {
-                String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);
-                String expected = TestUtils.load(fileName);
-                assertThat(getJson(ldsObject)).isEqualTo(expected);
-            }
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);
+            String expected = TestUtils.load(fileName);
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
         }
     }
 
@@ -105,23 +100,19 @@ class SimpleToGsimTest {
         gsimNames.add("InstanceVariable");
         gsimNames.add("InstanceVariable");
 
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
-        Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
-        new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createGsimObjects(ldsObjectsByType);
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/gsim_1_level/%s_%s.json", ldsObject.type, ldsObject.id);
+            String expected = TestUtils.load(fileName);
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
 
-        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
-            for (LDSObject ldsObject : typeEntries.getValue()) {
-                String fileName = String.format("testdata/gsim_1_level/%s_%s.json", ldsObject.type, ldsObject.id);
-                String expected = TestUtils.load(fileName);
-                assertThat(getJson(ldsObject)).isEqualTo(expected);
-
-                if (ldsObject.get() instanceof LogicalRecord) {
-                    List<String> instanceVariables = ((LogicalRecord) ldsObject.get()).getInstanceVariables();
-                    assertThat(instanceVariables).isEqualTo(list);
-                }
-                assertThat(ldsObject.type).isEqualTo(gsimNames.remove());
-                assertThat(ldsObject.id).isEqualTo(paths.remove());
+            if (ldsObject.get() instanceof LogicalRecord) {
+                List<String> instanceVariables = ((LogicalRecord) ldsObject.get()).getInstanceVariables();
+                assertThat(instanceVariables).isEqualTo(list);
             }
+            assertThat(ldsObject.type).isEqualTo(gsimNames.remove());
+            assertThat(ldsObject.id).isEqualTo(paths.remove());
         }
 
         assertThat(paths).isEmpty();
@@ -133,15 +124,12 @@ class SimpleToGsimTest {
         String json = TestUtils.load("testdata/template/simple.json");
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
-        new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createGsimObjects(ldsObjectsByType);
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
-        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
-            for (LDSObject ldsObject : typeEntries.getValue()) {
-                String fileName = String.format("testdata/template/gsim_result/%s_%s.json", ldsObject.type, ldsObject.id);
-                String expected = TestUtils.load(fileName);
-                assertThat(getJson(ldsObject)).isEqualTo(expected);
-            }
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/template/gsim_result/%s_%s.json", ldsObject.type, ldsObject.id);
+            String expected = TestUtils.load(fileName);
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
         }
     }
 

@@ -51,9 +51,4 @@ public class DatasetTools {
                 return "OTHER_DATA";
         }
     }
-
-    public static String createDatasetId(String dataSetPath) {
-        String path = dataSetPath.substring(1); // Remove first slash
-        return path.replace("/", ".");
-    }
 }
