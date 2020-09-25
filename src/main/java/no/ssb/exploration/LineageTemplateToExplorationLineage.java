@@ -49,12 +49,12 @@ public class LineageTemplateToExplorationLineage {
     }
 
     private String lineageDatasetId(Source source) {
-        String datasetId = source.getPath().substring(1).replaceAll("/", ".") + "#" + source.getVersion();
+        String datasetId = source.getPath().substring(1).replaceAll("/", ".") + "!" + source.getVersion();
         return datasetId;
     }
 
     private String lineageDatasetId() {
-        return datasetLDSObject.id + "#" + datasetLDSObject.version.toInstant().toEpochMilli();
+        return datasetLDSObject.id + "!" + datasetLDSObject.version.toInstant().toEpochMilli();
     }
 
     public List<LDSObject> createLineageFieldLdsObjects() {
@@ -63,8 +63,8 @@ public class LineageTemplateToExplorationLineage {
             if (field.getFields().size() > 0) {
                 return; // not a leaf
             }
-            String anscestorFieldName = anscestors.stream().map(Field::getName).collect(Collectors.joining("."));
-            String qualifiedFieldName = String.join(".", anscestorFieldName, field.getName());
+            String anscestorFieldName = anscestors.stream().limit(anscestors.size() - 1).map(Field::getName).collect(Collectors.joining("."));
+            String qualifiedFieldName = anscestorFieldName.isBlank() ? field.getName() : String.join(".", anscestorFieldName, field.getName());
             String lineageFieldLdsId = lineageDatasetId() + "$" + qualifiedFieldName;
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
