@@ -16,10 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -76,15 +74,17 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
             LOG.debug("RECEIVED metadata:\n{}", dataNode.toPrettyString());
 
-            final Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
+            List<LDSObject> ldsObjects = new ArrayList<>(20);
 
-            add(ldsObjectsByType, helper.unitDataStructure());
-            add(ldsObjectsByType, helper.unitDataSet());
-            add(ldsObjectsByType, helper.logicalRecordsAndInstanceVariables());
-            add(ldsObjectsByType, helper.lineageDataset());
-            add(ldsObjectsByType, helper.lineageFields());
+            ldsObjects.add(helper.unitDataStructure());
+            ldsObjects.add(helper.unitDataSet());
+            ldsObjects.addAll(helper.logicalRecordsAndInstanceVariables());
+            ldsObjects.add(helper.lineageDataset());
+            ldsObjects.addAll(helper.lineageFields());
 
-            saveAllToExplorationLDS(ldsObjectsByType);
+            for (LDSObject ldsObject : ldsObjects) {
+                persistenceProvider.save(ldsObject);
+            }
 
             consumer.ack();
             counter.incrementAndGet();
@@ -92,27 +92,6 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
         } catch (Throwable t) {
             String json = dataNode != null ? dataNode.toPrettyString() : "null";
             LOG.error("Error while processing message, waiting for ack deadline before re-delivery\njson:{}", json, t);
-        }
-    }
-
-    private void add(Map<String, List<LDSObject>> ldsObjectsByType, LDSObject ldsObject) {
-        if (ldsObject != null) {
-            ldsObjectsByType.computeIfAbsent(ldsObject.type, k -> new LinkedList<>()).add(ldsObject);
-        }
-    }
-
-    private void add(Map<String, List<LDSObject>> ldsObjectsByType, Iterable<LDSObject> ldsObjects) {
-        for (LDSObject ldsObject : ldsObjects) {
-            ldsObjectsByType.computeIfAbsent(ldsObject.type, k -> new LinkedList<>()).add(ldsObject);
-        }
-    }
-
-    private void saveAllToExplorationLDS(Map<String, List<LDSObject>> ldsObjectsByType) {
-        // persist all LDS objects
-        for (Map.Entry<String, List<LDSObject>> typeEntries : ldsObjectsByType.entrySet()) {
-            for (LDSObject ldsObject : typeEntries.getValue()) {
-                persistenceProvider.save(ldsObject);
-            }
         }
     }
 
