@@ -10,7 +10,6 @@ import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.GsimBuilder;
-import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.UnitDataStructure;
 
 import java.lang.reflect.InvocationTargetException;

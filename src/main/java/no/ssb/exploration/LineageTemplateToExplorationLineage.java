@@ -4,7 +4,6 @@ import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.lineage.Field;
 import no.ssb.dapla.dataset.doc.model.lineage.Record;
 import no.ssb.dapla.dataset.doc.model.lineage.Source;
-import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.LineageDataset;
 import no.ssb.exploration.model.LineageField;
 

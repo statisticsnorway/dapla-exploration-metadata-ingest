@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
-import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.UnitDataSet;
 import org.junit.jupiter.api.Test;
 

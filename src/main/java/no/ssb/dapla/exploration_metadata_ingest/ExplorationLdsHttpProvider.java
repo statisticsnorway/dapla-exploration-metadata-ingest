@@ -7,8 +7,8 @@ import io.helidon.common.http.Http;
 import io.helidon.common.http.MediaType;
 import io.helidon.webclient.WebClient;
 import io.helidon.webclient.WebClientResponse;
-import no.ssb.exploration.model.LDSObject;
-import no.ssb.exploration.model.PersistenceProvider;
+import no.ssb.exploration.LDSObject;
+import no.ssb.exploration.PersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

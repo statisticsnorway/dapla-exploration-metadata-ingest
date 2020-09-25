@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
-import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.LogicalRecord;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -52,11 +52,16 @@ class SimpleToGsimTest {
     void createGsimObjectsFor2Levels_AndWriteToFiles() throws JsonProcessingException {
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        // to generate files
-        //new File(TEST_DATA_FOLDER).mkdirs();
-        //new SimpleToGsim(root, new JsonToFileProvider(TEST_DATA_FOLDER)).createGsimObjects();
-
         List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+
+        if (false) {
+            // generate files locally
+            new File(TEST_DATA_FOLDER).mkdirs();
+            JsonToFileProvider jsonToFileProvider = new JsonToFileProvider(TEST_DATA_FOLDER);
+            for (LDSObject ldsObject : ldsObjects) {
+                jsonToFileProvider.save(ldsObject);
+            }
+        }
 
         for (LDSObject ldsObject : ldsObjects) {
             String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);

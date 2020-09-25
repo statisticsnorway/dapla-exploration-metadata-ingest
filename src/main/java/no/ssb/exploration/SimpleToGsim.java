@@ -4,7 +4,6 @@ import no.ssb.dapla.dataset.doc.model.simple.Instance;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.GsimBuilder;
 import no.ssb.exploration.model.InstanceVariable;
-import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.LogicalRecord;
 import no.ssb.exploration.model.UnitDataStructure;
 

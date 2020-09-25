@@ -1,4 +1,4 @@
-package no.ssb.exploration.model;
+package no.ssb.exploration;
 
 import java.time.ZonedDateTime;
 import java.util.function.Supplier;
@@ -30,9 +30,6 @@ public class LDSObject {
     }
 
     public <T> T get(Class<T> clazz) {
-        if (object == null) {
-            object = supplier.get();
-        }
-        return (T) object;
+        return (T) get();
     }
 }

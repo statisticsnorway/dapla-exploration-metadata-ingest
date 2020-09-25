@@ -13,7 +13,7 @@ import io.helidon.webserver.Routing;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.WebTracingConfig;
 import io.helidon.webserver.accesslog.AccessLogSupport;
-import no.ssb.exploration.model.PersistenceProvider;
+import no.ssb.exploration.PersistenceProvider;
 import no.ssb.pubsub.EmulatorPubSub;
 import no.ssb.pubsub.PubSub;
 import no.ssb.pubsub.RealPubSub;
