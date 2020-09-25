@@ -60,7 +60,7 @@ public class LineageTemplateToExplorationLineage {
     public List<LDSObject> createLineageFieldLdsObjects() {
         List<LDSObject> result = new LinkedList<>();
         FieldTraverser.depthFirstTraversal(lineageDataset.getRoot(), (anscestors, field) -> {
-            if (field.getFields() == null || field.getFields().isEmpty()) {
+            if (field.getFields().size() > 0) {
                 return; // not a leaf
             }
             String anscestorFieldName = anscestors.stream().map(Field::getName).collect(Collectors.joining("."));
