@@ -9,6 +9,7 @@ import no.ssb.exploration.model.LineageField;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LineageTemplateToExplorationLineage {
@@ -57,7 +58,7 @@ public class LineageTemplateToExplorationLineage {
         return datasetLDSObject.id + "!" + datasetLDSObject.version.toInstant().toEpochMilli();
     }
 
-    public List<LDSObject> createLineageFieldLdsObjects() {
+    public List<LDSObject> createLineageFieldLdsObjects(Map<String, LDSObject> instanceVariableById) {
         List<LDSObject> result = new LinkedList<>();
         FieldTraverser.depthFirstTraversal(lineageDataset.getRoot(), (anscestors, field) -> {
             if (field.getFields().size() > 0) {
@@ -68,6 +69,7 @@ public class LineageTemplateToExplorationLineage {
             String lineageFieldLdsId = lineageDatasetId() + "$" + qualifiedFieldName;
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
+            // instanceVariableById.get(qualifiedFieldName); // TODO InstanceVariables and LineageField should be aligned on id
             LineageField lineageField = LineageField.newBuilder()
                     .id(lineageFieldLdsId)
                     .name(qualifiedFieldName)

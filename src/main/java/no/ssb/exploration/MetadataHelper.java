@@ -10,14 +10,15 @@ import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.GsimBuilder;
+import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
@@ -38,6 +39,7 @@ public class MetadataHelper {
     List<LDSObject> logicalRecordsAndInstanceVariables;
     LDSObject lineageDataset;
     List<LDSObject> lineageFields;
+    LineageTemplateToExplorationLineage toExplorationLineage;
 
     public MetadataHelper(ObjectMapper mapper, JsonNode dataNode) {
         this.mapper = mapper;
@@ -121,7 +123,7 @@ public class MetadataHelper {
 
     public LDSObject unitDataSet() {
         if (datasetLdsObject == null) {
-            GsimBuilder.UnitDatasetBuilder unitDatasetBuilder = GsimBuilder.create()
+            UnitDataSet unitDataset = GsimBuilder.create()
                     .id(datasetId())
                     .languageCode("nb")
                     .createdBy(datasetMeta().getCreatedBy())
@@ -135,14 +137,16 @@ public class MetadataHelper {
                     .unitDataSet()
                     .temporalityType(DatasetTools.toTemporality("TODO")) // TODO: get this from correct place
                     .dataSetState(DatasetTools.toExplorationState(datasetMeta().getState()))
-                    .dataSourcePath(datasetMeta().getId().getPath());
+                    .dataSourcePath(datasetMeta().getId().getPath())
+                    .build();
 
             // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
-            ofNullable(unitDataStructure()).ifPresent(uds -> unitDatasetBuilder.unitDataStructure(uds.id));
+            ofNullable(unitDataStructure()).ifPresent(uds -> unitDataset.setUnitDataStructure(uds.id));
 
-            ofNullable(lineageDataset()).ifPresent(ld -> unitDatasetBuilder.lineage(ld.link()));
+            // must be assigned here before calling lineageDataset() which will recursively attempt to call this method
+            datasetLdsObject = new LDSObject("UnitDataSet", datasetId(), versionTimestamp(), () -> unitDataset);
 
-            datasetLdsObject = new LDSObject("UnitDataSet", datasetId(), versionTimestamp(), unitDatasetBuilder::build);
+            ofNullable(lineageDataset()).ifPresent(ld -> unitDataset.setLineage(ld.link()));
         }
 
         return datasetLdsObject;
@@ -155,26 +159,39 @@ public class MetadataHelper {
         return logicalRecordsAndInstanceVariables;
     }
 
-    public LDSObject lineageDataset() {
-        if (lineageDataset == null) {
+    private LineageTemplateToExplorationLineage toExplorationLineage() {
+        if (toExplorationLineage == null) {
             JsonNode lineageDocNode = dataNode.get("dataset-lineage");
             if (lineageDocNode == null) {
                 return null;
             }
             try {
                 Dataset dataset = mapper.treeToValue(lineageDocNode, Dataset.class);
-                LineageTemplateToExplorationLineage toExplorationLineage = new LineageTemplateToExplorationLineage(dataset, datasetLdsObject);
-                lineageDataset = toExplorationLineage.createLineageDatasetLdsObject();
+                toExplorationLineage = new LineageTemplateToExplorationLineage(dataset, unitDataSet());
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
+        }
+        return toExplorationLineage;
+    }
+
+    public LDSObject lineageDataset() {
+        if (lineageDataset == null) {
+            lineageDataset = ofNullable(toExplorationLineage())
+                    .map(LineageTemplateToExplorationLineage::createLineageDatasetLdsObject)
+                    .orElse(null);
         }
         return lineageDataset;
     }
 
     public List<LDSObject> lineageFields() {
         if (lineageFields == null) {
-            lineageFields = new LinkedList<>();
+            lineageFields = ofNullable(toExplorationLineage())
+                    .map(eToE -> eToE.createLineageFieldLdsObjects(
+                            logicalRecordsAndInstanceVariables().stream()
+                                    .filter(o -> "InstanceVariable".equals(o.type))
+                                    .collect(Collectors.toMap(LDSObject::id, o -> o)))
+                    ).orElse(null);
         }
         return lineageFields;
     }

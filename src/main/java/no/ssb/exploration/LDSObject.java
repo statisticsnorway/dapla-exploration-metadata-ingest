@@ -22,6 +22,10 @@ public class LDSObject {
         return type + "/" + id;
     }
 
+    public String id() {
+        return id;
+    }
+
     public Object get() {
         if (object == null) {
             object = supplier.get();

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ class LineageTemplateToExplorationLineageTest {
         LDSObject datasetLdsObject = new LDSObject("UnitDataSet", unitDataSet.getId(), nowUtc, () -> unitDataSet);
         LineageTemplateToExplorationLineage lineageTemplateToLds = new LineageTemplateToExplorationLineage(dataset, datasetLdsObject);
         LDSObject lineageDatasetLdsObject = lineageTemplateToLds.createLineageDatasetLdsObject();
-        List<LDSObject> lineageFieldLdsObject = lineageTemplateToLds.createLineageFieldLdsObjects();
+        List<LDSObject> lineageFieldLdsObject = lineageTemplateToLds.createLineageFieldLdsObjects(Collections.emptyMap());
 
         final ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
 
