@@ -9,6 +9,7 @@ import com.google.protobuf.util.JsonFormat;
 import no.ssb.dapla.dataset.api.DatasetMeta;
 import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
+import no.ssb.exploration.model.GsimBuilder;
 import no.ssb.exploration.model.LDSObject;
 import no.ssb.exploration.model.UnitDataStructure;
 
@@ -19,6 +20,10 @@ import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Not thread safe! This class must be used by a single thread, or external synchronization must be performed to
+ * avoid race-conditions or memory-visibility issues.
+ */
 public class MetadataHelper {
 
     final ObjectMapper mapper;

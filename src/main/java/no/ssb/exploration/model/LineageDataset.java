@@ -14,9 +14,6 @@ public class LineageDataset implements LineageObject {
     @JsonProperty
     private List<String> lineage;
 
-    @JsonProperty
-    private String dataset;
-
     @Override
     public String getId() {
         return id;
@@ -34,11 +31,28 @@ public class LineageDataset implements LineageObject {
         this.lineage = lineage;
     }
 
-    public String getDataset() {
-        return dataset;
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
-    public void setDataset(String dataset) {
-        this.dataset = dataset;
+    public static class Builder {
+        final LineageDataset instance = new LineageDataset();
+
+        private Builder() {
+        }
+
+        public Builder id(String id) {
+            instance.id = id;
+            return this;
+        }
+
+        public Builder lineage(List<String> lineage) {
+            instance.lineage = lineage;
+            return this;
+        }
+
+        public LineageDataset build() {
+            return instance;
+        }
     }
 }

@@ -1,22 +1,7 @@
-package no.ssb.exploration;
+package no.ssb.exploration.model;
 
 import no.ssb.dapla.dataset.doc.model.simple.EnumInfo;
 import no.ssb.dapla.dataset.doc.model.simple.TypeInfo;
-import no.ssb.exploration.model.BusinessProcess;
-import no.ssb.exploration.model.DescribedValueDomain;
-import no.ssb.exploration.model.IdentifiableArtefact;
-import no.ssb.exploration.model.InstanceVariable;
-import no.ssb.exploration.model.LogicalRecord;
-import no.ssb.exploration.model.ProcessExecutionLog;
-import no.ssb.exploration.model.ProcessStep;
-import no.ssb.exploration.model.ProcessStepInstance;
-import no.ssb.exploration.model.RepresentedVariable;
-import no.ssb.exploration.model.StatisticalProgram;
-import no.ssb.exploration.model.StatisticalProgramCycle;
-import no.ssb.exploration.model.TransformableInput;
-import no.ssb.exploration.model.TransformedOutput;
-import no.ssb.exploration.model.UnitDataSet;
-import no.ssb.exploration.model.UnitDataStructure;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
