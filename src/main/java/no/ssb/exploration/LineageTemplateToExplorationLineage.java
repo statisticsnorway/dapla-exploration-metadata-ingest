@@ -73,7 +73,7 @@ public class LineageTemplateToExplorationLineage {
                     .name(qualifiedFieldName)
                     .relationType(field.getType())
                     .confidence(field.getConfidence())
-                    .instanceVariable("")
+                    .instanceVariable(null) // TODO
                     .lineageDataset(lineageDatasetLink)
                     .lineage(lineageFieldLinks)
                     .build();
