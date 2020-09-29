@@ -30,7 +30,7 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
         String path = String.format("%s/%s", ldsObject.type, ldsObject.id);
         String json;
         try {
-            json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(ldsObject);
+            json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(ldsObject.get());
             LOG.debug("PUT /{}?timestamp={}\n{}", path, ldsObject.version.toString(), json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("", e);
