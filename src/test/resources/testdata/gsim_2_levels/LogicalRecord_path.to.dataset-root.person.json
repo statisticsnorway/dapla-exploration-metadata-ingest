@@ -1,10 +1,10 @@
 {
-  "id" : "path.to.dataset.root.person.address",
-  "shortName" : "address",
+  "id" : "path.to.dataset-root.person",
+  "shortName" : "person",
   "unitType" : "/UnitType/UnitType_DUMMY",
-  "instanceVariables" : [ "/InstanceVariable/path.to.dataset.address.street", "/InstanceVariable/path.to.dataset.address.postcode" ],
+  "instanceVariables" : [ "/InstanceVariable/path.to.dataset-person.name", "/InstanceVariable/path.to.dataset-person.sex" ],
   "name" : [ {
-    "languageText" : "address",
+    "languageText" : "person",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",
@@ -15,5 +15,5 @@
   "version" : "1.0.0",
   "isPlaceholderRecord" : false,
   "versionValidFrom" : "2020-01-01T00:00Z",
-  "parentLogicalRecord" : "/LogicalRecord/path.to.dataset.root.person"
+  "parentLogicalRecord" : "/LogicalRecord/path.to.dataset-root"
 }

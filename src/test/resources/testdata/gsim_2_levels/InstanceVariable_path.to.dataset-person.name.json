@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset.konto.kontonummer",
-  "shortName" : "kontonummer",
+  "id" : "path.to.dataset-person.name",
+  "shortName" : "name",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "kontonummer",
+    "languageText" : "name",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett",
+    "languageText" : "name",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

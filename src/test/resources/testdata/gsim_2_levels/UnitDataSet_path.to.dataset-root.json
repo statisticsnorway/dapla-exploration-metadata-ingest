@@ -1,18 +1,17 @@
 {
-  "id" : "path.to.dataset.root",
-  "shortName" : "root",
-  "unitType" : "/UnitType/UnitType_DUMMY",
-  "instanceVariables" : [ "/InstanceVariable/path.to.dataset.root.group" ],
+  "id" : "path.to.dataset-root",
+  "dataSourcePath" : "/path/to/dataset",
+  "unitDataStructure" : "/UnitDataStructure/path.to.dataset-root",
   "name" : [ {
     "languageText" : "root",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",
   "administrativeStatus" : "DRAFT",
-  "parentChildMultiplicity" : "ONE_MANY",
   "createdBy" : "Unknown",
   "validFrom" : "2020-01-01T00:00Z",
+  "dataSetState" : "INPUT_DATA",
   "version" : "1.0.0",
-  "isPlaceholderRecord" : false,
+  "temporalityType" : "EVENT",
   "versionValidFrom" : "2020-01-01T00:00Z"
 }

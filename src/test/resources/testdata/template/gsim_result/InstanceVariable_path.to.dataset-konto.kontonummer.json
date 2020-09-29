@@ -1,5 +1,5 @@
 {
-  "id" : "path.to.dataset.konto.kontonummer",
+  "id" : "path.to.dataset-konto.kontonummer",
   "shortName" : "kontonummer",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",

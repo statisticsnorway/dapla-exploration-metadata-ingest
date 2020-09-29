@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset.person.sex",
-  "shortName" : "sex",
+  "id" : "path.to.dataset-konto.innskudd",
+  "shortName" : "innskudd",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "sex",
+    "languageText" : "innskudd",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "sex",
+    "languageText" : "9 sifret nummer gitt de som er registrert i Enhetsregisteret.",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

@@ -1,7 +1,7 @@
 {
-  "id" : "path.to.dataset.konto",
+  "id" : "path.to.dataset-konto",
   "dataSourcePath" : "/path/to/dataset",
-  "unitDataStructure" : "/UnitDataStructure/path.to.dataset.konto",
+  "unitDataStructure" : "/UnitDataStructure/path.to.dataset-konto",
   "name" : [ {
     "languageText" : "konto",
     "languageCode" : "nb"

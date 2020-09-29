@@ -89,15 +89,15 @@ class SimpleToGsimTest {
 
         Record root = new ObjectMapper().readValue(json, Record.class);
         List<String> list = Arrays.asList(
-                "/InstanceVariable/path.to.dataset.konto.kontonummer",
-                "/InstanceVariable/path.to.dataset.konto.innskudd",
-                "/InstanceVariable/path.to.dataset.konto.gjeld");
+                "/InstanceVariable/path.to.dataset-konto.kontonummer",
+                "/InstanceVariable/path.to.dataset-konto.innskudd",
+                "/InstanceVariable/path.to.dataset-konto.gjeld");
 
         Queue<String> paths = new LinkedList<>();
-        paths.add("path.to.dataset.konto");
-        paths.add("path.to.dataset.konto.kontonummer");
-        paths.add("path.to.dataset.konto.innskudd");
-        paths.add("path.to.dataset.konto.gjeld");
+        paths.add("path.to.dataset-konto");
+        paths.add("path.to.dataset-konto.kontonummer");
+        paths.add("path.to.dataset-konto.innskudd");
+        paths.add("path.to.dataset-konto.gjeld");
 
         Queue<String> gsimNames = new LinkedList<>();
         gsimNames.add("LogicalRecord");

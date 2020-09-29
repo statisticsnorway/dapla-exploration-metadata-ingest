@@ -1,18 +1,18 @@
 {
-  "id" : "path.to.dataset.konto.gjeld",
-  "shortName" : "gjeld",
-  "dataStructureComponentRole" : "ENTITY",
-  "dataStructureComponentType" : "MEASURE",
-  "identifierComponentIsComposite" : false,
-  "identifierComponentIsUnique" : false,
+  "id" : "path.to.dataset-konto.innskudd",
+  "shortName" : "innskudd",
+  "dataStructureComponentRole" : "COUNT",
+  "dataStructureComponentType" : "IDENTIFIER",
+  "identifierComponentIsComposite" : true,
+  "identifierComponentIsUnique" : true,
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/ValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "gjeld",
+    "languageText" : "innskudd",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.",
+    "languageText" : "9 sifret nummer gitt de som er registrert i Enhetsregisteret.",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

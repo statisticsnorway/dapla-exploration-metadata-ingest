@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset.konto.gjeld",
-  "shortName" : "gjeld",
+  "id" : "path.to.dataset-address.postcode",
+  "shortName" : "postcode",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "gjeld",
+    "languageText" : "postcode",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.",
+    "languageText" : "postcode",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

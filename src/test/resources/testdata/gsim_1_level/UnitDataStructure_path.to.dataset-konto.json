@@ -1,8 +1,8 @@
 {
-  "id" : "path.to.dataset.root",
-  "logicalRecords" : [ "/LogicalRecord/path.to.dataset.root" ],
+  "id" : "path.to.dataset-konto",
+  "logicalRecords" : [ "/LogicalRecord/path.to.dataset-konto" ],
   "name" : [ {
-    "languageText" : "root",
+    "languageText" : "konto",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

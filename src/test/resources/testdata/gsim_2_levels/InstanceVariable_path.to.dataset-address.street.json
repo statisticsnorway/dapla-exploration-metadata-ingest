@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset.root.group",
-  "shortName" : "group",
+  "id" : "path.to.dataset-address.street",
+  "shortName" : "street",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "group",
+    "languageText" : "street",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "group",
+    "languageText" : "street",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",
