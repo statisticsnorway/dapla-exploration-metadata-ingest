@@ -108,10 +108,12 @@ public class SimpleToGsim {
     }
 
     public String logialRecordId(Record record) {
-        return DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName());
+        String id = DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName());
+        return id;
     }
 
     private String instanceVariableId(Record record, Instance instance) {
-        return DatasetTools.instanceVariableId(DatasetTools.logialRecordId(dataSetPath, record.getName()), instance.getName());
+        String id = DatasetTools.instanceVariableId(DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName()), instance.getName());
+        return id;
     }
 }
