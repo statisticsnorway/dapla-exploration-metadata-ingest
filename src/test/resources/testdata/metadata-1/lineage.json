@@ -30,6 +30,32 @@
                 "version": 123456789
               }
             ]
+          },
+          {
+            "name": "adresse",
+            "type": "inherited",
+            "confidence": 0.9,
+            "fields": [
+              {
+                "name": "postnr",
+                "type": "inherited",
+                "confidence": 0.9,
+                "sources": [
+                  {
+                    "field": "konto.saldo.adresse.postnr",
+                    "path": "/kilde/skatt",
+                    "version": 123456789
+                  }
+                ]
+              }
+            ],
+            "sources": [
+              {
+                "field": "konto.saldo.adresse",
+                "path": "/kilde/skatt",
+                "version": 123456789
+              }
+            ]
           }
         ],
         "sources": [

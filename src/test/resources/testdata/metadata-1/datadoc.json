@@ -12,6 +12,74 @@
       "name" : "Heltall"
     } ]
   },
+  "logicalRecords" : [ {
+    "name" : "adresse",
+    "description" : "Inneholder adresse til konto.",
+    "unitType" : {
+      "concept-type" : "UnitType",
+      "selected-id" : "UnitType_DUMMY",
+      "candidates" : [ {
+        "id" : "UnitType_DUMMY",
+        "name" : "UnitType_default"
+      }, {
+        "id" : "some-id-could-be-guid",
+        "name" : "Heltall"
+      } ]
+    },
+    "instanceVariables" : [{
+      "name" : "postnr",
+      "description" : "Postnummer",
+      "identifierComponentIsComposite" : true,
+      "identifierComponentIsUnique" : true,
+      "dataStructureComponentRole" : {
+        "selected-enum" : "ENTITY",
+        "enums" : [ "ENTITY", "IDENTITY", "COUNT", "TIME", "GEO" ]
+      },
+      "dataStructureComponentType" : {
+        "selected-enum" : "ATTRIBUTE",
+        "enums" : [ "IDENTIFIER", "MEASURE", "ATTRIBUTE" ]
+      },
+      "population" : {
+        "concept-type" : "Population",
+        "selected-id" : "Population_DUMMY",
+        "candidates" : [ {
+          "id" : "Population_DUMMY",
+          "name" : "Population_default"
+        }, {
+          "id" : "some-id-could-be-guid",
+          "name" : "All families 2018-01-01"
+        } ]
+      },
+      "representedVariable" : {
+        "concept-type" : "RepresentedVariable",
+        "selected-id" : "RepresentedVariable_DUMMY",
+        "candidates" : [ {
+          "id" : "RepresentedVariable_DUMMY",
+          "name" : "RepresentedVariable_default"
+        }, {
+          "id" : "some-id-could-be-guid",
+          "name" : "NationalFamilyIdentifier"
+        } ]
+      },
+      "sentinelValueDomain" : {
+        "concept-type" : "EnumeratedValueDomain,DescribedValueDomain",
+        "selected-id" : "ValueDomain_DUMMY",
+        "candidates" : [ {
+          "id" : "ValueDomain_DUMMY",
+          "name" : "ValueDomain_default"
+        }, {
+          "id" : "DescribedValueDomain_DUMMY",
+          "name" : "DescribedValueDomain_default"
+        }, {
+          "id" : "EnumeratedValueDomain_DUMMY",
+          "name" : "EnumeratedValueDomain_default"
+        }, {
+          "id" : "some-id-could-be-guid",
+          "name" : "Heltall"
+        } ]
+      }
+    }]
+  } ],
   "instanceVariables" : [ {
     "name" : "kontonummer",
     "description" : "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett",

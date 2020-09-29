@@ -10,7 +10,10 @@ import no.ssb.exploration.model.LineageField;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.util.Optional.ofNullable;
 
@@ -65,7 +68,14 @@ public class LineageTemplateToExplorationLineage {
             if (field.getFields().size() > 0) {
                 return; // not a leaf
             }
-            String anscestorFieldName = anscestors.stream().limit(anscestors.size() - 1).map(Field::getName).collect(Collectors.joining("."));
+            String anscestorFieldName = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(
+                            anscestors.descendingIterator(),
+                            Spliterator.ORDERED),
+                    false)
+                    .skip(1)
+                    .map(Field::getName)
+                    .collect(Collectors.joining("."));
             String qualifiedFieldName = anscestorFieldName.isBlank() ? field.getName() : String.join(".", anscestorFieldName, field.getName());
             String lineageFieldLdsId = DatasetTools.lineageFieldId(lineageDatasetId(), qualifiedFieldName);
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
