@@ -64,21 +64,21 @@ public class SimpleToGsim {
         if (rootRecord == null) {
             return null;
         }
-        return createDefault(createId(dataSetPath, rootRecord), rootRecord.getName(), rootRecord.getDescription())
+        return createDefault(logialRecordId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
                 .unitDataStructure()
-                .logicalRecord(createId(dataSetPath, rootRecord))
+                .logicalRecord(logialRecordId(rootRecord))
                 .build();
     }
 
     void processAll(List<LDSObject> result, Record record, String parentLogicalRecordId) {
-        String logicalRecordId = parentLogicalRecordId == null ? createId(dataSetPath, record) : parentLogicalRecordId + "." + record.getName();
+        String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record) : parentLogicalRecordId + "." + record.getName();
         LogicalRecord gsimLogicalRecord =
                 createDefault(logicalRecordId, record.getName(), record.getDescription())
                         .logicalRecord()
                         .isPlaceholderRecord(false)// TODO: add and get from simple
                         .unitType(record.getUnitType(), "UnitType_DUMMY")
                         .shortName(record.getName())
-                        .instanceVariables(record.getInstanceVariableIds(i -> createId(record, i)))
+                        .instanceVariables(record.getInstanceVariableIds(i -> instanceVariableId(record, i)))
                         .parent(parentLogicalRecordId)
                         .parentChildMultiplicity("ONE_MANY")
                         .build();
@@ -87,7 +87,7 @@ public class SimpleToGsim {
 
         for (Instance instance : record.getInstances()) {
             InstanceVariable gsimInstanceVariable =
-                    createDefault(createId(record, instance), instance.getName(), instance.getDescription())
+                    createDefault(instanceVariableId(record, instance), instance.getName(), instance.getDescription())
                             .instanceVariable()
                             .shortName(instance.getName())
                             .population(instance.getPopulation(), "Population_DUMMY")
@@ -107,12 +107,11 @@ public class SimpleToGsim {
         }
     }
 
-    public static String createId(String dataSetPath, Record record) {
-        String path = dataSetPath.substring(1); // Remove first slash
-        return path.replace("/", ".") + "." + record.getName();
+    public String logialRecordId(Record record) {
+        return DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName());
     }
 
-    private String createId(Record record, Instance instance) {
-        return createId(dataSetPath, record) + "." + instance.getName();
+    private String instanceVariableId(Record record, Instance instance) {
+        return DatasetTools.instanceVariableId(DatasetTools.logialRecordId(dataSetPath, record.getName()), instance.getName());
     }
 }

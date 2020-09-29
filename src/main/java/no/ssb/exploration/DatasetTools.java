@@ -51,4 +51,30 @@ public class DatasetTools {
                 return "OTHER_DATA";
         }
     }
+
+    public static String datasetId(String datasetPath) {
+        String path = datasetPath.substring(1); // Remove first slash
+        String id = path.replace("/", ".");
+        return id;
+    }
+
+    public static String logialRecordId(String datasetId, String recordName) {
+        String id = datasetId + "." + recordName;
+        return id;
+    }
+
+    public static String instanceVariableId(String logialRecordId, String instanceName) {
+        String id = logialRecordId + "." + instanceName;
+        return id;
+    }
+
+    public static String lineageDatasetId(String datasetId, long datasetVersionTimestampEpochMs) {
+        String id = datasetId + "!" + datasetVersionTimestampEpochMs;
+        return id;
+    }
+
+    public static String lineageFieldId(String lineageDatasetId, String qualifiedFieldName) {
+        String id = lineageDatasetId + "$" + qualifiedFieldName;
+        return id;
+    }
 }

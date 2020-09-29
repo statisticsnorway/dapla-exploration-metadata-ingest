@@ -50,12 +50,11 @@ public class LineageTemplateToExplorationLineage {
     }
 
     private String lineageDatasetId(Source source) {
-        String datasetId = source.getPath().substring(1).replaceAll("/", ".") + "!" + source.getVersion();
-        return datasetId;
+        return DatasetTools.lineageDatasetId(DatasetTools.datasetId(source.getPath()), source.getVersion());
     }
 
     private String lineageDatasetId() {
-        return datasetLDSObject.id + "!" + datasetLDSObject.version.toInstant().toEpochMilli();
+        return DatasetTools.lineageDatasetId(datasetLDSObject.id, datasetLDSObject.version.toInstant().toEpochMilli());
     }
 
     public List<LDSObject> createLineageFieldLdsObjects(Map<String, LDSObject> instanceVariableById) {
@@ -66,7 +65,7 @@ public class LineageTemplateToExplorationLineage {
             }
             String anscestorFieldName = anscestors.stream().limit(anscestors.size() - 1).map(Field::getName).collect(Collectors.joining("."));
             String qualifiedFieldName = anscestorFieldName.isBlank() ? field.getName() : String.join(".", anscestorFieldName, field.getName());
-            String lineageFieldLdsId = lineageDatasetId() + "$" + qualifiedFieldName;
+            String lineageFieldLdsId = DatasetTools.lineageFieldId(lineageDatasetId(), qualifiedFieldName);
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
             // instanceVariableById.get(qualifiedFieldName); // TODO InstanceVariables and LineageField should be aligned on id

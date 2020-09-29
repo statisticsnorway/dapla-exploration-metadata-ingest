@@ -83,12 +83,7 @@ public class MetadataHelper {
      * @return the resource-id to be used by the LDS Dataset instance
      */
     public String datasetId() {
-        return createDatasetId(datasetMeta().getId().getPath());
-    }
-
-    private static String createDatasetId(String dataSetPath) {
-        String path = dataSetPath.substring(1); // Remove first slash
-        return path.replace("/", ".");
+        return DatasetTools.datasetId(datasetMeta().getId().getPath());
     }
 
     public Record datasetDocRootRecord() {
