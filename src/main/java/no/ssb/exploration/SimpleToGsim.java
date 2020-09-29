@@ -8,9 +8,12 @@ import no.ssb.exploration.model.LogicalRecord;
 import no.ssb.exploration.model.UnitDataStructure;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static java.util.Optional.ofNullable;
 
 public class SimpleToGsim {
     private final String dataSetPath;
@@ -61,24 +64,28 @@ public class SimpleToGsim {
     }
 
     public UnitDataStructure createUnitDataStructure() {
-        if (rootRecord == null) {
-            return null;
-        }
-        return createDefault(logialRecordId(rootRecord), rootRecord.getName(), rootRecord.getDescription())
+        String recordName = ofNullable(rootRecord).map(Record::getName).orElse("");
+        String description = ofNullable(rootRecord).map(Record::getDescription).orElse("");
+        UnitDataStructure unitDataStructure = createDefault(DatasetTools.datasetId(dataSetPath), recordName, description)
                 .unitDataStructure()
-                .logicalRecord(logialRecordId(rootRecord))
                 .build();
+        List<String> logicalRecords = new ArrayList<>();
+        if (rootRecord != null) {
+            logicalRecords.add("/LogicalRecord/" + logialRecordId(recordName));
+        }
+        unitDataStructure.setLogicalRecords(logicalRecords);
+        return unitDataStructure;
     }
 
     void processAll(List<LDSObject> result, Record record, String parentLogicalRecordId) {
-        String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record) : parentLogicalRecordId + "." + record.getName();
+        String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record.getName()) : parentLogicalRecordId + "." + record.getName();
         LogicalRecord gsimLogicalRecord =
                 createDefault(logicalRecordId, record.getName(), record.getDescription())
                         .logicalRecord()
                         .isPlaceholderRecord(false)// TODO: add and get from simple
                         .unitType(record.getUnitType(), "UnitType_DUMMY")
                         .shortName(record.getName())
-                        .instanceVariables(record.getInstanceVariableIds(i -> instanceVariableId(record, i)))
+                        .instanceVariables(record.getInstanceVariableIds(i -> instanceVariableId(record.getName(), i.getName())))
                         .parent(parentLogicalRecordId)
                         .parentChildMultiplicity("ONE_MANY")
                         .build();
@@ -87,7 +94,7 @@ public class SimpleToGsim {
 
         for (Instance instance : record.getInstances()) {
             InstanceVariable gsimInstanceVariable =
-                    createDefault(instanceVariableId(record, instance), instance.getName(), instance.getDescription())
+                    createDefault(instanceVariableId(record.getName(), instance.getName()), instance.getName(), instance.getDescription())
                             .instanceVariable()
                             .shortName(instance.getName())
                             .population(instance.getPopulation(), "Population_DUMMY")
@@ -107,13 +114,13 @@ public class SimpleToGsim {
         }
     }
 
-    public String logialRecordId(Record record) {
-        String id = DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName());
+    public String logialRecordId(String recordName) {
+        String id = DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), recordName);
         return id;
     }
 
-    private String instanceVariableId(Record record, Instance instance) {
-        String id = DatasetTools.instanceVariableId(DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), record.getName()), instance.getName());
+    private String instanceVariableId(String recordName, String instanceName) {
+        String id = DatasetTools.instanceVariableId(DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), recordName), instanceName);
         return id;
     }
 }

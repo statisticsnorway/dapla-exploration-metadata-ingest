@@ -109,9 +109,6 @@ public class MetadataHelper {
     public LDSObject unitDataStructure() {
         if (unitDataStructureLdsObject == null) {
             UnitDataStructure unitDataStructure = simpleToGsim().createUnitDataStructure();
-            if (unitDataStructure == null) {
-                return null;
-            }
             unitDataStructureLdsObject = new LDSObject("UnitDataStructure", unitDataStructure.getId(), versionTimestamp(), () -> unitDataStructure);
         }
         return unitDataStructureLdsObject;
@@ -137,7 +134,7 @@ public class MetadataHelper {
                     .build();
 
             // TODO we should always have this, even without dataset-doc. This could be based on e.g. avro schema
-            ofNullable(unitDataStructure()).ifPresent(uds -> unitDataset.setUnitDataStructure(uds.id));
+            ofNullable(unitDataStructure()).ifPresent(uds -> unitDataset.setUnitDataStructure(uds.link()));
 
             // must be assigned here before calling lineageDataset() which will recursively attempt to call this method
             datasetLdsObject = new LDSObject("UnitDataSet", datasetId(), versionTimestamp(), () -> unitDataset);
