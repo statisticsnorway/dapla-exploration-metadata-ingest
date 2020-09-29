@@ -19,7 +19,7 @@ public class LDSObject {
     }
 
     public String link() {
-        return type + "/" + id;
+        return "/" + type + "/" + id;
     }
 
     public String id() {
