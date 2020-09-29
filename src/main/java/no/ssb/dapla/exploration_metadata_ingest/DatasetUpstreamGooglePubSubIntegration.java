@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static java.util.Optional.ofNullable;
+
 public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatasetUpstreamGooglePubSubIntegration.class);
@@ -76,11 +78,12 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
             List<LDSObject> ldsObjects = new ArrayList<>(20);
 
-            ldsObjects.add(helper.unitDataStructure());
-            ldsObjects.add(helper.unitDataSet());
-            ldsObjects.addAll(helper.logicalRecordsAndInstanceVariables());
-            ldsObjects.add(helper.lineageDataset());
-            ldsObjects.addAll(helper.lineageFields());
+            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
+            ofNullable(helper.unitDataSet()).ifPresent(ldsObjects::add);
+            ofNullable(helper.logicalRecordsAndInstanceVariables()).ifPresent(ldsObjects::addAll);
+            ofNullable(helper.lineageDataset()).ifPresent(ldsObjects::add);
+            ofNullable(helper.lineageFields()).ifPresent(ldsObjects::addAll);
+            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
 
             for (LDSObject ldsObject : ldsObjects) {
                 persistenceProvider.save(ldsObject);

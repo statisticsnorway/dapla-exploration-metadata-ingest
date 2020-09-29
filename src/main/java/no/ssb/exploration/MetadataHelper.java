@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -186,7 +187,7 @@ public class MetadataHelper {
                             logicalRecordsAndInstanceVariables().stream()
                                     .filter(o -> "InstanceVariable".equals(o.type))
                                     .collect(Collectors.toMap(LDSObject::id, o -> o)))
-                    ).orElse(null);
+                    ).orElse(Collections.emptyList());
         }
         return lineageFields;
     }
