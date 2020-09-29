@@ -14,9 +14,9 @@ public class MetadataHelperTest {
 
     @Test
     public void thatLineageFieldsAreComplete() throws JsonProcessingException {
-        String datasetMetaJson = TestUtils.load("testdata/dataset-meta/dataset-meta-simple.json");
-        String datasetDocJson = TestUtils.load("testdata/template/simple.json");
-        String lineageJson = TestUtils.load("testdata/lineage/one-level.json");
+        String datasetMetaJson = TestUtils.load("testdata/metadata-1/dataset-meta.json");
+        String datasetDocJson = TestUtils.load("testdata/metadata-1/datadoc.json");
+        String lineageJson = TestUtils.load("testdata/metadata-1/lineage.json");
         JsonNode datasetMetaNode = mapper.readTree(datasetMetaJson);
         JsonNode datasetDocNode = mapper.readTree(datasetDocJson);
         JsonNode lineageNode = mapper.readTree(lineageJson);
