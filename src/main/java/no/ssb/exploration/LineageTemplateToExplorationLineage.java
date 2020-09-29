@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 public class LineageTemplateToExplorationLineage {
 
     private final Dataset lineageDataset;
@@ -68,13 +70,17 @@ public class LineageTemplateToExplorationLineage {
             String lineageFieldLdsId = DatasetTools.lineageFieldId(lineageDatasetId(), qualifiedFieldName);
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
-            // instanceVariableById.get(qualifiedFieldName); // TODO InstanceVariables and LineageField should be aligned on id
+            String instanceVariableId = DatasetTools.logialRecordId(datasetLDSObject.id, qualifiedFieldName); // not a bug to use "logical-record-id" method here
+            LDSObject instanceVariableLdsObject = instanceVariableById.get(instanceVariableId);
             LineageField lineageField = LineageField.newBuilder()
                     .id(lineageFieldLdsId)
                     .name(qualifiedFieldName)
                     .relationType(field.getType())
                     .confidence(field.getConfidence())
-                    .instanceVariable(null) // TODO
+                    .instanceVariable(ofNullable(instanceVariableLdsObject)
+                            .map(LDSObject::link)
+                            .orElse(null)
+                    )
                     .lineageDataset(lineageDatasetLink)
                     .lineage(lineageFieldLinks)
                     .build();
