@@ -4,10 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
-import no.ssb.exploration.model.IdentifiableArtefact;
 import no.ssb.exploration.model.LogicalRecord;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,15 +52,22 @@ class SimpleToGsimTest {
     void createGsimObjectsFor2Levels_AndWriteToFiles() throws JsonProcessingException {
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        // to generate files
-        //new File(TEST_DATA_FOLDER).mkdirs();
-        //new SimpleToGsim(root, new JsonToFileProvider(TEST_DATA_FOLDER)).createGsimObjects();
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
-        new SimpleToGsim(root, "/path/to/dataset", identifiableArtefact -> {
-            String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", identifiableArtefact.getGsimName(), identifiableArtefact.getName());
+        if (false) {
+            // generate files locally
+            new File(TEST_DATA_FOLDER).mkdirs();
+            JsonToFileProvider jsonToFileProvider = new JsonToFileProvider(TEST_DATA_FOLDER);
+            for (LDSObject ldsObject : ldsObjects) {
+                jsonToFileProvider.save(ldsObject);
+            }
+        }
+
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);
             String expected = TestUtils.load(fileName);
-            assertThat(getJson(identifiableArtefact)).isEqualTo(expected);
-        }).createGsimObjects();
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
+        }
     }
 
     @Test
@@ -81,38 +89,36 @@ class SimpleToGsimTest {
 
         Record root = new ObjectMapper().readValue(json, Record.class);
         List<String> list = Arrays.asList(
-                "/InstanceVariable/path.to.dataset.konto.kontonummer",
-                "/InstanceVariable/path.to.dataset.konto.innskudd",
-                "/InstanceVariable/path.to.dataset.konto.gjeld");
+                "/InstanceVariable/path.to.dataset-konto.kontonummer",
+                "/InstanceVariable/path.to.dataset-konto.innskudd",
+                "/InstanceVariable/path.to.dataset-konto.gjeld");
 
         Queue<String> paths = new LinkedList<>();
-        paths.add("path.to.dataset.konto");
-        paths.add("path.to.dataset.konto");
-        paths.add("path.to.dataset.konto");
-        paths.add("path.to.dataset.konto.kontonummer");
-        paths.add("path.to.dataset.konto.innskudd");
-        paths.add("path.to.dataset.konto.gjeld");
+        paths.add("path.to.dataset-konto");
+        paths.add("path.to.dataset-konto.kontonummer");
+        paths.add("path.to.dataset-konto.innskudd");
+        paths.add("path.to.dataset-konto.gjeld");
 
         Queue<String> gsimNames = new LinkedList<>();
-        gsimNames.add("UnitDataStructure");
-        gsimNames.add("UnitDataSet");
         gsimNames.add("LogicalRecord");
         gsimNames.add("InstanceVariable");
         gsimNames.add("InstanceVariable");
         gsimNames.add("InstanceVariable");
 
-        new SimpleToGsim(root, "/path/to/dataset", identifiableArtefact -> {
-            String fileName = String.format("testdata/gsim_1_level/%s_%s.json", identifiableArtefact.getGsimName(), identifiableArtefact.getName());
-            String expected = TestUtils.load(fileName);
-            assertThat(getJson(identifiableArtefact)).isEqualTo(expected);
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
-            if (identifiableArtefact instanceof LogicalRecord) {
-                List<String> instanceVariables = ((LogicalRecord) identifiableArtefact).getInstanceVariables();
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/gsim_1_level/%s_%s.json", ldsObject.type, ldsObject.id);
+            String expected = TestUtils.load(fileName);
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
+
+            if (ldsObject.get() instanceof LogicalRecord) {
+                List<String> instanceVariables = ((LogicalRecord) ldsObject.get()).getInstanceVariables();
                 assertThat(instanceVariables).isEqualTo(list);
             }
-            assertThat(identifiableArtefact.getId()).isEqualTo(paths.remove());
-            assertThat(identifiableArtefact.getGsimName()).isEqualTo(gsimNames.remove());
-        }).createGsimObjects();
+            assertThat(ldsObject.type).isEqualTo(gsimNames.remove());
+            assertThat(ldsObject.id).isEqualTo(paths.remove());
+        }
 
         assertThat(paths).isEmpty();
         assertThat(gsimNames).isEmpty();
@@ -123,17 +129,19 @@ class SimpleToGsimTest {
         String json = TestUtils.load("testdata/template/simple.json");
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        new SimpleToGsim(root, "/path/to/dataset", identifiableArtefact -> {
-            String fileName = String.format("testdata/template/gsim_result/%s_%s.json", identifiableArtefact.getGsimName(), identifiableArtefact.getName());
+        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+
+        for (LDSObject ldsObject : ldsObjects) {
+            String fileName = String.format("testdata/template/gsim_result/%s_%s.json", ldsObject.type, ldsObject.id);
             String expected = TestUtils.load(fileName);
-            assertThat(getJson(identifiableArtefact)).isEqualTo(expected);
-        }).createGsimObjects();
+            assertThat(getJson(ldsObject)).isEqualTo(expected);
+        }
     }
 
-    String getJson(IdentifiableArtefact identifiableArtefact) {
+    String getJson(LDSObject ldsObject) {
         try {
             return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT)
-                    .writeValueAsString(identifiableArtefact);
+                    .writeValueAsString(ldsObject.get());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

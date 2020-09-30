@@ -1,7 +1,6 @@
 package no.ssb.dapla.exploration_metadata_ingest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -10,7 +9,7 @@ import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
 import io.helidon.media.common.DefaultMediaSupport;
-import io.helidon.media.jackson.common.JacksonSupport;
+import io.helidon.media.jackson.JacksonSupport;
 import io.helidon.webclient.WebClient;
 import io.helidon.webserver.WebServer;
 import no.ssb.pubsub.PubSub;
@@ -86,7 +85,7 @@ public class ExplorationMetadataIngestApplicationTest {
     public void testHelloWorld() {
         WebClient webClient = WebClient.builder()
                 .baseUri("http://localhost:" + webServer.port())
-                .addMediaSupport(DefaultMediaSupport.create(true))
+                .addMediaSupport(DefaultMediaSupport.builder().includeStackTraces(true).build())
                 .addMediaSupport(JacksonSupport.create())
                 .build();
 
@@ -120,6 +119,7 @@ public class ExplorationMetadataIngestApplicationTest {
         {
             ObjectNode id = meta.putObject("id");
             id.put("path", "/junit/thatPubSubMessageIsConsumed-test");
+            id.put("version", System.currentTimeMillis() - (1000 * 60 * 60));
         }
         ObjectNode datasetDocNode = dataNode.putObject("dataset-doc");
         {

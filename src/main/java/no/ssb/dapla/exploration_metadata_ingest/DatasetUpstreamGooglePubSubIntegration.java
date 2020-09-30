@@ -8,19 +8,21 @@ import com.google.cloud.pubsub.v1.Subscriber;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.pubsub.v1.PubsubMessage;
 import io.helidon.config.Config;
-import no.ssb.dapla.dataset.api.DatasetMeta;
-import no.ssb.dapla.dataset.doc.model.simple.Record;
-import no.ssb.exploration.SimpleToGsim;
-import no.ssb.exploration.model.PersistenceProvider;
-import no.ssb.helidon.media.protobuf.ProtobufJsonUtils;
+import no.ssb.exploration.LDSObject;
+import no.ssb.exploration.MetadataHelper;
+import no.ssb.exploration.PersistenceProvider;
 import no.ssb.pubsub.PubSub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static java.util.Optional.ofNullable;
 
 public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
@@ -63,34 +65,28 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             try (InputStream inputStream = message.getData().newInput()) {
                 dataNode = mapper.readTree(inputStream);
             }
-            if (!dataNode.has("dataset-meta")) {
+            MetadataHelper helper = new MetadataHelper(mapper, dataNode);
+            if (!helper.validate()) {
                 LOG.warn("Message IGNORED. Received message with invalid protocol. Missing 'dataset-meta' field in json-document.");
                 consumer.ack();
                 return;
             }
 
+            // String parentUri = dataNode.get("parentUri").textValue();
+
             LOG.debug("RECEIVED metadata:\n{}", dataNode.toPrettyString());
 
-            JsonNode datasetMetaNode = dataNode.get("dataset-meta");
-            String metadataJson = mapper.writeValueAsString(datasetMetaNode);
-            DatasetMeta datasetMeta = ProtobufJsonUtils.toPojo(metadataJson, DatasetMeta.class);
-            String path = datasetMeta.getId().getPath();
+            List<LDSObject> ldsObjects = new ArrayList<>(20);
 
-            String parentUri = dataNode.get("parentUri").textValue();
-            JsonNode datasetDocNode = dataNode.get("dataset-doc");
-            if (datasetDocNode != null) {
-                Record record = mapper.treeToValue(datasetDocNode, Record.class);
-                new SimpleToGsim(record, path, persistenceProvider)
-                        .createdBy(datasetMeta.getCreatedBy())
-                        .createGsimObjects();
-            }
-            // Just for testing that we get dataset-lineage distributed for now
-            // Will use to improve dataset-doc generation later
-            JsonNode lineageDocNode = dataNode.get("dataset-lineage");
-            if(lineageDocNode!=null) {
-                LOG.info("dataset-lineage");
-                String json = lineageDocNode.toPrettyString();
-                LOG.info(json);
+            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
+            ofNullable(helper.unitDataSet()).ifPresent(ldsObjects::add);
+            ofNullable(helper.logicalRecordsAndInstanceVariables()).ifPresent(ldsObjects::addAll);
+            ofNullable(helper.lineageDataset()).ifPresent(ldsObjects::add);
+            ofNullable(helper.lineageFields()).ifPresent(ldsObjects::addAll);
+            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
+
+            for (LDSObject ldsObject : ldsObjects) {
+                persistenceProvider.save(ldsObject);
             }
 
             consumer.ack();

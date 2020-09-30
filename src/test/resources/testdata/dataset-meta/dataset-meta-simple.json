@@ -1,0 +1,11 @@
+{
+  "id": {
+    "path": "/skatt/konto",
+    "version": "1582719098762"
+  },
+  "type": "BOUNDED",
+  "valuation": "INTERNAL",
+  "state": "INPUT",
+  "pseudoConfig": {},
+  "createdBy": "test-user"
+}

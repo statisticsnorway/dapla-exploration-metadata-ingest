@@ -6,7 +6,7 @@
     <parent>
         <groupId>io.helidon.applications</groupId>
         <artifactId>helidon-se</artifactId>
-        <version>2.0.0-M3</version>
+        <version>2.0.1</version>
         <relativePath/>
     </parent>
     <groupId>no.ssb.dapla</groupId>
@@ -35,6 +35,12 @@
             <artifactId>google-cloud-pubsub</artifactId>
             <!-- Do not upgrade until bug is fixed: https://github.com/googleapis/java-pubsub/issues/190-->
             <version>1.104.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>no.ssb.spi</groupId>
@@ -80,11 +86,6 @@
             <groupId>no.ssb.dapla</groupId>
             <artifactId>dataset-doc</artifactId>
             <version>0.3-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>no.ssb.helidon</groupId>
-            <artifactId>helidon-media-protobuf-json-server</artifactId>
-            <version>0.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -142,12 +143,12 @@
             <artifactId>helidon-metrics</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.media.jackson</groupId>
-            <artifactId>helidon-media-jackson-server</artifactId>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-jackson</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.media.jackson</groupId>
-            <artifactId>helidon-media-jackson-common</artifactId>
+            <groupId>io.helidon.media</groupId>
+            <artifactId>helidon-media-common</artifactId>
         </dependency>
         <dependency>
             <groupId>io.helidon.tracing</groupId>

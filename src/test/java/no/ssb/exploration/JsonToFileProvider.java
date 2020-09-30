@@ -2,8 +2,6 @@ package no.ssb.exploration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import no.ssb.exploration.model.IdentifiableArtefact;
-import no.ssb.exploration.model.PersistenceProvider;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -18,13 +16,11 @@ public class JsonToFileProvider implements PersistenceProvider {
     }
 
     @Override
-    public void save(IdentifiableArtefact identifiableArtefact) {
-        String simpleName = identifiableArtefact.getClass().getSimpleName();
-
-        String fileName = String.format("%s/%s_%s.json", folder, simpleName, identifiableArtefact.getName());
+    public void save(LDSObject ldsObject) {
+        String fileName = String.format("%s/%s_%s.json", folder, ldsObject.type, ldsObject.id, ldsObject.version.toString());
 
         try {
-            objectMapper.writeValue(Paths.get(fileName).toFile(), identifiableArtefact);
+            objectMapper.writeValue(Paths.get(fileName).toFile(), ldsObject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
