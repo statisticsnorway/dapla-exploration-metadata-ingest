@@ -85,11 +85,8 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             ofNullable(helper.lineageFields()).ifPresent(ldsObjects::addAll);
             ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
 
-            // WORKAROUND, only create objects in LDS if there was a dataset-doc-root-record. TODO Fix this
-            if (helper.datasetDocRootRecord() != null) {
-                for (LDSObject ldsObject : ldsObjects) {
-                    persistenceProvider.save(ldsObject);
-                }
+            for (LDSObject ldsObject : ldsObjects) {
+                persistenceProvider.save(ldsObject);
             }
 
             consumer.ack();
