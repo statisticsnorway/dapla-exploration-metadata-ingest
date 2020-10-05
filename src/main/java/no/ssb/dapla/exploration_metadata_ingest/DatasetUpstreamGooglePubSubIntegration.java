@@ -83,7 +83,6 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
             ofNullable(helper.logicalRecordsAndInstanceVariables()).ifPresent(ldsObjects::addAll);
             ofNullable(helper.lineageDataset()).ifPresent(ldsObjects::add);
             ofNullable(helper.lineageFields()).ifPresent(ldsObjects::addAll);
-            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
 
             for (LDSObject ldsObject : ldsObjects) {
                 persistenceProvider.save(ldsObject);
