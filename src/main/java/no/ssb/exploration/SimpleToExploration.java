@@ -115,12 +115,12 @@ public class SimpleToExploration {
     }
 
     public String logialRecordId(String recordName) {
-        String id = DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), recordName);
+        String id = DatasetTools.logicalRecordId(DatasetTools.datasetId(dataSetPath), recordName);
         return id;
     }
 
     private String instanceVariableId(String recordName, String instanceName) {
-        String id = DatasetTools.instanceVariableId(DatasetTools.logialRecordId(DatasetTools.datasetId(dataSetPath), recordName), instanceName);
+        String id = DatasetTools.instanceVariableId(DatasetTools.logicalRecordId(DatasetTools.datasetId(dataSetPath), recordName), instanceName);
         return id;
     }
 }

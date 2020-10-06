@@ -58,7 +58,7 @@ public class DatasetTools {
         return id;
     }
 
-    public static String logialRecordId(String datasetId, String recordPath) {
+    public static String logicalRecordId(String datasetId, String recordPath) {
         // TODO callers should compute record-path, not just record-name
         String id = datasetId + "-" + recordPath;
         return id;
