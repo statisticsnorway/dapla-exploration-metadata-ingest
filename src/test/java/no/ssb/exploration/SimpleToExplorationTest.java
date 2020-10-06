@@ -16,7 +16,7 @@ import java.util.Queue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SimpleToGsimTest {
+class SimpleToExplorationTest {
     final private static String TEST_DATA_FOLDER = "testdata/gsim_files";
 
     String json = "{\n" +
@@ -52,7 +52,7 @@ class SimpleToGsimTest {
     void createGsimObjectsFor2Levels_AndWriteToFiles() throws JsonProcessingException {
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+        List<LDSObject> ldsObjects = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
         if (false) {
             // generate files locally
@@ -105,7 +105,7 @@ class SimpleToGsimTest {
         gsimNames.add("InstanceVariable");
         gsimNames.add("InstanceVariable");
 
-        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+        List<LDSObject> ldsObjects = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
         for (LDSObject ldsObject : ldsObjects) {
             String fileName = String.format("testdata/gsim_1_level/%s_%s.json", ldsObject.type, ldsObject.id);
@@ -129,7 +129,7 @@ class SimpleToGsimTest {
         String json = TestUtils.load("testdata/template/simple.json");
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        List<LDSObject> ldsObjects = new SimpleToGsim(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+        List<LDSObject> ldsObjects = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
 
         for (LDSObject ldsObject : ldsObjects) {
             String fileName = String.format("testdata/template/gsim_result/%s_%s.json", ldsObject.type, ldsObject.id);

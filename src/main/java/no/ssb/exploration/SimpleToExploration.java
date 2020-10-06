@@ -15,7 +15,7 @@ import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
-public class SimpleToGsim {
+public class SimpleToExploration {
     private final String dataSetPath;
     private final ZonedDateTime version;
     private String userName = "Unknown";
@@ -36,7 +36,7 @@ public class SimpleToGsim {
                 .addProperty("versionValidFrom", versionAsString());
     }
 
-    public SimpleToGsim(Record rootRecord, String dataSetPath, ZonedDateTime version) {
+    public SimpleToExploration(Record rootRecord, String dataSetPath, ZonedDateTime version) {
         this.version = version;
         if (!dataSetPath.startsWith("/")) {
             throw new IllegalArgumentException("dataset path is expected to start with: '/' but was: " + dataSetPath);
@@ -49,7 +49,7 @@ public class SimpleToGsim {
         return version.toString();
     }
 
-    public SimpleToGsim createdBy(String userName) {
+    public SimpleToExploration createdBy(String userName) {
         this.userName = userName;
         return this;
     }

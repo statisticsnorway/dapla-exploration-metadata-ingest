@@ -34,7 +34,7 @@ public class MetadataHelper {
     DatasetMeta datasetMeta;
     ZonedDateTime datasetVersionTimestamp;
     Record datasetDocRootRecord;
-    SimpleToGsim simpleToGsim;
+    SimpleToExploration simpleToGsim;
     LDSObject unitDataStructureLdsObject;
     LDSObject datasetLdsObject;
     List<LDSObject> logicalRecordsAndInstanceVariables;
@@ -98,9 +98,9 @@ public class MetadataHelper {
         return datasetDocRootRecord;
     }
 
-    public SimpleToGsim simpleToGsim() {
+    public SimpleToExploration simpleToGsim() {
         if (simpleToGsim == null) {
-            simpleToGsim = new SimpleToGsim(datasetDocRootRecord(), datasetMeta().getId().getPath(), versionTimestamp())
+            simpleToGsim = new SimpleToExploration(datasetDocRootRecord(), datasetMeta().getId().getPath(), versionTimestamp())
                     .createdBy(datasetMeta().getCreatedBy());
         }
         return simpleToGsim;
