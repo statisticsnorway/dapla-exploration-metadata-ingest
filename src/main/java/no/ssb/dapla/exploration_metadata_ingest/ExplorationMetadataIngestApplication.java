@@ -144,9 +144,7 @@ public class ExplorationMetadataIngestApplication {
                         .register(health)  // "/health"
                         .register(metrics) // "/metrics"
                         .register("/pipe", explorationMetadataIngestService))
-                .config(config.get("server"))
-                .addMediaSupport(JacksonSupport.create());
-
+                .config(config.get("server"));
         put(WebServer.class, server.build());
     }
 
