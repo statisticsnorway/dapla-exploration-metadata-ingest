@@ -30,6 +30,7 @@ import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -246,11 +247,14 @@ public class MetadataHelper {
     private List<AvroSchemaField> getAvroSchemaFields(Schema avroSchema) {
         List<AvroSchemaField> fieldList = new ArrayList<>();
         AvroSchemaTraverser.dps(avroSchema, (ancestors, elem) -> {
-            if (elem.parentType.isEmpty()) {
+            if (elem.getParentType().isEmpty()) {
                 return; // root element
             }
             if (elem.isContainer()) {
                 return;
+            }
+            if (Schema.Type.NULL.equals(elem.getSchema().getType())) {
+                return; // null types are ignored as they only represent nullability of other types
             }
             String ancestorFieldName = StreamSupport.stream(
                     Spliterators.spliteratorUnknownSize(
@@ -258,9 +262,15 @@ public class MetadataHelper {
                             Spliterator.ORDERED),
                     false)
                     .skip(1)
+                    .filter(ctx -> ctx.name() != null)
                     .map(AvroSchemaTraverser.Context::name)
                     .collect(Collectors.joining("."));
-            String qualifiedFieldName = ancestorFieldName.isBlank() ? elem.name() : String.join(".", ancestorFieldName, elem.name());
+            String qualifiedFieldName = of(ancestorFieldName)
+                    .filter(a -> !a.isBlank())
+                    .map(a -> ofNullable(elem.name())
+                            .map(e -> String.join(".", a, e))
+                            .orElse(a))
+                    .orElseGet(elem::name);
             // System.out.printf("%s : %s%n", qualifiedFieldName, elem.schema.getType());
             fieldList.add(new AvroSchemaField(qualifiedFieldName, avroSchema.getType().name()));
         });

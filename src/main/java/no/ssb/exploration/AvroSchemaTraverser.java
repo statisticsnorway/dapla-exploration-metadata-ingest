@@ -66,7 +66,7 @@ public class AvroSchemaTraverser {
                                 return parentType
                                         .filter(Schema.Type.ARRAY::equals)
                                         .map(t -> "[]")
-                                        .orElseThrow(); // Will happen if UNION is used
+                                        .orElse(null); // Will happen if UNION is used
                             }
                     );
         }
