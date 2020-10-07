@@ -22,6 +22,11 @@ public class MetadataHelperTest {
         runMetadataTest("testdata/metadata-2");
     }
 
+    @Test
+    public void thatMetadata3Works() throws JsonProcessingException {
+        runMetadataTest("testdata/metadata-3");
+    }
+
     private void runMetadataTest(String testDataFolder) throws JsonProcessingException {
         String datasetMetaJson = TestUtils.load(testDataFolder + "/dataset-meta.json");
         String datasetDocJson = TestUtils.load(testDataFolder + "/datadoc.json");
