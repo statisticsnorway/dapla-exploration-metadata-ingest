@@ -13,11 +13,20 @@ public class MetadataHelperTest {
     static final ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void thatLineageFieldsAreComplete() throws JsonProcessingException {
-        String datasetMetaJson = TestUtils.load("testdata/metadata-1/dataset-meta.json");
-        String datasetDocJson = TestUtils.load("testdata/metadata-1/datadoc.json");
-        String lineageJson = TestUtils.load("testdata/metadata-1/lineage.json");
-        String avroSchemaJson = TestUtils.load("testdata/metadata-1/avro-schema.json");
+    public void thatMetadata1Works() throws JsonProcessingException {
+        runMetadataTest("testdata/metadata-1");
+    }
+
+    @Test
+    public void thatMetadata2Works() throws JsonProcessingException {
+        runMetadataTest("testdata/metadata-2");
+    }
+
+    private void runMetadataTest(String testDataFolder) throws JsonProcessingException {
+        String datasetMetaJson = TestUtils.load(testDataFolder + "/dataset-meta.json");
+        String datasetDocJson = TestUtils.load(testDataFolder + "/datadoc.json");
+        String lineageJson = TestUtils.load(testDataFolder + "/lineage.json");
+        String avroSchemaJson = TestUtils.load(testDataFolder + "/avro-schema.json");
         JsonNode datasetMetaNode = mapper.readTree(datasetMetaJson);
         JsonNode datasetDocNode = mapper.readTree(datasetDocJson);
         JsonNode lineageNode = mapper.readTree(lineageJson);

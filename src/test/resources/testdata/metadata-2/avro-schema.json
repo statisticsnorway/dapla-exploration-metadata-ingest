@@ -1,0 +1,2496 @@
+{
+  "type" : "record",
+  "name" : "SkattemeldingUtflatet",
+  "fields" : [ {
+    "name" : "aksjeIAksjonaerregisteret",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "fields" : [ {
+          "name" : "selskapetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "selskapetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "aksjeklasse",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "isinnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antallAksjer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "verdiFoerVerdsettingsrabattForAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigUtbytte",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradragPaaUtbytte",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradragPaaGevinstVedRealisasjonAvAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "aksjeIkkeIAksjonaerregisteret",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array2",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontofoerersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "selskapetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "selskapetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikatortype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antallAksjer",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "verdiFoerVerdsettingsrabattForAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigUtbytte",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvAksje",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "aksjesparekonto",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array3",
+        "fields" : [ {
+          "name" : "navn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "verdiFoerVerdsettingsrabattForAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForKontanter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjon",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjon",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "finansprodukt",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array4",
+              "fields" : [ {
+                "name" : "isinnummer",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "finansproduktetsNavn",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antall",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "andelAvInntektFelleskostnaderFormueOgGjeldIBoligsameie",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array5",
+        "fields" : [ {
+          "name" : "andelAvFellesgjeldIBoligsameie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvAnnenFormueIBoligsameie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "navn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "andelAvInntektIBoligsameie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvAndreFradragsberettigedeKostnaderIBoligsameie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "andelAvInntektFelleskostnaderFormueOgGjeldIBoligselskap",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array6",
+        "fields" : [ {
+          "name" : "andelAvFellesgjeldIBoligselskap",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvAnnenFormueIBoligselskap",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "navn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "andelAvInntektIBoligselskap",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvAndreFradragsberettigedeKostnaderIBoligselskap",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "annenFormue",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array7",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForAnnenFormue",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "beskrivelse",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "annenInntekt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array8",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "inntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "beskrivelse",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "annetFinansprodukt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array9",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontofoerersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansprodukttype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikatortype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antallAndreFinansprodukter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForAnnetFinansprodukt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvAnnetFinansprodukt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvAnnetFinansprodukt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjeldPaaAnnetFinansprodukt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "annenSkattepliktigKapitalinntektFraAnnetFinansprodukt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "arbeidsoppholdUtenforHjemmet",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array10",
+        "fields" : [ {
+          "name" : "pendleropphold",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array11",
+              "fields" : [ {
+                "name" : "arbeidsgiver",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "losjitypeForPendleropphold",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "oppstartsdatoForPendleropphold",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "arbeidssted",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "arbeidsstedsland",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "stedForPendleropphold",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "landForPendleropphold",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antallOvernattingsdoergn",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kreverFradragForDokumenterteKostnaderTilKost",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKost",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "mottarKostgodtgjoerelseLavereEnnSats",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKostUtoverMottattKostgodtgjoerelse",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "harGratisKostOgBesoeksreiserPaa6TimerEllerLenger",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "antallBesoeksreiser",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilLosjiMv",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteSmaautgifter",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "beregnetKostnadForKostOgLosjiForPendleropphold",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "oppholdUnderKjoereoppdrag",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array12",
+              "fields" : [ {
+                "name" : "arbeidsgiver",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antallOvernattingsdoegn",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kreverFradragForDokumenterteKostnaderTilKost",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKost",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "mottarKostgodtgjoerelseLavereEnnSats",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKostUtoverMottattKostgodtgjoerelse",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilLosjiMv",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteSmaautgifter",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "beregnetKostnadForKostOgLosjiForOppholdUnderKjoereoppdrag",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "fradragForMerkostnadVedArbeidsoppholdUtenforHjemmet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "oppholdUnderYrkesOgTjenestereise",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array13",
+              "fields" : [ {
+                "name" : "arbeidsgiver",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "losjitypeForOppholdUnderYrkesOgTjenestereise",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "oppholdssted",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "oppholdsland",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antallOvernattingsdoegn",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kreverFradragForDokumenterteKostnaderTilKost",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKost",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "mottarKostgodtgjoerelseLavereEnnSats",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilKostUtoverMottattKostgodtgjoerelse",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteKostnaderTilLosjiMv",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "dokumenterteSmaautgifter",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "beregnetKostnadForKostOgLosjiForOppholdUnderYrkesOgTjenestereise",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "reiserIArbeidsforhold",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array14",
+        "fields" : [ {
+          "name" : "reisefradrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "sparerMerEnnToTimerVedBrukAvEgenBil",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "bompengeutgift",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "fergeutgift",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "utgiftTilFlybilletterForBesoeksreiserTilHjemmet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kreverFradragForDokumenterteKostnader",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "dokumenterteKostnaderTilArbeidsOgBesoeksreiser",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "reiseIArbeidsforhold",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array15",
+              "fields" : [ {
+                "name" : "klassifiseringAvReiseIArbeidsforhold",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antallReiser",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "lengdeAvReiseTurRetur",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "reiseFraAdresse",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "reiseFraSted",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "reiseTilAdresse",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "reiseTilSted",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "kreverAvstandsfradragVedBrukAvEgenBilForBesoeksreiseTilHjemmetUtenforEOeS",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "reisenErDekketAvArbeidsgiver",
+                "type" : [ "null", "boolean" ],
+                "default" : null
+              }, {
+                "name" : "egenandelVedReiseDekketAvArbeidsgiver",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kostnaderVedBesoeksreiseTilHjemmetUtenforEOeS",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "boligsparingForUngdom",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array16",
+        "fields" : [ {
+          "name" : "samletSparebeloepTilBoligsparingForUngdomOppspartISkattleggingsperioden",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tilleggIBeregnetSkattVedVilkaarsbruddForBoligsparingForUngdom",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fastEiendom",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array17",
+        "fields" : [ {
+          "name" : "internEiendomsidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "SERGEiendomsidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "gateadresse",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "husnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "husbokstav",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "bruksenhetsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "navn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "eierandel",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "kommunenummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "gaardsnummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "bruksnummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "festenummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "seksjonsnummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "boligselskapetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "boligselskapetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "aksjeboenhetsnummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelsnummer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "boligsameietsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "boligsameietsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fastEiendomSomUtleieobjekt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array18",
+        "fields" : [ {
+          "name" : "bruttoLeieinntektVedSjablongbehandletUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "bruttoLeieinntektVedRegnskapsbehandletUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "festeavgiftVedUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "vedlikeholdskostnadVedUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "annenKostnadVedUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "husleieFelleskostnadVedUtleie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benytterEiendommenSelvSomFritidseiendom",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "utleietype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "saldoavskrivningAvInnbo",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvNettoLeieinntektEllerUnderskudd",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "internEiendomsidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fastEiendomSomFormuesobjekt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array19",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdi",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "beregnetMarkedsverdiForBolig",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvFormuesverdi",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "boligbruk",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "eiendomstype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "dokumentertMarkedsverdiForBolig",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "boligtype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "boligensAreal",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "byggeaar",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "formueSkalIkkeFastsettes",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "internEiendomsidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fagforeningskontingent",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array20",
+        "fields" : [ {
+          "name" : "samletBetaltFagforeningskontingentPerSkattleggingsperiode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fondskonto",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array21",
+        "fields" : [ {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "forsikringsselskapetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvOgUttakFraAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvOgUttakFraAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvOgUttakFraRentedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvOgUttakFraRentedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "verdiFoerVerdsettingsrabattForAksjeOgAksjefond",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForKontanterMv",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattefrittUttak",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "foreldrefradrag",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array22",
+        "fields" : [ {
+          "name" : "antallBarn",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "totaltForeldrefradrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvForeldrefradragProsent",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "andelAvForeldrefradragBeloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvForeldrefradragTilordnetEktefelle",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "barnSomGirRettTilForeldrefradrag",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array23",
+              "fields" : [ {
+                "name" : "navn",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "personidentifikator",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "forvaltningskostnader",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array24",
+        "fields" : [ {
+          "name" : "aarsavgiftIVPS",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "leiekostnaderForBankboks",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "forvaltningskostnaderForVerdipapirer",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fradragDirekteTilordnetInntektFraUtlandet",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array25",
+        "fields" : [ {
+          "name" : "minstefradragIInntektTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnaderKnyttetTilArbeidTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "merkostnaderVedArbeidsoppholdUtenforHjemmetTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnaderKnyttetTilArbeidsOgBesoeksreiserTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "fagforeningskontingentTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "pensjonsinnbetalingTilPensjonsordningTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tapVedRealisasjonAvFastEiendomTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tapVedRealisasjonAvVerdipapirTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fradragIndirekteTilordnetUtlandet",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array26",
+        "fields" : [ {
+          "name" : "foreldrefradragTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "betaltUnderholdsbidragTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "innbetalingTilIndividuellPensjonsordningTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andreFradragTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "saerfradragForEnsligForsoergerTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjeldsrenterTilordnetUtlandet",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "fritidsbaatMedSalgsverdiOverSalgsverdigrense",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array27",
+        "fields" : [ {
+          "name" : "baatmerke",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antattSalgsverdi",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "forsikringssum",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "gaveOgArv",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array28",
+        "fields" : [ {
+          "name" : "fradragForPengetilskudd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gaveTilFrivilligOrganisasjon",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array29",
+              "fields" : [ {
+                "name" : "navnGodkjentGavemottaker",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "organisasjonsnummerGodkjentGavemottaker",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "skattefriGevinstFraSpillEllerTiltakArrangertAvMassemedia",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array30",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "landkode",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "samletVerdiArvEllerGaveUtenforArbeidsforhold",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array31",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "landkode",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "tilskuddTilVitenskapeligForskning",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array32",
+              "fields" : [ {
+                "name" : "godkjentInstituttsOrganisasjonsnavn",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "godkjentInstituttsOrganisasjonsnummer",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "pengetilskudd",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "grunnlagForSkattefradragForPensjonsinntekt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array33",
+        "fields" : [ {
+          "name" : "gjennomsnittligVektetPensjonsgrad",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "harKravPaaSkattefradragForPensjon",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "samletPensjonsinntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "antallMaanederMedPensjon",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "individuellPensjonsordning",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array34",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "engangsutbetaling",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "engangsutbetalingTilDoedsbo",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "pensjonsordningstype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "pensjonstype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "oppgavegiverPensjonsinnbetalingersOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "oppgavegiverPensjonsinnbetalingersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "innbetalingTilIndividuellPensjonsordningPerSkattleggingsperiode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kapitalinntektFraIndividuellPensjonsordningPerSkattleggingsperiode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "returAvPremie",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "premiefond",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "investeringIOppstartsselskap",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array35",
+        "fields" : [ {
+          "name" : "fradragForInvesteringIOppstartsselskap",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "oppstartselskapOrganisasjonsnummer",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : "string"
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "kjoeretoey",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array36",
+        "fields" : [ {
+          "name" : "registreringsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "fabrikatnavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "aarForFoerstegangsregistrering",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdi",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "antattVerdiSomNytt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "antattMarkedsverdi",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "kontantbeloep",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array37",
+        "fields" : [ {
+          "name" : "beloep",
+          "type" : "long"
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "konto",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array38",
+        "fields" : [ {
+          "name" : "bankensNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "erBoligsparekontoIAnnenEOeSStat",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "innskudd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "opptjenteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjeld",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "paaloepteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tilbakefoerteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "betalteMisligholdteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tapValutalaan",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gevinstValutalaan",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "sparebeloepTilBoligsparingForUngdomOppspartISkattleggingsperioden",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "overfoertFraBarn",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "andelOverfoert",
+          "type" : [ "null", "double" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "kostnaderForMerkjoeringForAaBringeOgHenteBarn",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array39",
+        "fields" : [ {
+          "name" : "stedForBarnepass",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "faktiskKostnad",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "antallReiserMedMerkjoering",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "lengdeAvMerkjoering",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "kravOmKreditFradrag",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array40",
+        "fields" : [ {
+          "name" : "fremfoertUtenlandskFormuesskatt",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array41",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "inntektsaar",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "fremfoertUtenlandskInntektsskatt",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array42",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "inntektsaar",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "kravOmKreditfradragForUtenlandskSkattPrLand",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array43",
+              "fields" : [ {
+                "name" : "landkode",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "kravOmKreditfradragForUtenlandskFormuesskatt",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kravOmKreditfradragForUtenlandskInntektsskatt",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "skattBetaltPaaAksjeutbytteMottattFraUtenlandskSelskap",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "bruttoAksjeutbytteMottattFraUtenlandskSelskap",
+                "type" : [ "null", "long" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "livsforsikring",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array44",
+        "fields" : [ {
+          "name" : "livsforsikringsselskapetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "forsikringsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "fradragsberettigetTapPaaLivsforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigEngangsutbetalingFraLivrente",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTerminutbetalingFraLivrente",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigEngangsutbetalingFraUfoererente",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "renteinntektAvLivsforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigUtbetalingFraKapitalforsikringUtenGarantertAvkastning",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "avkastningAvKapitalforsikringsavtale",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "premiefond",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjenkjoepsverdiAvKapitalforsikringsavtale",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjenkjoepsverdiAvIndividuellLivrente",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "loennOgTilsvarendeYtelser",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array45",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "arbeidsgiversNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "samledeYtelserFraArbeidsgiverPerBehandlingsart",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array46",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "antall",
+                "type" : [ "null", "double" ],
+                "default" : null
+              }, {
+                "name" : "overskuddAvUtgiftsgodtgjoerelse",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "behandlingsart",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "overfoertFraBarn",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "minstefradragOgKostnader",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array47",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "fastsattFradragstype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "minstefradragIInntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "fradragForKostnaderKnyttetTilArbeid",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnaderKnyttetTilArbeid",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnaderKnyttetTilAnnenInntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnaderUtenFradragsrett",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "kostnad",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array48",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kostnadstype",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "mottattUnderholdsbidrag",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array49",
+        "fields" : [ {
+          "name" : "beloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "bidragsytersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "bidragsytersFoedselsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "rapporterendeEnhetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "rapporterendeEnhetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "nettoLeieinntektEllerUnderskuddFraFastEiendomSomUtleieobjektOverfoertFraEktefelle",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array50",
+        "fields" : [ {
+          "name" : "nettoLeieinntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "underskudd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "obligasjonOgSertifikat",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array51",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "rentepapiretsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontofoerersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "finansproduktidentifikatortype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antallObligasjonerOgSertifikater",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForObligasjonOgSertifikat",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "renteinntektAvObligasjonOgSertifikat",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvObligasjonOgSertifikat",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvObligasjonOgSertifikat",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "oppholdskostnaderVedPassOgStellAvBarn",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array52",
+        "fields" : [ {
+          "name" : "betaltBeloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "navnBarnepassvirksomhet",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "pensjonsinntekt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array53",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "beloepPrSkattleggingsperiode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "pensjonsutbetalersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "pensjonstype",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "behandlingsart",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "pensjonsinntektPerMaaned",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array54",
+              "fields" : [ {
+                "name" : "beloep",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "kalendermaaned",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "pensjonsgrad",
+                "type" : [ "null", "double" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "pensjonspremierIArbeidsforhold",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array55",
+        "fields" : [ {
+          "name" : "samletPensjonsinnbetalingTilPensjonsordningIArbeidsforholdPerSkattleggingsperiode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "privatFordringUtenforVirksomhet",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array56",
+        "fields" : [ {
+          "name" : "formuesverdi",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "opptjenteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "privatGjeldsforholdUtenforVirksomhet",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array57",
+        "fields" : [ {
+          "name" : "fordringshaver",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "gjeld",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "paaloepteRenter",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "realisasjonAvFastEiendom",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array58",
+        "fields" : [ {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "gevinstVedRealisasjonAvFastEiendom",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "tapVedRealisasjonAvFastEiendom",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "internEiendomsidentifikator",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "skadeforsikring",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array59",
+        "fields" : [ {
+          "name" : "skadeforsikringsselskapetsNavn",
+          "type" : "string"
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "skadenummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "renteinntektAvSkadeforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "utbetalingFraSkadeforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "annenUtbetalingFraSkadeforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "returAvPremieFraSkadeforsikring",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "skattebegrensning",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array60",
+        "fields" : [ {
+          "name" : "vurderesForSkattebegrensningParagraf174LitenSkatteevne",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "vurderesForSkattebegrensningParagraf171LavAlminneligInntekt",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "skattefriStoenadTilBarnetilsyn",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array61",
+        "fields" : [ {
+          "name" : "beloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "skattepliktigKundeutbytteUtenforVirksomhetPerUtbetaler",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array62",
+        "fields" : [ {
+          "name" : "utbetaltBeloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "navn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "organisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "skyldigRestskatt",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array63",
+        "fields" : [ {
+          "name" : "betalteForsinkelsesrenterForSamletSkyldigRestskatt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "samletSkyldigRestskatt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "saerfradragForEnsligForsoerger",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array64",
+        "fields" : [ {
+          "name" : "antallMaanederMedHelUtvidetBarnetrygd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvSaerfradragForEnsligForsoergerFraHelUtvidetBarnetrygd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "antallMaanederMedDeltUtvidetBarnetrygd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvSaerfradragForEnsligForsoergerFraDeltUtvidetBarnetrygd",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "saerfradragForEnsligForsoerger",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "utvidetBarnetrygd",
+          "type" : [ "null", {
+            "type" : "array",
+            "items" : {
+              "type" : "record",
+              "name" : "array",
+              "namespace" : "array65",
+              "fields" : [ {
+                "name" : "ytelsesgrad",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "antallMaaneder",
+                "type" : [ "null", "long" ],
+                "default" : null
+              }, {
+                "name" : "fraOgMedMaaned",
+                "type" : [ "null", "string" ],
+                "default" : null
+              }, {
+                "name" : "tilOgMedMaaned",
+                "type" : [ "null", "string" ],
+                "default" : null
+              } ]
+            }
+          } ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "verdiForAnnetPrivatInnboOgLoesoere",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array66",
+        "fields" : [ {
+          "name" : "beloep",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "andelAvFribeloep",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "underholdsbidragBetaltSkyldigOgTilGode",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array67",
+        "fields" : [ {
+          "name" : "betaltUnderholdsbidrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skyldigUnderholdsbidrag",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "underholdsbidragTilGode",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "bidragsmottakersNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "bidragsmottakersFoedselsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "rapporterendeEnhetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "rapporterendeEnhetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "verdipapirfond",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array68",
+        "fields" : [ {
+          "name" : "fondetsNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "fondetsOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "isinnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antallAndeler",
+          "type" : [ "null", "double" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigUtbytte",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigRenteinntekt",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "verdiFoerVerdsettingsrabattForAndelIAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvAndelIAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvAndelIAksjedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForAndelIRentedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvAndelIRentedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvAndelIRentedel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradragPaaUtbytte",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "benyttetSkjermingsfradragPaaGevinstVedRealisasjonAvAndel",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "erReselgeroppgave",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "oppgavegiversOrganisasjonsnummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "oppgavegiversNavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "virtuellValuta",
+    "type" : [ "null", {
+      "type" : "array",
+      "items" : {
+        "type" : "record",
+        "name" : "array",
+        "namespace" : "array69",
+        "fields" : [ {
+          "name" : "virtuellValutanavn",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "kontonummer",
+          "type" : [ "null", "string" ],
+          "default" : null
+        }, {
+          "name" : "antall",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "formuesverdiForVirtuellValuta",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigGevinstVedRealisasjonAvVirtuellValuta",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "skattepliktigTapVedRealisasjonAvVirtuellValuta",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "annenSkattepliktigKapitalinntektFraVirtuellValuta",
+          "type" : [ "null", "long" ],
+          "default" : null
+        }, {
+          "name" : "gjelderFlereVirtuelleValutaer",
+          "type" : [ "null", "boolean" ],
+          "default" : null
+        }, {
+          "name" : "landkode",
+          "type" : [ "null", "string" ],
+          "default" : null
+        } ]
+      }
+    } ],
+    "default" : null
+  }, {
+    "name" : "personidentifikator",
+    "type" : [ "null", "string" ],
+    "default" : null
+  }, {
+    "name" : "inntektsaar",
+    "type" : "string"
+  }, {
+    "name" : "skjermet",
+    "type" : [ "null", "boolean" ],
+    "default" : null
+  } ]
+}
