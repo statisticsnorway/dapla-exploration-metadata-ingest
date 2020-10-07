@@ -9,16 +9,16 @@ import java.util.function.BiConsumer;
 public class FieldTraverser {
 
     public static void depthFirstTraversal(Field field, BiConsumer<Deque<Field>, Field> visitor) {
-        Deque<Field> anscestors = new LinkedList<>();
-        depthFirstTraversal(anscestors, field, visitor);
+        Deque<Field> ancestors = new LinkedList<>();
+        depthFirstTraversal(ancestors, field, visitor);
     }
 
-    private static void depthFirstTraversal(Deque<Field> anscestors, Field field, BiConsumer<Deque<Field>, Field> visitor) {
-        visitor.accept(anscestors, field);
-        anscestors.push(field);
+    private static void depthFirstTraversal(Deque<Field> ancestors, Field field, BiConsumer<Deque<Field>, Field> visitor) {
+        visitor.accept(ancestors, field);
+        ancestors.push(field);
         for (Field child : field.getFields()) {
-            depthFirstTraversal(anscestors, child, visitor);
+            depthFirstTraversal(ancestors, child, visitor);
         }
-        anscestors.pop();
+        ancestors.pop();
     }
 }

@@ -64,19 +64,19 @@ public class LineageTemplateToExplorationLineage {
 
     public List<LDSObject> createLineageFieldLdsObjects(Map<String, LDSObject> instanceVariableById) {
         List<LDSObject> result = new LinkedList<>();
-        FieldTraverser.depthFirstTraversal(lineageDataset.getRoot(), (anscestors, field) -> {
+        FieldTraverser.depthFirstTraversal(lineageDataset.getRoot(), (ancestors, field) -> {
             if (field.getFields().size() > 0) {
                 return; // not a leaf
             }
-            String anscestorFieldName = StreamSupport.stream(
+            String ancestorFieldName = StreamSupport.stream(
                     Spliterators.spliteratorUnknownSize(
-                            anscestors.descendingIterator(),
+                            ancestors.descendingIterator(),
                             Spliterator.ORDERED),
                     false)
                     .skip(1)
                     .map(Field::getName)
                     .collect(Collectors.joining("."));
-            String qualifiedFieldName = anscestorFieldName.isBlank() ? field.getName() : String.join(".", anscestorFieldName, field.getName());
+            String qualifiedFieldName = ancestorFieldName.isBlank() ? field.getName() : String.join(".", ancestorFieldName, field.getName());
             String lineageFieldLdsId = DatasetTools.lineageFieldId(lineageDatasetId(), qualifiedFieldName);
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
