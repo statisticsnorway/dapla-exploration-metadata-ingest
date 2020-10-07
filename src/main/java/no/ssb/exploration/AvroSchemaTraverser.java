@@ -66,7 +66,7 @@ public class AvroSchemaTraverser {
                                 return parentType
                                         .filter(Schema.Type.ARRAY::equals)
                                         .map(t -> "[]")
-                                        .orElse(null); // Will happen if UNION is used
+                                        .orElse(null); // Will happen if UNION or MAP is used
                             }
                     );
         }
@@ -91,6 +91,10 @@ public class AvroSchemaTraverser {
         Schema.Type type = schema.getType();
         switch (type) {
             case MAP:
+                ancestors.push(context);
+                dps(ancestors, new Context(type, schema.getValueType()), visitor);
+                ancestors.pop();
+                break;
             case RECORD:
                 for (Schema.Field field : schema.getFields()) {
                     ancestors.push(context);
