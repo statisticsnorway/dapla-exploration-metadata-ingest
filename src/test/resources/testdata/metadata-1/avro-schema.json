@@ -1,0 +1,54 @@
+{
+  "type" : "record",
+  "name" : "MyClass",
+  "namespace" : "com.test.avro",
+  "fields" : [ {
+    "name" : "image",
+    "type" : {
+      "type" : "record",
+      "name" : "image",
+      "fields" : [ {
+        "name" : "tags",
+        "type" : {
+          "type" : "array",
+          "items" : {
+            "type" : "record",
+            "name" : "tags",
+            "fields" : [ {
+              "name" : "tag",
+              "type" : "string"
+            }, {
+              "name" : "location",
+              "type" : "string"
+            } ]
+          }
+        }
+      }, {
+        "name" : "src",
+        "type" : "string"
+      }, {
+        "name" : "height",
+        "type" : "long"
+      }, {
+        "name" : "width",
+        "type" : "long"
+      }, {
+        "name" : "alignment",
+        "type" : "string"
+      } ]
+    }
+  }, {
+    "name" : "data",
+    "type" : {
+      "type" : "record",
+      "name" : "data",
+      "fields" : [ {
+        "name" : "size",
+        "type" : "long"
+      }, {
+        "name" : "display",
+        "type" : "boolean"
+      } ]
+    }
+  } ]
+}

@@ -11,16 +11,24 @@ import no.ssb.dapla.dataset.doc.model.lineage.Dataset;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.GsimBuilder;
 import no.ssb.exploration.model.LineageDataset;
+import no.ssb.exploration.model.LineageField;
 import no.ssb.exploration.model.UnitDataSet;
 import no.ssb.exploration.model.UnitDataStructure;
+import org.apache.avro.Schema;
 
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.util.Optional.ofNullable;
 
@@ -193,13 +201,88 @@ public class MetadataHelper {
 
     public List<LDSObject> lineageFields() {
         if (lineageFields == null) {
+            JsonNode avroSchemaNode = dataNode.get("avro-schema");
+            List<LDSObject> lineageFieldsFromAvroSchema;
+            if (avroSchemaNode != null) {
+                String avroSchemaJson;
+                try {
+                    avroSchemaJson = mapper.writeValueAsString(avroSchemaNode);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+                Schema avroSchema = new Schema.Parser().parse(avroSchemaJson);
+                List<AvroSchemaField> fieldList = getAvroSchemaFields(avroSchema);
+                lineageFieldsFromAvroSchema = transformAvroSchemaFieldsToLDSLineageFieldObjects(fieldList);
+            } else {
+                lineageFieldsFromAvroSchema = Collections.emptyList(); // backwards compatibility when avro-schema is missing
+            }
             lineageFields = ofNullable(toExplorationLineage())
                     .map(eToE -> eToE.createLineageFieldLdsObjects(
                             logicalRecordsAndInstanceVariables().stream()
                                     .filter(o -> "InstanceVariable".equals(o.type))
                                     .collect(Collectors.toMap(LDSObject::id, o -> o)))
-                    ).orElse(Collections.emptyList());
+                    )
+                    .map(lineageFieldsFromUser -> {
+                        // avro-schema field ordering is preserved here
+                        Map<String, LDSObject> avroLineageFieldByName = lineageFieldsFromAvroSchema.stream().collect(Collectors.toMap(o -> o.get(LineageField.class).getName(), o -> o, (a, b) -> b, LinkedHashMap::new));
+                        Map<String, LDSObject> userLineageFieldByName = lineageFieldsFromUser.stream().collect(Collectors.toMap(o -> o.get(LineageField.class).getName(), o -> o, (a, b) -> b, LinkedHashMap::new));
+                        List<LDSObject> result = new ArrayList<>();
+                        avroLineageFieldByName.entrySet().stream()
+                                .map(e -> userLineageFieldByName.containsKey(e.getKey())
+                                        ? userLineageFieldByName.get(e.getKey()) // user lineage have precedence
+                                        : e.getValue())
+                                .forEach(result::add);
+                        userLineageFieldByName.entrySet().stream()
+                                .filter(e -> !avroLineageFieldByName.containsKey(e.getKey()))
+                                .map(Map.Entry::getValue)
+                                .forEach(result::add); // add all user fields that are not in avro-schema
+                        return result;
+                    })
+                    .orElse(lineageFieldsFromAvroSchema);
         }
         return lineageFields;
+    }
+
+    private List<AvroSchemaField> getAvroSchemaFields(Schema avroSchema) {
+        List<AvroSchemaField> fieldList = new ArrayList<>();
+        AvroSchemaTraverser.dps(avroSchema, (ancestors, elem) -> {
+            if (elem.parentType.isEmpty()) {
+                return; // root element
+            }
+            if (elem.isContainer()) {
+                return;
+            }
+            String ancestorFieldName = StreamSupport.stream(
+                    Spliterators.spliteratorUnknownSize(
+                            ancestors.descendingIterator(),
+                            Spliterator.ORDERED),
+                    false)
+                    .skip(1)
+                    .map(AvroSchemaTraverser.Context::name)
+                    .collect(Collectors.joining("."));
+            String qualifiedFieldName = ancestorFieldName.isBlank() ? elem.name() : String.join(".", ancestorFieldName, elem.name());
+            // System.out.printf("%s : %s%n", qualifiedFieldName, elem.schema.getType());
+            fieldList.add(new AvroSchemaField(qualifiedFieldName, avroSchema.getType().name()));
+        });
+        return fieldList;
+    }
+
+    private List<LDSObject> transformAvroSchemaFieldsToLDSLineageFieldObjects(List<AvroSchemaField> fieldList) {
+        return fieldList.stream()
+                .map(avf -> {
+                    String lineageFieldId = DatasetTools.lineageFieldId(lineageDataset().id(), avf.getQualifiedName());
+                    return new LDSObject("LineageField",
+                            lineageFieldId,
+                            versionTimestamp(),
+                            () -> LineageField.newBuilder()
+                                    .id(lineageFieldId)
+                                    .name(avf.getQualifiedName())
+                                    .lineageDataset(lineageDataset().link())
+                                    .relationType("unknown")
+                                    .confidence(1.0) // 100% sure that the relation-type is unknown
+                                    .build()
+                    );
+                })
+                .collect(Collectors.toList());
     }
 }

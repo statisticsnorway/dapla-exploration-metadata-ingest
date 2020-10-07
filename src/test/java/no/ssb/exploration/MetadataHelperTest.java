@@ -17,13 +17,16 @@ public class MetadataHelperTest {
         String datasetMetaJson = TestUtils.load("testdata/metadata-1/dataset-meta.json");
         String datasetDocJson = TestUtils.load("testdata/metadata-1/datadoc.json");
         String lineageJson = TestUtils.load("testdata/metadata-1/lineage.json");
+        String avroSchemaJson = TestUtils.load("testdata/metadata-1/avro-schema.json");
         JsonNode datasetMetaNode = mapper.readTree(datasetMetaJson);
         JsonNode datasetDocNode = mapper.readTree(datasetDocJson);
         JsonNode lineageNode = mapper.readTree(lineageJson);
+        JsonNode avroSchemaNode = mapper.readTree(avroSchemaJson);
         ObjectNode dataNode = mapper.createObjectNode();
         dataNode.set("dataset-meta", datasetMetaNode);
         dataNode.set("dataset-doc", datasetDocNode);
         dataNode.set("dataset-lineage", lineageNode);
+        dataNode.set("avro-schema", avroSchemaNode);
 
         MetadataHelper helper = new MetadataHelper(mapper, dataNode);
         List<LDSObject> lineageFields = helper.lineageFields();
