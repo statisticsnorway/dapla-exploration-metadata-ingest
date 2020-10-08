@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import no.ssb.exploration.model.LineageField;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -44,9 +45,14 @@ public class MetadataHelperTest {
 
         MetadataHelper helper = new MetadataHelper(mapper, dataNode);
         List<LDSObject> lineageFields = helper.lineageFields();
-        System.out.printf("LINKS:%n");
+        System.out.printf("LINEAGE-FIELD LINKS:%n");
         for (LDSObject lineageFieldLdsObject : lineageFields) {
-            System.out.printf("%s%n", lineageFieldLdsObject.link());
+            System.out.printf("%s  : %s%n", lineageFieldLdsObject.link(), lineageFieldLdsObject.get(LineageField.class).getInstanceVariable());
+        }
+        List<LDSObject> instanceVariables = helper.logicalRecordsAndInstanceVariables();
+        System.out.printf("LOGICAL-RECORDS-AND-INSTANCE-VARIABLE LINKS:%n");
+        for (LDSObject instanceVariable : instanceVariables) {
+            System.out.printf("%s%n", instanceVariable.link());
         }
     }
 }

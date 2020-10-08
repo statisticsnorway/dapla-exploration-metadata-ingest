@@ -50,5 +50,34 @@
         "type" : "boolean"
       } ]
     }
+  }, {
+    "name" : "fnr",
+    "type" :"string"
+  }, {
+    "name" : "konto",
+    "type" : {
+      "type" : "record",
+      "name" : "konto",
+      "fields" : [ {
+        "name" : "kontonummer",
+        "type" : "long"
+      }, {
+        "name" : "saldo",
+        "type" : "boolean"
+      }, {
+        "name" : "gjeld",
+        "type" : "boolean"
+      }, {
+        "name" : "adresse",
+        "type" : {
+          "name" : "adresse",
+          "type" : "record",
+          "fields" : [ {
+            "name" : "postnr",
+            "type" : "int"
+          } ]
+        }
+      } ]
+    }
   } ]
 }

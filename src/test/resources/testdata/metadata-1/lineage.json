@@ -42,26 +42,13 @@
                 "confidence": 0.9,
                 "sources": [
                   {
-                    "field": "konto.saldo.adresse.postnr",
+                    "field": "konto.adresse.postnr",
                     "path": "/kilde/skatt",
                     "version": 123456789
                   }
                 ]
               }
-            ],
-            "sources": [
-              {
-                "field": "konto.saldo.adresse",
-                "path": "/kilde/skatt",
-                "version": 123456789
-              }
             ]
-          }
-        ],
-        "sources": [
-          {
-            "path": "/kilde/skatt",
-            "version": 123456789
           }
         ]
       }

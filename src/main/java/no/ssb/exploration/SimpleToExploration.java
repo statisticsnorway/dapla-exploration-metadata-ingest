@@ -10,9 +10,15 @@ import no.ssb.exploration.model.UnitDataStructure;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 public class SimpleToExploration {
@@ -59,7 +65,8 @@ public class SimpleToExploration {
             return Collections.emptyList();
         }
         List<LDSObject> result = new LinkedList<>();
-        processAll(result, rootRecord, null);
+        Deque<Record> ancestors = new LinkedList<>();
+        processAll(result, ancestors, rootRecord, null);
         return result;
     }
 
@@ -77,7 +84,16 @@ public class SimpleToExploration {
         return unitDataStructure;
     }
 
-    void processAll(List<LDSObject> result, Record record, String parentLogicalRecordId) {
+    void processAll(List<LDSObject> result, Deque<Record> ancestors, Record record, String parentLogicalRecordId) {
+        ancestors.push(record);
+        String ancestorFieldName = StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(
+                        ancestors.descendingIterator(),
+                        Spliterator.ORDERED),
+                false)
+                .skip(1) // skip root record
+                .map(Record::getName)
+                .collect(Collectors.joining("."));
         String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record.getName()) : parentLogicalRecordId + "." + record.getName();
         LogicalRecord gsimLogicalRecord =
                 createDefault(logicalRecordId, record.getName(), record.getDescription())
@@ -85,7 +101,15 @@ public class SimpleToExploration {
                         .isPlaceholderRecord(false)// TODO: add and get from simple
                         .unitType(record.getUnitType(), "UnitType_DUMMY")
                         .shortName(record.getName())
-                        .instanceVariables(record.getInstanceVariableIds(i -> instanceVariableId(record.getName(), i.getName())))
+                        .instanceVariables(record.getInstanceVariableIds(i -> {
+                            String id = instanceVariableId(of(ancestorFieldName)
+                                    .filter(a -> !a.isBlank())
+                                    .map(a -> ofNullable(i.getName())
+                                            .map(e -> String.join(".", a, e))
+                                            .orElse(a))
+                                    .orElseGet(i::getName));
+                            return id;
+                        }))
                         .parent(parentLogicalRecordId)
                         .parentChildMultiplicity("ONE_MANY")
                         .build();
@@ -93,8 +117,14 @@ public class SimpleToExploration {
         result.add(new LDSObject("LogicalRecord", gsimLogicalRecord.getId(), version, () -> gsimLogicalRecord));
 
         for (Instance instance : record.getInstances()) {
+            String id = instanceVariableId(of(ancestorFieldName)
+                    .filter(a -> !a.isBlank())
+                    .map(a -> ofNullable(instance.getName())
+                            .map(e -> String.join(".", a, e))
+                            .orElse(a))
+                    .orElseGet(instance::getName));
             InstanceVariable gsimInstanceVariable =
-                    createDefault(instanceVariableId(record.getName(), instance.getName()), instance.getName(), instance.getDescription())
+                    createDefault(id, instance.getName(), instance.getDescription())
                             .instanceVariable()
                             .shortName(instance.getName())
                             .population(instance.getPopulation(), "Population_DUMMY")
@@ -110,8 +140,9 @@ public class SimpleToExploration {
         }
 
         for (Record child : record.getRecords()) {
-            processAll(result, child, logicalRecordId);
+            processAll(result, ancestors, child, logicalRecordId);
         }
+        ancestors.pop();
     }
 
     public String logialRecordId(String recordName) {
@@ -119,8 +150,8 @@ public class SimpleToExploration {
         return id;
     }
 
-    private String instanceVariableId(String recordName, String instanceName) {
-        String id = DatasetTools.instanceVariableId(DatasetTools.logicalRecordId(DatasetTools.datasetId(dataSetPath), recordName), instanceName);
+    private String instanceVariableId(String qualifiedFieldName) {
+        String id = DatasetTools.instanceVariableId(DatasetTools.lineageDatasetId(DatasetTools.datasetId(dataSetPath), version.toInstant().toEpochMilli()), qualifiedFieldName);
         return id;
     }
 }

@@ -64,8 +64,8 @@ public class DatasetTools {
         return id;
     }
 
-    public static String instanceVariableId(String logialRecordId, String instanceName) {
-        String id = logialRecordId + "." + instanceName;
+    public static String instanceVariableId(String lineageDatasetId, String qualifiedFieldName) {
+        String id = lineageFieldId(lineageDatasetId, qualifiedFieldName);
         return id;
     }
 

@@ -80,7 +80,7 @@ public class LineageTemplateToExplorationLineage {
             String lineageFieldLdsId = DatasetTools.lineageFieldId(lineageDatasetId(), qualifiedFieldName);
             String lineageDatasetLink = "/LineageDataset/" + lineageDatasetId();
             List<String> lineageFieldLinks = getLineageFieldLinks(field.getSources());
-            String instanceVariableId = DatasetTools.logicalRecordId(datasetLDSObject.id, qualifiedFieldName); // not a bug to use "logical-record-id" method here
+            String instanceVariableId = DatasetTools.instanceVariableId(lineageDatasetId(), qualifiedFieldName);
             LDSObject instanceVariableLdsObject = instanceVariableById.get(instanceVariableId);
             LineageField lineageField = LineageField.newBuilder()
                     .id(lineageFieldLdsId)
