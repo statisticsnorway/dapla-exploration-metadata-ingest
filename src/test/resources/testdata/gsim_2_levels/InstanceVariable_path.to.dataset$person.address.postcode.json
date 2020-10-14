@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset-person.name",
-  "shortName" : "name",
+  "id" : "path.to.dataset$person.address.postcode",
+  "shortName" : "postcode",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "name",
+    "languageText" : "postcode",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "name",
+    "languageText" : "postcode",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

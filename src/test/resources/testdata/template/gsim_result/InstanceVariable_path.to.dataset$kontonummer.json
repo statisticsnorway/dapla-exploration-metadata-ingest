@@ -1,12 +1,12 @@
 {
-  "id" : "path.to.dataset-konto.kontonummer",
+  "id" : "path.to.dataset$kontonummer",
   "shortName" : "kontonummer",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
   "identifierComponentIsUnique" : false,
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
-  "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
+  "sentinelValueDomain" : "/DescribedValueDomain/ValueDomain_DUMMY",
   "name" : [ {
     "languageText" : "kontonummer",
     "languageCode" : "nb"

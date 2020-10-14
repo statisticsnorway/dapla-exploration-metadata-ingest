@@ -1,5 +1,5 @@
 {
-  "id" : "path.to.dataset-konto.innskudd",
+  "id" : "path.to.dataset$innskudd",
   "shortName" : "innskudd",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",

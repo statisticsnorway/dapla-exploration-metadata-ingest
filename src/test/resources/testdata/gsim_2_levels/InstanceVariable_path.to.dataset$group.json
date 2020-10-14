@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset-konto.gjeld",
-  "shortName" : "gjeld",
+  "id" : "path.to.dataset$group",
+  "shortName" : "group",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "gjeld",
+    "languageText" : "group",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.",
+    "languageText" : "group",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

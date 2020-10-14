@@ -2,7 +2,7 @@
   "id" : "path.to.dataset-root.person.address",
   "shortName" : "address",
   "unitType" : "/UnitType/UnitType_DUMMY",
-  "instanceVariables" : [ "/InstanceVariable/path.to.dataset-address.street", "/InstanceVariable/path.to.dataset-address.postcode" ],
+  "instanceVariables" : [ "/InstanceVariable/path.to.dataset$person.address.street", "/InstanceVariable/path.to.dataset$person.address.postcode" ],
   "name" : [ {
     "languageText" : "address",
     "languageCode" : "nb"

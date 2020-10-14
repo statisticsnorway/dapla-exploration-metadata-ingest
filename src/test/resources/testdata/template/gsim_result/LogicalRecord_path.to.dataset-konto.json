@@ -2,7 +2,7 @@
   "id" : "path.to.dataset-konto",
   "shortName" : "konto",
   "unitType" : "/UnitType/UnitType_DUMMY",
-  "instanceVariables" : [ "/InstanceVariable/path.to.dataset-konto.kontonummer", "/InstanceVariable/path.to.dataset-konto.innskudd", "/InstanceVariable/path.to.dataset-konto.gjeld" ],
+  "instanceVariables" : [ "/InstanceVariable/path.to.dataset$kontonummer", "/InstanceVariable/path.to.dataset$innskudd", "/InstanceVariable/path.to.dataset$gjeld" ],
   "name" : [ {
     "languageText" : "konto",
     "languageCode" : "nb"

@@ -1,6 +1,6 @@
 {
-  "id" : "path.to.dataset-address.street",
-  "shortName" : "street",
+  "id" : "path.to.dataset$person.sex",
+  "shortName" : "sex",
   "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
   "identifierComponentIsComposite" : false,
@@ -8,11 +8,11 @@
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {
-    "languageText" : "street",
+    "languageText" : "sex",
     "languageCode" : "nb"
   } ],
   "description" : [ {
-    "languageText" : "street",
+    "languageText" : "sex",
     "languageCode" : "nb"
   } ],
   "createdDate" : "2020-01-01T00:00Z",

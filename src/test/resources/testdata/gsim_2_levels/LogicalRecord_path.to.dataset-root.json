@@ -2,7 +2,7 @@
   "id" : "path.to.dataset-root",
   "shortName" : "root",
   "unitType" : "/UnitType/UnitType_DUMMY",
-  "instanceVariables" : [ "/InstanceVariable/path.to.dataset-root.group" ],
+  "instanceVariables" : [ "/InstanceVariable/path.to.dataset$group" ],
   "name" : [ {
     "languageText" : "root",
     "languageCode" : "nb"
