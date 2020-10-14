@@ -120,7 +120,7 @@ public class ExplorationMetadataIngestApplication {
                 int port = targetConfig.get("port").asInt().get();
                 URI ldsBaseUri;
                 try {
-                    ldsBaseUri = new URI(scheme, null, host, port, "/" + namespace, "source=" + source, null);
+                    ldsBaseUri = new URI(scheme, null, host, port, null, "source=" + source, null);
                 } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
@@ -129,7 +129,7 @@ public class ExplorationMetadataIngestApplication {
                         .addMediaSupport(JacksonSupport.create())
                         .baseUri(ldsBaseUri)
                         .build();
-                persistenceProvider = new ExplorationLdsHttpProvider(webClient);
+                persistenceProvider = new ExplorationLdsHttpProvider(webClient, namespace);
             }
             DatasetUpstreamGooglePubSubIntegration datasetUpstreamSubscriber = new DatasetUpstreamGooglePubSubIntegration(config.get("pubsub.upstream"), pubSub, persistenceProvider);
             put(DatasetUpstreamGooglePubSubIntegration.class, datasetUpstreamSubscriber);

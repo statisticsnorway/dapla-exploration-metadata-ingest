@@ -9,11 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
+import static java.util.Optional.ofNullable;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SimpleToExplorationTest {
@@ -52,21 +56,23 @@ class SimpleToExplorationTest {
     void createGsimObjectsFor2Levels_AndWriteToFiles() throws JsonProcessingException {
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        List<LDSObject> ldsObjects = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+        Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
+        SimpleToExploration simpleToExploration = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z"));
+        ofNullable(simpleToExploration.createLogicalRecordsAndInstanceVariables()).ifPresent(os -> os.forEach(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o)));
 
         if (false) {
             // generate files locally
             new File(TEST_DATA_FOLDER).mkdirs();
             JsonToFileProvider jsonToFileProvider = new JsonToFileProvider(TEST_DATA_FOLDER);
-            for (LDSObject ldsObject : ldsObjects) {
-                jsonToFileProvider.save(ldsObject);
-            }
+            jsonToFileProvider.save(ldsObjectsByType);
         }
 
-        for (LDSObject ldsObject : ldsObjects) {
-            String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);
-            String expected = TestUtils.load(fileName);
-            assertThat(getJson(ldsObject)).isEqualTo(expected);
+        for (Map.Entry<String, List<LDSObject>> entry : ldsObjectsByType.entrySet()) {
+            for (LDSObject ldsObject : entry.getValue()) {
+                String fileName = String.format("testdata/gsim_2_levels/%s_%s.json", ldsObject.type, ldsObject.id);
+                String expected = TestUtils.load(fileName);
+                assertThat(getJson(ldsObject)).isEqualTo(expected);
+            }
         }
     }
 

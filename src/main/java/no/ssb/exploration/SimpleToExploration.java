@@ -151,7 +151,7 @@ public class SimpleToExploration {
     }
 
     private String instanceVariableId(String qualifiedFieldName) {
-        String id = DatasetTools.instanceVariableId(DatasetTools.lineageDatasetId(DatasetTools.datasetId(dataSetPath), version.toInstant().toEpochMilli()), qualifiedFieldName);
+        String id = DatasetTools.instanceVariableId(DatasetTools.lineageDatasetId(DatasetTools.datasetId(dataSetPath)), qualifiedFieldName);
         return id;
     }
 }

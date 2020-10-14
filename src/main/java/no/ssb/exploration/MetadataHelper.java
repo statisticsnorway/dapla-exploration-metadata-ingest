@@ -184,8 +184,7 @@ public class MetadataHelper {
                     .map(LineageTemplateToExplorationLineage::createLineageDatasetLdsObject)
                     .orElseGet(() -> {
                                 String lineageDatasetId = DatasetTools.lineageDatasetId(
-                                        DatasetTools.datasetId(datasetMeta.getId().getPath()),
-                                        Long.parseLong(datasetMeta.getId().getVersion())
+                                        DatasetTools.datasetId(datasetMeta.getId().getPath())
                                 );
                                 return new LDSObject("LineageDataset",
                                         lineageDatasetId,

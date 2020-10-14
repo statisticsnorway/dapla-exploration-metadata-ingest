@@ -55,11 +55,11 @@ public class LineageTemplateToExplorationLineage {
     }
 
     private String lineageDatasetId(Source source) {
-        return DatasetTools.lineageDatasetId(DatasetTools.datasetId(source.getPath()), source.getVersion());
+        return DatasetTools.lineageDatasetId(DatasetTools.datasetId(source.getPath()));
     }
 
     private String lineageDatasetId() {
-        return DatasetTools.lineageDatasetId(datasetLDSObject.id, datasetLDSObject.version.toInstant().toEpochMilli());
+        return DatasetTools.lineageDatasetId(datasetLDSObject.id);
     }
 
     public List<LDSObject> createLineageFieldLdsObjects(Map<String, LDSObject> instanceVariableById) {

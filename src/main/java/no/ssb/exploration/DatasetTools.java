@@ -69,9 +69,8 @@ public class DatasetTools {
         return id;
     }
 
-    public static String lineageDatasetId(String datasetId, long datasetVersionTimestampEpochMs) {
-        String id = datasetId + "!" + datasetVersionTimestampEpochMs;
-        return id;
+    public static String lineageDatasetId(String datasetId) {
+        return datasetId;
     }
 
     public static String lineageFieldId(String lineageDatasetId, String qualifiedFieldName) {

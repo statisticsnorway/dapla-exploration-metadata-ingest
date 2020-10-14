@@ -17,7 +17,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -76,17 +78,15 @@ public class DatasetUpstreamGooglePubSubIntegration implements MessageReceiver {
 
             LOG.debug("RECEIVED metadata:\n{}", dataNode.toPrettyString());
 
-            List<LDSObject> ldsObjects = new ArrayList<>(20);
+            Map<String, List<LDSObject>> ldsObjectsByType = new LinkedHashMap<>();
 
-            ofNullable(helper.unitDataStructure()).ifPresent(ldsObjects::add);
-            ofNullable(helper.unitDataSet()).ifPresent(ldsObjects::add);
-            ofNullable(helper.logicalRecordsAndInstanceVariables()).ifPresent(ldsObjects::addAll);
-            ofNullable(helper.lineageDataset()).ifPresent(ldsObjects::add);
-            ofNullable(helper.lineageFields()).ifPresent(ldsObjects::addAll);
+            ofNullable(helper.unitDataStructure()).ifPresent(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o));
+            ofNullable(helper.unitDataSet()).ifPresent(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o));
+            ofNullable(helper.logicalRecordsAndInstanceVariables()).ifPresent(os -> os.forEach(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o)));
+            ofNullable(helper.lineageDataset()).ifPresent(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o));
+            ofNullable(helper.lineageFields()).ifPresent(os -> os.forEach(o -> ldsObjectsByType.computeIfAbsent(o.type, k -> new ArrayList<>()).add(o)));
 
-            for (LDSObject ldsObject : ldsObjects) {
-                persistenceProvider.save(ldsObject);
-            }
+            persistenceProvider.save(ldsObjectsByType);
 
             consumer.ack();
             counter.incrementAndGet();
