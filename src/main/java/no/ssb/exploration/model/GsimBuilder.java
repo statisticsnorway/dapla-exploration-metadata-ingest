@@ -300,25 +300,9 @@ public class GsimBuilder {
             return this;
         }
 
-        public InstanceVariableBuilder identifierComponentIsComposite(boolean identifierComponentIsComposite) {
-            instanceVariable.setIdentifierComponentIsComposite(identifierComponentIsComposite);
-            return this;
-        }
-
         public InstanceVariableBuilder sentinelValueDomain(TypeInfo sentinelValueDomain, String defaultValue) {
             String value = sentinelValueDomain != null ? sentinelValueDomain.getId() : defaultValue;
             instanceVariable.setSentinelValueDomain("/DescribedValueDomain/" + value);
-            return this;
-        }
-
-        public InstanceVariableBuilder identifierComponentIsUnique(boolean identifierComponentIsUnique) {
-            instanceVariable.setIdentifierComponentIsUnique(identifierComponentIsUnique);
-            return this;
-        }
-
-        public InstanceVariableBuilder dataStructureComponentRole(EnumInfo dataStructureComponentRole, String defaultValue) {
-            String value = dataStructureComponentRole != null ? dataStructureComponentRole.getValue() : defaultValue;
-            instanceVariable.setDataStructureComponentRole(value);
             return this;
         }
 

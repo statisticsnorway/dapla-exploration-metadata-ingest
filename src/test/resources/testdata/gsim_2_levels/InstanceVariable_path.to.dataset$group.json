@@ -1,10 +1,7 @@
 {
   "id" : "path.to.dataset$group",
   "shortName" : "group",
-  "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
-  "identifierComponentIsComposite" : false,
-  "identifierComponentIsUnique" : false,
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/DescribedValueDomain_DUMMY",
   "name" : [ {

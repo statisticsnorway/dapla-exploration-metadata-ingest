@@ -1,10 +1,7 @@
 {
   "id" : "path.to.dataset$gjeld",
   "shortName" : "gjeld",
-  "dataStructureComponentRole" : "ENTITY",
   "dataStructureComponentType" : "MEASURE",
-  "identifierComponentIsComposite" : false,
-  "identifierComponentIsUnique" : false,
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/ValueDomain_DUMMY",
   "name" : [ {
