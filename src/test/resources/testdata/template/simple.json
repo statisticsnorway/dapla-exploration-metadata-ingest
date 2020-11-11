@@ -15,12 +15,6 @@
   "instanceVariables" : [ {
     "name" : "kontonummer",
     "description" : "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett",
-    "identifierComponentIsComposite" : false,
-    "identifierComponentIsUnique" : false,
-    "dataStructureComponentRole" : {
-      "selected-enum" : "ENTITY",
-      "enums" : [ "ENTITY", "IDENTITY", "COUNT", "TIME", "GEO" ]
-    },
     "dataStructureComponentType" : {
       "selected-enum" : "MEASURE",
       "enums" : [ "IDENTIFIER", "MEASURE", "ATTRIBUTE" ]
@@ -67,12 +61,6 @@
   }, {
     "name" : "innskudd",
     "description" : "9 sifret nummer gitt de som er registrert i Enhetsregisteret.",
-    "identifierComponentIsComposite" : true,
-    "identifierComponentIsUnique" : true,
-    "dataStructureComponentRole" : {
-      "selected-enum" : "COUNT",
-      "enums" : [ "ENTITY", "IDENTITY", "COUNT", "TIME", "GEO" ]
-    },
     "dataStructureComponentType" : {
       "selected-enum" : "IDENTIFIER",
       "enums" : [ "IDENTIFIER", "MEASURE", "ATTRIBUTE" ]
@@ -119,12 +107,6 @@
   }, {
     "name" : "gjeld",
     "description" : "en sum av penger i hele kroner brukt i en kontekst. Dette kan være en transaksjon, saldo o.l.",
-    "identifierComponentIsComposite" : false,
-    "identifierComponentIsUnique" : false,
-    "dataStructureComponentRole" : {
-      "selected-enum" : "ENTITY",
-      "enums" : [ "ENTITY", "IDENTITY", "COUNT", "TIME", "GEO" ]
-    },
     "dataStructureComponentType" : {
       "selected-enum" : "MEASURE",
       "enums" : [ "IDENTIFIER", "MEASURE", "ATTRIBUTE" ]
