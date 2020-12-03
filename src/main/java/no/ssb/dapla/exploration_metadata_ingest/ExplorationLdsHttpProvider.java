@@ -80,6 +80,7 @@ public class ExplorationLdsHttpProvider implements PersistenceProvider {
         }
         String sourceId = unitDataSet.getDataSourcePath() + "/" + unitDataSetLdsObject.version.toInstant().toEpochMilli();
         WebClientResponse response = explorationLdsWebClient.put()
+                .skipUriEncoding()
                 .path(path)
                 .queryParam("sourceId", sourceId)
                 .contentType(MediaType.APPLICATION_JSON)
