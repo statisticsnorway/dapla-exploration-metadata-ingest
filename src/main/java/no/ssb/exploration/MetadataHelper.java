@@ -136,6 +136,7 @@ public class MetadataHelper {
                     .addProperty("createdDate", versionTimestamp().toString())
                     .addProperty("validFrom", versionTimestamp().toString())
                     .addProperty("version", "1.0.0")
+                    .addProperty("valuation", datasetMeta.getValuation().name())
                     .addProperty("versionValidFrom", versionTimestamp().toString())
                     .unitDataSet()
                     .temporalityType(DatasetTools.toTemporality("TODO")) // TODO: get this from correct place
