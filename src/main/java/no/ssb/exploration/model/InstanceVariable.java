@@ -2,6 +2,7 @@ package no.ssb.exploration.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,6 +16,9 @@ public class InstanceVariable extends IdentifiableArtefact {
     private String representedVariable;
     @JsonProperty
     private String sentinelValueDomain;
+    @JsonProperty
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String valuation;
 
     public String getShortName() {
         return shortName;
@@ -49,4 +53,7 @@ public class InstanceVariable extends IdentifiableArtefact {
         this.sentinelValueDomain = sentinelValueDomain;
     }
 
+    public void setValuation(String valuation) {
+        this.valuation = valuation;
+    }
 }

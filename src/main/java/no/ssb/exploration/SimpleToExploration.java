@@ -129,6 +129,7 @@ public class SimpleToExploration {
                             .shortName(instance.getName())
                             .population(instance.getPopulation(), "Population_DUMMY")
                             .dataStructureComponentType(instance.getDataStructureComponentType(), "MEASURE")
+                            .valuation(instance.getValuation())
                             .sentinelValueDomain(instance.getSentinelValueDomain(), "DescribedValueDomain_DUMMY")
                             .representedVariable(instance.getRepresentedVariable(), "RepresentedVariable_DUMMY")
                             .build();

@@ -300,6 +300,12 @@ public class GsimBuilder {
             return this;
         }
 
+        public InstanceVariableBuilder valuation(EnumInfo valuation) {
+            String value = valuation != null ? valuation.getValue() : null;
+            instanceVariable.setValuation(value);
+            return this;
+        }
+
         public InstanceVariableBuilder sentinelValueDomain(TypeInfo sentinelValueDomain, String defaultValue) {
             String value = sentinelValueDomain != null ? sentinelValueDomain.getId() : defaultValue;
             instanceVariable.setSentinelValueDomain("/DescribedValueDomain/" + value);
