@@ -19,16 +19,13 @@
       "selected-enum" : "MEASURE",
       "enums" : [ "IDENTIFIER", "MEASURE", "ATTRIBUTE" ]
     },
+    "valuation" : {
+      "selected-enum" : "OPEN",
+      "optional" : true
+    },
     "population" : {
       "concept-type" : "Population",
-      "selected-id" : "Population_DUMMY",
-      "candidates" : [ {
-        "id" : "Population_DUMMY",
-        "name" : "Population_default"
-      }, {
-        "id" : "some-id-could-be-guid",
-        "name" : "All families 2018-01-01"
-      } ]
+      "selected-id" : "Population_DUMMY"
     },
     "representedVariable" : {
       "concept-type" : "RepresentedVariable",
