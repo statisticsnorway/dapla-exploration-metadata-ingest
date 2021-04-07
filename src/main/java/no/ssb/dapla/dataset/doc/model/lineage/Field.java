@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonPropertyOrder({ "name", "type", "type_candidates", "confidence", "fields" })
 public class Field {
 
     @JsonProperty

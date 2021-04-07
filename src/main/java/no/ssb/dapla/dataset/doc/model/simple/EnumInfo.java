@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
-@JsonPropertyOrder({"value", "type"})
 public class EnumInfo {
     @JsonProperty("selected-enum")
     private String value;

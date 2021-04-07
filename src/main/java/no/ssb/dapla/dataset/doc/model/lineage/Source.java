@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
-@JsonPropertyOrder({"field_candidates", "field", "path", "version"})
 public class Source {
 
     @JsonProperty("field_candidates")

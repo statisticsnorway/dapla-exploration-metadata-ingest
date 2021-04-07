@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
-@JsonPropertyOrder({"value", "type"})
 public class TypeInfo {
     @JsonProperty("selected-id")
     private String id;
