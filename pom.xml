@@ -84,11 +84,6 @@
             <version>0.6</version>
         </dependency>
         <dependency>
-            <groupId>no.ssb.dapla</groupId>
-            <artifactId>dataset-doc</artifactId>
-            <version>0.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>

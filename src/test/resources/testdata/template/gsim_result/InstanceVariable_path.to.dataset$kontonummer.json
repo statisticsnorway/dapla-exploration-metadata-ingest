@@ -4,6 +4,7 @@
   "dataStructureComponentType" : "MEASURE",
   "representedVariable" : "/RepresentedVariable/RepresentedVariable_DUMMY",
   "sentinelValueDomain" : "/DescribedValueDomain/ValueDomain_DUMMY",
+  "valuation" : "OPEN",
   "name" : [ {
     "languageText" : "kontonummer",
     "languageCode" : "nb"
