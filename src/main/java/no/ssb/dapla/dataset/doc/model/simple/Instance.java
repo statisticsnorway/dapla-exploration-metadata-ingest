@@ -1,9 +1,14 @@
 package no.ssb.dapla.dataset.doc.model.simple;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import no.ssb.dapla.exploration_metadata_ingest.DatasetUpstreamGooglePubSubIntegration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Instance {
+    private static final Logger LOG = LoggerFactory.getLogger(Instance.class);
 
     @JsonProperty
     private String name;
@@ -58,4 +63,10 @@ public class Instance {
     public EnumInfo getValuation() {
         return valuation;
     }
+
+    @JsonAnySetter
+    public void setUnknowProperty(String key, Object value) {
+        LOG.warn("Create Instance from json, key:{} with value:{} will be ignored!", key, value);
+    }
+
 }

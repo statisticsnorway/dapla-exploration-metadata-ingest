@@ -13,6 +13,7 @@
     } ]
   },
   "instanceVariables" : [ {
+    "something": "new",
     "name" : "kontonummer",
     "description" : "vilkårlig lang sekvens av tegn inkludert aksenter og spesielle tegn fra standardiserte tegnsett",
     "dataStructureComponentType" : {
