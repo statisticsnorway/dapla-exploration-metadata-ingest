@@ -1,13 +1,17 @@
 package no.ssb.dapla.dataset.doc.model.lineage;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import no.ssb.dapla.dataset.doc.model.simple.Instance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Field {
+    private static final Logger LOG = LoggerFactory.getLogger(Instance.class);
 
     @JsonProperty
     protected String name;
@@ -53,5 +57,10 @@ public class Field {
 
     public List<Field> getFields() {
         return fields;
+    }
+
+    @JsonAnySetter
+    public void setUnknowProperty(String key, Object value) {
+        LOG.warn("Create Instance from json, key:{} with value:{} will be ignored!", key, value);
     }
 }
