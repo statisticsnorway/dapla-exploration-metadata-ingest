@@ -3,7 +3,6 @@ package no.ssb.dapla.dataset.doc.model.simple;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import no.ssb.dapla.exploration_metadata_ingest.DatasetUpstreamGooglePubSubIntegration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
