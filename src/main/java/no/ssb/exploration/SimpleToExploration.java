@@ -94,20 +94,20 @@ public class SimpleToExploration {
                 .skip(1) // skip root record
                 .map(Record::getName)
                 .collect(Collectors.joining("."));
-        String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record.getName()) : parentLogicalRecordId + "." + record.getName();
+        String logicalRecordId = parentLogicalRecordId == null ? logialRecordId(record.getShortName()) : parentLogicalRecordId + "." + record.getShortName();
         LogicalRecord gsimLogicalRecord =
-                createDefault(logicalRecordId, record.getName(), record.getDescription())
+                createDefault(logicalRecordId, record.getShortName(), record.getDescription())
                         .logicalRecord()
                         .isPlaceholderRecord(false)// TODO: add and get from simple
                         .unitType(record.getUnitType(), "UnitType_DUMMY")
-                        .shortName(record.getName())
+                        .shortName(record.getShortName())
                         .instanceVariables(record.getInstanceVariableIds(i -> {
                             String id = instanceVariableId(of(ancestorFieldName)
                                     .filter(a -> !a.isBlank())
-                                    .map(a -> ofNullable(i.getName())
+                                    .map(a -> ofNullable(i.getShortName())
                                             .map(e -> String.join(".", a, e))
                                             .orElse(a))
-                                    .orElseGet(i::getName));
+                                    .orElseGet(i::getShortName));
                             return id;
                         }))
                         .parent(parentLogicalRecordId)
@@ -119,14 +119,14 @@ public class SimpleToExploration {
         for (Instance instance : record.getInstances()) {
             String id = instanceVariableId(of(ancestorFieldName)
                     .filter(a -> !a.isBlank())
-                    .map(a -> ofNullable(instance.getName())
+                    .map(a -> ofNullable(instance.getShortName())
                             .map(e -> String.join(".", a, e))
                             .orElse(a))
-                    .orElseGet(instance::getName));
+                    .orElseGet(instance::getShortName));
             InstanceVariable gsimInstanceVariable =
                     createDefault(id, instance.getName(), instance.getDescription())
                             .instanceVariable()
-                            .shortName(instance.getName())
+                            .shortName(instance.getShortName())
                             .population(instance.getPopulation(), "Population_DUMMY")
                             .dataStructureComponentType(instance.getDataStructureComponentType(), "MEASURE")
                             .valuation(instance.getValuation())

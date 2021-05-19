@@ -10,6 +10,9 @@ public class Instance {
     private static final Logger LOG = LoggerFactory.getLogger(Instance.class);
 
     @JsonProperty
+    private String shortName;
+
+    @JsonProperty
     private String name;
 
     @JsonProperty
@@ -32,6 +35,12 @@ public class Instance {
     private TypeInfo sentinelValueDomain;
 
     public String getName() {
+        return name;
+    }
+
+    public String getShortName() {
+        if (shortName != null) return shortName;
+        // To make it work for older versions
         return name;
     }
 
