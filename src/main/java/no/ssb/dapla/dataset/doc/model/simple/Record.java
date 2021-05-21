@@ -13,6 +13,9 @@ public class Record {
         String createId(Instance name);
     }
     @JsonProperty
+    private String shortName;
+
+    @JsonProperty
     private String name;
 
     @JsonProperty
@@ -30,6 +33,12 @@ public class Record {
     private final List<Record> records = new ArrayList<>();
 
     public String getName() {
+        return name;
+    }
+
+    public String getShortName() {
+        if (shortName != null) return shortName;
+        // To make it work for older versions
         return name;
     }
 

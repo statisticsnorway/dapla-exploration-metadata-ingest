@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import no.ssb.dapla.dataset.doc.model.simple.Record;
 import no.ssb.exploration.model.LogicalRecord;
+import no.ssb.exploration.model.UnitDataStructure;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,9 +138,15 @@ class SimpleToExplorationTest {
         String json = TestUtils.load("testdata/template/simple.json");
         Record root = new ObjectMapper().readValue(json, Record.class);
 
-        List<LDSObject> ldsObjects = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z")).createLogicalRecordsAndInstanceVariables();
+        final SimpleToExploration simpleToExploration = new SimpleToExploration(root, "/path/to/dataset", ZonedDateTime.parse("2020-01-01T00:00Z"));
+        List<LDSObject> ldsObjects = simpleToExploration.createLogicalRecordsAndInstanceVariables();
+
+        UnitDataStructure unitDataStructure = simpleToExploration.createUnitDataStructure();
+        var unitDataStructureLdsObject = new LDSObject("UnitDataStructure", unitDataStructure.getId(), ZonedDateTime.now(), () -> unitDataStructure);
+        ldsObjects.add(unitDataStructureLdsObject);
 
         for (LDSObject ldsObject : ldsObjects) {
+            System.out.println(ldsObject.type);
             String fileName = String.format("testdata/template/gsim_result/%s_%s.json", ldsObject.type, ldsObject.id);
             String expected = TestUtils.load(fileName);
             assertThat(getJson(ldsObject)).isEqualTo(expected);
