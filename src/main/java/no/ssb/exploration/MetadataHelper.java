@@ -138,6 +138,7 @@ public class MetadataHelper {
                     .addProperty("version", "1.0.0")
                     .addProperty("valuation", datasetMeta.getValuation().name())
                     .addProperty("versionValidFrom", versionTimestamp().toString())
+                    .addProperty("shortName",  ofNullable(datasetDocRootRecord()).map(Record::getShortName).orElse(null))
                     .unitDataSet()
                     .temporalityType(DatasetTools.toTemporality("TODO")) // TODO: get this from correct place
                     .dataSetState(DatasetTools.toExplorationState(datasetMeta().getState()))

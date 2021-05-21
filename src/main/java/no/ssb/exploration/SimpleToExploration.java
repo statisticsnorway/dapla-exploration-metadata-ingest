@@ -71,14 +71,16 @@ public class SimpleToExploration {
     }
 
     public UnitDataStructure createUnitDataStructure() {
-        String recordName = ofNullable(rootRecord).map(Record::getName).orElse("");
+        String shortName = ofNullable(rootRecord).map(Record::getShortName).orElse("");
+        String name = ofNullable(rootRecord).map(Record::getName).orElse("");
         String description = ofNullable(rootRecord).map(Record::getDescription).orElse("");
-        UnitDataStructure unitDataStructure = createDefault(DatasetTools.datasetId(dataSetPath), recordName, description)
+        UnitDataStructure unitDataStructure = createDefault(DatasetTools.datasetId(dataSetPath), name, description)
                 .unitDataStructure()
+                .shortName(ofNullable(rootRecord).map(Record::getShortName).orElse(null))
                 .build();
         List<String> logicalRecords = new ArrayList<>();
         if (rootRecord != null) {
-            logicalRecords.add("/LogicalRecord/" + logialRecordId(recordName));
+            logicalRecords.add("/LogicalRecord/" + logialRecordId(shortName));
         }
         unitDataStructure.setLogicalRecords(logicalRecords);
         return unitDataStructure;

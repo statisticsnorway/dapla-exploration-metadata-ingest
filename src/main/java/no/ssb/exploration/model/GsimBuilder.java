@@ -209,6 +209,11 @@ public class GsimBuilder {
             return this;
         }
 
+        public UnitDataStructureBuilder shortName(String shortName) {
+            unitDataStructure.setShortName(shortName);
+            return this;
+        }
+
         public UnitDataStructure build() {
             baseBuilder.build(unitDataStructure);
             return unitDataStructure;

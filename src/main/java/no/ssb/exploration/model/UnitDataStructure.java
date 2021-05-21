@@ -20,4 +20,7 @@ public class UnitDataStructure extends IdentifiableArtefact {
         this.logicalRecords = logicalRecords;
     }
 
+    public void setShortName(String shortName) {
+        setUnknowProperty("shortName", shortName);
+    }
 }

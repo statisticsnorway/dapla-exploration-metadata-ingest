@@ -1,8 +1,9 @@
 {
-  "id" : "path.to.dataset-konto",
+  "id" : "path.to.dataset",
   "logicalRecords" : [ "/LogicalRecord/path.to.dataset-konto" ],
+  "shortName" : "konto",
   "name" : [ {
-    "languageText" : "konto",
+    "languageText" : "konto Name",
     "languageCode" : "nb"
   } ],
   "description" : [ {
